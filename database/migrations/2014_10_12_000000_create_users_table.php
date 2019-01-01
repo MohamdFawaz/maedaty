@@ -15,12 +15,20 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->integer('user_status')->default(0);
+            $table->string('activate_code')->comment('sms activation code')->nullable();
+            $table->longText('location');
+            $table->decimal('lat',11,7);
+            $table->decimal('lng', 11, 7);
+            $table->longText('firebase_token')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

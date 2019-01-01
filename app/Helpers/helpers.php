@@ -1,7 +1,7 @@
 <?php
+namespace App\Helpers;
 
 use App\Helpers\uuid;
-use App\Models\Notification\Notification;
 use App\Models\Settings\Setting;
 use Carbon\Carbon as Carbon;
 
@@ -10,6 +10,7 @@ use Carbon\Carbon as Carbon;
  *
  * @return uuid
  */
+
 function generateUuid()
 {
     return uuid::uuid4();
