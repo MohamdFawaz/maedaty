@@ -1,4 +1,4 @@
-    @extends('backend.layouts.default')
+@extends('backend.layouts.default')
 @section('content')
     <!-- PAGE CONTENT WRAPPER -->
     <div class="page-content-wrap">
@@ -9,9 +9,9 @@
                 <!-- START DEFAULT DATATABLE -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{trans('backend.products.list')}}</h3>
+                        <h3 class="panel-title">{{trans('backend.category.list')}}</h3>
                         <ul class="panel-controls">
-                            <a href="{{route('backend.products.create')}}" >
+                            <a href="{{route('backend.category.create')}}" >
                                 <span class="btn btn-success">{{trans('backend.action.create')}}</span>
                             </a>
                         </ul>
@@ -21,30 +21,20 @@
                             <table class="table datatable" id="products-table">
                                 <thead>
                                 <tr>
-                                    <th>{{trans('backend.products.id')}}</th>
-                                    <th>{{trans('backend.products.name_ar')}}</th>
-                                    <th>{{trans('backend.products.name_en')}}</th>
-                                    <th>{{trans('backend.products.shop')}}</th>
-                                    <th>{{trans('backend.products.price')}}</th>
-                                    <th>{{trans('backend.products.image')}}</th>
-                                    <th>{{trans('backend.products.product_stock')}}</th>
-                                    <th>{{trans('backend.products.status')}}</th>
-                                    <th>{{trans('backend.products.action')}}</th>
+                                    <th>{{trans('backend.category.id')}}</th>
+                                    <th>{{trans('backend.category.name_ar')}}</th>
+                                    <th>{{trans('backend.category.name_en')}}</th>
+                                    <th>{{trans('backend.category.action')}}</th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($products as $product)
+                                @foreach($categories as $category)
                                 <tr>
-                                    <td>{{$product->id}}</td>
-                                    <td>{{$product->translate('ar')['name']}}</td>
-                                    <td>{{$product->translate('en')['name']}}</td>
-                                    <td>{{$product->shop->translate('en')['name']}}</td>
-                                    <td>{{$product->price}} {{config('settings.currency_symbol')}}</td>
-                                    <td><img src="{{$product->product_image}}" width="100"></td>
-                                    <td width="1px">{{$product->product_stock}}</td>
-                                    <td>{!! $product->status_label !!}</td>
-                                    <td>{!! $product->action !!}</td>
+                                    <td>{{$category->id}}</td>
+                                    <td>{{$category->translate('ar')['name']}}</td>
+                                    <td>{{$category->translate('en')['name']}}</td>
+                                    <td>{!! $category->action !!}</td>
                                 </tr>
                                 @endforeach
                                 </tbody>

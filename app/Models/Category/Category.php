@@ -26,4 +26,20 @@ class Category extends Model
     public function subcategory(){
         return $this->hasMany(SubCategory::class, 'category_id');
     }
+
+    public function getActionAttribute()
+    {
+        $action = "";
+
+        $action .= "<a href=".url()->current()."/".$this->id.">
+                    <button type=\"button\" class=\"btn btn-success btn-condensed active\"> <i class='glyphicon glyphicon-eye-open' ></i></button>
+                    </a>";
+        $action .= "<a href=".url()->current()."/".$this->id."/edit".">
+                    <button type=\"button\" class=\"btn btn-success btn-condensed active\"> <i class='glyphicon glyphicon-pencil' ></i></button>
+                    </a>";
+        $action .= '<a href="'.route('backend.category.destroy',$this->id).'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
+
+        $action .= "";
+        return $action;
+    }
 }
