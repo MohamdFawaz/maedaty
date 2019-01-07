@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Requests\User\SocialLoginRequest;
 use App\Models\User\User;
+use App\Models\SocialLogin\SocialLogin;
 use App\Repositories\TempUser\TempUserRepository;
+use App\Repositories\SocialLogin\SocialLoginRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\User\UserRepository;
 use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Http\Requests\User\LoginRequest;
+use App\Http\Requests\User\SignupRequest;
 use Validator;
 use Helper;
 
@@ -16,6 +20,7 @@ class AuthController extends APIController
 {
     protected $repository;
     protected $tempUserRepository;
+    protected $socialLoginRepository;
 
     /**
      * __construct.
@@ -23,12 +28,16 @@ class AuthController extends APIController
      * @param $repository
      * @param $request
      * @param $tempUserRepository
+     * @param $socialLoginRepository
      */
-    public function __construct(UserRepository $repository, Request $request, TempUserRepository $tempUserRepository)
+    public function __construct(UserRepository $repository, Request $request, tempUserRepository $tempUserRepository, socialLoginRepository $socialLoginRepository)
     {
         $this->repository = $repository;
         $this->setLang($request->header('lang'));
         $this->tempUserRepository = $tempUserRepository;
+        $this->socialLoginRepository = $socialLoginRepository;
+        $request->headers->set('Accept', 'application/json');
+
     }
     /**
      * Log the user in.
@@ -37,17 +46,8 @@ class AuthController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $validation = Validator::make($request->all(), [
-            'phone' => 'required',
-            'password' => 'required',
-        ]);
-
-        if ($validation->fails()) {
-            return $this->throwValidation($validation->messages()->first());
-        }
-
         $credentials = $request->only(['phone', 'password']);
 
         if(Auth::attempt($credentials)){
@@ -56,18 +56,15 @@ class AuthController extends APIController
             $user->jwt_token = str_random(25);
             $user->save();
             return $this->respond(
-                trans('status.success'),
+                200,
                 trans('login.user_logged_in'),
                 $this->repository->getLoggedUserDetails($user)
             );
-        }
-        $token = "";
-        return $this->respond(
-            'success',
-            trans('api.messages.login.success'),
-            $token
-        );
+            }else{
+                return $this->respondUnauthorized(trans('messages.auth.wrong_phone_password'));
+            }
     }
+
 
     /**
      * Signup the user.
@@ -76,28 +73,15 @@ class AuthController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function signup(Request $request)
+    public function signup(SignupRequest $request)
     {
-        $validation = Validator::make($request->all(), [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'location' => 'required',
-            'lat' => 'required',
-            'lng' => 'required',
-        ]);
 
-        if ($validation->fails()) {
-            return $this->throwValidation($validation->messages()->first());
-        }
 
         if($user['jwt_token'] = $this->repository->create($request->all())){
 
             return $this->respond(
-                trans('status.success'),
-                trans('login.user_logged_in'),
+                200,
+                trans('messages.signup.created'),
                 $user
             );
         }
@@ -122,4 +106,52 @@ class AuthController extends APIController
         $message['user_id'] = $this->tempUserRepository->create($request->all());
         return $this->respond(trans('status.success'),trans('status.success'), $message);
     }
+
+    /**
+     * Log the user in.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function test(LoginRequest $request)
+    {
+        $credentials = $request->only(['phone', 'password']);
+
+        if(Auth::attempt($credentials)){
+            $user = Auth::user();
+            $user->firebase_token = $request->firebase_token;
+            $user->jwt_token = str_random(25);
+            $user->save();
+            return $this->respond(
+                trans('status.success'),
+                trans('messages.signup.created'),
+                $this->repository->getLoggedUserDetails($user)
+            );
+        }else{
+            return $this->respondUnauthorized(trans('messages.auth.wrong_phone_password'));
+        }
+    }/**
+     * Log the user in.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+
+    public function socialLogin(SocialLoginRequest $request)
+    {
+        $user = $this->socialLoginRepository->updateOrCreate($request->all());
+        if($user->was_created){
+            $data = $this->repository->createSocial($user);
+            if($data){
+                return $this->respond(200,trans('login.user_logged_in'),$data);
+            }else{
+                return $this->respondWithError(trans('login.user_logged_in'));
+            }
+        }
+        return $this->respond(200,trans('login.user_logged_in'),$user);
+    }
+
 }

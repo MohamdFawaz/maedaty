@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response as IlluminateResponse;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
+use App\Models\User\User;
 use Response;
 
 /**
@@ -75,9 +76,9 @@ class APIController extends Controller
     public function respond($status, $message, $data)
     {
         $array = [
-            'status' => $status,
+            'status' => $this->statusCode,
             'message' => $message,
-            'data' => [$data]
+            'data' => $data
         ];
         return response()->json($array);
     }
@@ -139,11 +140,8 @@ class APIController extends Controller
      */
     public function respondWithError($message)
     {
-        return $this->respond(
-            trans('status.failed'),
-            $message,
-            []
-            );
+        $this->setStatusCode(401);
+        return $this->respond($this->statusCode,$message,(object)[]);
     }
 
     /**
@@ -179,7 +177,8 @@ class APIController extends Controller
      */
     protected function respondUnauthorized($message = 'Unauthorized')
     {
-        return $this->setStatusCode(401)->respondWithError($message);
+        $this->setStatusCode(401);
+        return $this->respond($this->statusCode,$message,(object)[]);
     }
 
     /**
@@ -216,4 +215,16 @@ class APIController extends Controller
         return $this->setStatusCode(422)
             ->respondWithError($message);
     }
+
+    public function checkJWT($token)
+    {
+
+        $check = User::where('jwt_token',$token)->first();
+        if($check){
+            return true;
+        }else{
+            return $this->respondUnauthorized();
+        }
+    }
+
 }

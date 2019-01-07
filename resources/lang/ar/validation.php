@@ -115,6 +115,19 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    'jwt'=>'كود ال JWT مطلوب',
+    'phone'=>'رقم الهاتف مطلوب',
+    'password'=>'كلمة المرور مطلوبة',
+    'first_name'=>'الاسم الاول مطلوب',
+    'last_name'=>'الاسم الاخير مطلوب',
+    'location'=>'العنوان مطلوب',
+    'lat'=>'تحديد المكان مطلوب',
+    'lng'=>'تحديد المكان مطلوب',
+    'provider'=>'نوع مزود الخدمة مطلوب',
+    'auth_id'=>'ال authorization id مطلوب',
+    'username'=>'اسم المستخدم مطلوب',
+    'profile_picture'=>'صورة البروفايل مطلوبة',
+
 
     /*
     |--------------------------------------------------------------------------

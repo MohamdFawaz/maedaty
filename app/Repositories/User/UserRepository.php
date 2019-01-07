@@ -33,7 +33,11 @@ class UserRepository extends BaseRepository
         $data['last_name'] = $user['last_name'];
         $data['phone'] = $user['phone'];
         $data['email'] = $user['email'];
-        $data['user_image'] = $user['user_image'];
+        if($user->socialaccount){
+            $data['user_image'] = $user->socialaccount->profile_picture;
+        }else{
+            $data['user_image'] = $this->model->getUseImageAttribute($user['user_image']);
+        }
         $data['jwt_token'] = $user['jwt_token'];
         $data['location'] = $user['location'];
         $data['lat'] = $user['lat'];
@@ -43,13 +47,37 @@ class UserRepository extends BaseRepository
 
     public function create(array $input)
     {
-        $input['password'] = Hash::make($input['password']);
+        $input['password'] = (isset($input['password']))? Hash::make($input['password']) : "";
         $input['jwt_token'] = str_random(25);
 
         //If user saved successfully, then return true
         if ($user = User::create($input)) {
             return $input['jwt_token'];
         }
+
+        return false;
+    }
+    public function createSocial($input)
+    {
+        $fullname = explode(' ', $input->username);
+        $input['first_name'] = $fullname[0];
+        $input['last_name'] = $fullname[1];
+        $input['jwt_token'] = str_random(25);
+        $input['socialaccount']= (object)['profile_picture' => $input['profile_picture']];
+        if(User::find($input['email']) === null){
+            //If user saved successfully, then return true
+            $createUser = User::create([
+                'first_name' => $input['first_name'],
+                'last_name' => $input['last_name'],
+                'email' => $input['email'],
+                'user_status' => 1,
+                'jwt_token' => $input['jwt_token']
+            ]);
+            if ($createUser) {
+                return $this->getLoggedUserDetails($input);
+            }
+        }
+
 
         return false;
     }

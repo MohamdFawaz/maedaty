@@ -115,6 +115,18 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    'jwt'=>'JWT Token is required',
+    'phone'=>'The Phone number is required',
+    'password'=>'The Password is required',
+    'first_name'=>'First Name is Required',
+    'last_name'=>'Last Name is Required',
+    'location'=>'Location is Required',
+    'lat'=>'Lat is Required',
+    'lng'=>'Lng is Required',
+    'provider'=>'Provider Type is Required',
+    'auth_id'=>'Authorization ID is Required',
+    'username'=>'Username is Required',
+    'profile_picture'=>'Profile Picture is Required',
 
     /*
     |--------------------------------------------------------------------------
@@ -126,7 +138,6 @@ return [
     | specify a specific custom language line for a given attribute rule.
     |
     */
-
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

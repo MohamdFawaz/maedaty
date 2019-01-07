@@ -13,7 +13,17 @@ return [
     |
     */
 
-    'success' => 'Operation Successful',
-    'failed' => 'Operation Failedْ',
+    'category' => [
+        'list'=>'categories list'
+    ],
+    'auth' => [
+        'wrong_phone_password'=>'Login Failed, Check your Phone or Password'
+    ],
+    'subcategory' => [
+        'list'=>'subcategories list'
+    ],
+     'signup' => [
+            'created'=>'Account Created Successfully'
+     ],
 
 ];

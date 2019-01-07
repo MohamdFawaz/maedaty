@@ -13,7 +13,17 @@ return [
     |
     */
 
-    'success' => 'Operation Successful',
-    'failed' => 'Operation Failedْ',
+    'category' => [
+        'list'=>'قائمة الاقسام الرئيسية'
+    ],
+    'auth' => [
+        'wrong_phone_password'=>'فشل في تسجيل الدخول تأكد من صحة البيانات '
+    ],
+    'subcategory' => [
+        'list'=>' قائمة الاقسام الرئيسية الفرعية'
+    ],
+    'signup' => [
+        'created'=>'تم تسجيل الحساب بنجاح'
+    ],
 
 ];

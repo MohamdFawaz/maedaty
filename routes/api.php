@@ -17,7 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('test','api\AuthController@test');
+Route::post('test','api\AuthController@test');
 Route::post('login', 'api\AuthController@login');
 Route::post('fake_user', 'api\AuthController@tempUser');
 Route::post('signup', 'api\AuthController@signup');
+Route::get('category', 'api\CategoryController@index');
+Route::get('subcategory', 'api\CategoryController@test');
+Route::post('social_login', 'api\AuthController@socialLogin');
