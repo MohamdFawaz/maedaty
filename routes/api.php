@@ -24,3 +24,7 @@ Route::post('signup', 'api\AuthController@signup');
 Route::get('category', 'api\CategoryController@index');
 Route::get('subcategory', 'api\CategoryController@test');
 Route::post('social_login', 'api\AuthController@socialLogin');
+Route::get('product/{product_id}/{user_id?}', 'api\ProductController@show')
+    ->where(['product_id' => '[0-9]+','user_id' => '[0-9]+']);
+Route::get('product/list/{category_id}/{subcategory_id?}/{user_id?}', 'api\ProductController@index')
+    ->where(['category_id' => '[0-9]+','subcategory_id' => '[0-9]+', 'user_id' => '[0-9]+']);

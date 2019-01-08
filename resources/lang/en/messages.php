@@ -25,5 +25,9 @@ return [
      'signup' => [
             'created'=>'Account Created Successfully'
      ],
+    'products' => [
+            'list'=>'Products List',
+            'page'=>'Product Page'
+    ],
 
 ];
