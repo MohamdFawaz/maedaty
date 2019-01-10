@@ -39,7 +39,7 @@ class ProductRepository extends BaseRepository
         $this->productImage = $productImage;
     }
 
-    public function getAllProductsDetail($products,$user_id = null)
+    public function getAllProductsDetail($products,$user_id = null,$per_page= )
     {
         $product_list = [];
         $product_item = [];
@@ -61,7 +61,7 @@ class ProductRepository extends BaseRepository
             }
             $product_list[] = $product_item;
         }
-        return $this->paginate($product_list,5);
+        return $this->paginate($product_list,2);
 
         return $product_list;
     }
@@ -72,6 +72,7 @@ class ProductRepository extends BaseRepository
             $product_item['name'] = $product->name;
             $product_item['description'] = $product->description;
             $product_item['price'] = $product->price;
+            $product_item['product_image'] = $product->product_image;
             $product_item['product_images'] = $this->getProductImages($product->id,$product->product_image);
             $product_item['share_link'] = '#';
             $product_item['user_favorite'] = 0;
@@ -124,6 +125,19 @@ class ProductRepository extends BaseRepository
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+        $lap = new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+        return [
+            'current_page' => $lap->currentPage(),
+            'data' => $lap ->values(),
+            'first_page_url' => $lap ->url(1),
+            'from' => $lap->firstItem(),
+            'last_page' => $lap->lastPage(),
+            'last_page_url' => $lap->url($lap->lastPage()),
+            'next_page_url' => $lap->nextPageUrl(),
+            'per_page' => $lap->perPage(),
+            'prev_page_url' => $lap->previousPageUrl(),
+            'to' => $lap->lastItem(),
+            'total' => $lap->total(),
+        ];
     }
 }
