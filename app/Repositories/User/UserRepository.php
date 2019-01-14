@@ -29,8 +29,8 @@ class UserRepository extends BaseRepository
     public function getLoggedUserDetails($user)
     {
         $data['id'] = $user['id'];
-        $data['first_name'] = $user['first_name'];
-        $data['last_name'] = $user['last_name'];
+        $data['first_name'] = ucwords($user['first_name']);
+        $data['last_name'] = ucwords($user['last_name']);
         $data['phone'] = $user['phone'];
         $data['email'] = $user['email'];
         if($user->socialaccount){

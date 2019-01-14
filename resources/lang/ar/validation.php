@@ -127,6 +127,10 @@ return [
     'auth_id'=>'ال authorization id مطلوب',
     'username'=>'اسم المستخدم مطلوب',
     'profile_picture'=>'صورة البروفايل مطلوبة',
+    'product_id'=>'ال product id مطلوب',
+    'user_id'=>'ال user id مطلوب',
+    'qty'=>'الكمية مطلوبة',
+    'cart_item_id'=>'ال ID الخاص بالسلة مطلوب',
 
 
     /*

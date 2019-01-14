@@ -127,6 +127,11 @@ return [
     'auth_id'=>'Authorization ID is Required',
     'username'=>'Username is Required',
     'profile_picture'=>'Profile Picture is Required',
+    'product_id'=>'Product ID is Required',
+    'user_id'=>'User ID is Required',
+    'qty'=>'Quantity is Required',
+    'cart_item_id'=>'Cart Item ID is Required',
+
 
     /*
     |--------------------------------------------------------------------------

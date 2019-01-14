@@ -24,7 +24,7 @@ class CategoryController extends APIController
     }
 
 
-    public function index(ListCategoryRequest $request){
+    public function index(){
         $categories = Category::get();
         $data = $this->categoryRepository->getAllCategoryDetailsWSub($categories);
         return $this->respond(
@@ -37,17 +37,7 @@ class CategoryController extends APIController
     public function test(Request $request){
         $allcategories = Category::get();
         $categories = $this->categoryRepository->getAllCategoryDetailsWSub($allcategories);
-//        $data = [
-//            'code' => 'frozen chicken',
-//            'category_id' => '7',
-//            'ar' => ['name' => 'الدجاج المجمد'],
-//            'en' => ['name' => 'Frozen Chicken']
-//        ];
-//        SubCategory::create($data);
         $message  = $categories;
-//        foreach ($allcategories as $category){
-//            $message[] = $category;
-//        }
         return $this->respond(
             trans('status.success'),
             trans('messages.category.list'),

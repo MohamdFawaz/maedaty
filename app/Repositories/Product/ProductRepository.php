@@ -5,7 +5,7 @@ namespace App\Repositories\Product;
 use App\Exceptions\GeneralException;
 use App\Models\Product\Product;
 use App\Models\ProductImage\ProductImage;
-use App\Models\UserFavorite\UserFavorite;
+use App\Models\Address\UserFavorite;
 use App\Models\UserReview\UserReview;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +14,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
+use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 
 /**
 * Class NotificationRepository.
@@ -39,7 +40,7 @@ class ProductRepository extends BaseRepository
         $this->productImage = $productImage;
     }
 
-    public function getAllProductsDetail($products,$user_id = null,$per_page= )
+    public function getAllProductsDetailPaginate($products,$user_id = null)
     {
         $product_list = [];
         $product_item = [];
@@ -61,8 +62,31 @@ class ProductRepository extends BaseRepository
             }
             $product_list[] = $product_item;
         }
-        return $this->paginate($product_list,2);
+        return $this->paginate($product_list,5);
+    }
 
+    public function getAllProductsDetail($products,$user_id = null)
+    {
+        $product_list = [];
+        $product_item = [];
+        foreach ($products as $product){
+            $product_item['id'] = $product->id;
+            $product_item['name'] = $product->name;
+            $product_item['description'] = $product->description;
+            $product_item['price'] = $product->price;
+            $product_item['product_image'] = $product->product_image;
+            $product_item['share_link'] = '#';
+            $product_item['user_favorite'] = '0';
+            $product_item['rate'] = $this->getProductRate($product->id);
+            if($user_id){
+                $product_item['user_favorite'] = $this->userFavorite
+                    ->where('user_id',$user_id)
+                    ->where('product_id',$product->id)
+                    ->get()
+                    ->count();
+            }
+            $product_list[] = $product_item;
+        }
         return $product_list;
     }
   public function getProductDetails($product,$user_id = null)
@@ -101,14 +125,31 @@ class ProductRepository extends BaseRepository
     }
 
     public function getProductRate($product_id){
-        return round($this->userReview->where('product_id',$product_id)->avg('rate_value'));
+        $x = $this->userReview->where('product_id',$product_id)->avg('rate_value');
+        $result = round($x, 1);
+//        dd($result);
+        return (string)$result;
     }
 
      public function getProductImages($product_id,$product_image){
          $images = [];
          $images = $this->productImage->where('product_id',$product_id)->pluck('image_name')->toArray();
          array_push($images,$product_image);
+         $images = array_reverse($images);
          return $images;
+    }
+
+
+    public function getProductStock($product_id){
+        $stock = $this->model->where('id',$product_id)->pluck('product_stock')->first();
+        return $stock;
+    }
+
+    public function delete($input){
+        if(Product::delete($input)){
+            return true;
+        }
+        return false;
     }
 
     /**

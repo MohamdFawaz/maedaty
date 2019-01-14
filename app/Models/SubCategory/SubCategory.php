@@ -17,6 +17,15 @@ class SubCategory extends Model
 
     protected $fillable = ['code','category_id'];
 
+    public function getCategoryImageAttribute($value)
+    {
+        if ($value) {
+            return asset('public/images/subcategory/' . $value);
+        } else {
+            return asset('public/images/subcategory/no-category.jpg');
+        }
+    }
+
     public function superCategory()
     {
         return $this->hasOne(Category::class, 'id', 'category_id');

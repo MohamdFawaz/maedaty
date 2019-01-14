@@ -23,6 +23,7 @@ class ProductsTable extends Migration
             $table->string('category_id')->nullable();
             $table->string('subcategory_id')->nullable();
             $table->string('status')->default(0);
+            $table->integer('product_stock')->default(0);
             $table->timestamps();
         });
         Schema::create('product_translations', function(Blueprint $table)

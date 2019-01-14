@@ -3,9 +3,9 @@
 namespace App\Models\User;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\SocialLogin\SocialLogin;
+use App\Models\Address\Address;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
@@ -49,6 +49,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function socialaccount(){
         return $this->hasOne(SocialLogin::class, 'user_id');
+    }
+
+    public function address(){
+        return $this->hasMany(Address::class, 'user_id');
     }
 
 }

@@ -82,6 +82,21 @@ class APIController extends Controller
         ];
         return response()->json($array);
     }
+     /**
+         * Respond.
+         *
+         * @param string $message
+         *
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function respondWithMessage($message)
+        {
+            $array = [
+                'status' => $this->statusCode,
+                'message' => $message
+            ];
+            return response()->json($array);
+        }
 
     /**
      * respond with pagincation.
@@ -141,7 +156,11 @@ class APIController extends Controller
     public function respondWithError($message)
     {
         $this->setStatusCode(401);
-        return $this->respond($this->statusCode,$message,(object)[]);
+        $array = [
+            'status' => $this->statusCode,
+            'message' => $message
+        ];
+        return response()->json($array);
     }
 
     /**
@@ -178,7 +197,7 @@ class APIController extends Controller
     protected function respondUnauthorized($message = 'Unauthorized')
     {
         $this->setStatusCode(401);
-        return $this->respond($this->statusCode,$message,(object)[]);
+        return $this->respondWithError($message);
     }
 
     /**
