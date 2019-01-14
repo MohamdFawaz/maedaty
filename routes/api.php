@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-//TODO use resource in some of CRUD routes
+//TODO use group in some of CRUD some routes
 Route::post('test','api\AuthController@test');
 Route::post('login', 'api\AuthController@login');
 Route::post('fake_user', 'api\AuthController@tempUser');
@@ -34,4 +34,11 @@ Route::post('user/review/add','api\UserReviewController@store');
 Route::post('user/cart/add_or_update','api\CartController@store');
 Route::delete('user/cart/delete','api\CartController@delete');
 Route::get('user/cart/{user_id}','api\CartController@index')->where(['user_id' => '[0-9]+']);
-Route::resource( 'user/address' , 'api\AddressController');
+
+//Address CRUD Routes
+Route::group(['prefix' => 'user', 'as' => 'user'], function (){
+    Route::get('/address/{user_id}', 'api\AddressController@show')->where(['user_id' => '[0-9]+']);
+    Route::post('/address', 'api\AddressController@store');
+    Route::post('/address/delete', 'api\AddressController@destroy');
+});
+

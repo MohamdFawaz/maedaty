@@ -32,7 +32,7 @@ class AddressController extends APIController
     }
 
     public function show($user_id){
-        $addresses= Address::where('user_id',$user_id)->get();
+        $addresses= Address::where('user_id',$user_id)->latest()->get();
         $data = $this->repository->getAllAddressDetails($addresses);
         return $this->respond(
             200,
@@ -50,9 +50,9 @@ class AddressController extends APIController
         }
     }
 
-    public function destroy(DeleteAddressRequest $request,$address_id)
+    public function destroy(DeleteAddressRequest $request)
     {
-        $deleted = $this->repository->delete($address_id);
+        $deleted = $this->repository->delete($request->address_id);
         if($deleted){
             return $this->respondWithMessage(trans('messages.address.removed'));
         }else{

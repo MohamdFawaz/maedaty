@@ -45,6 +45,7 @@ class AddressRepository extends BaseRepository
         $address_list = [];
         $address_item = [];
         foreach ($addresses as $address){
+            $address_item['id'] = $address->id;
             $address_item['first_name'] = $address->first_name;
             $address_item['last_name'] = $address->last_name;
             $address_item['phone'] = $address->phone;
