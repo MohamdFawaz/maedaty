@@ -46,7 +46,7 @@ return [
             'updated'=>'Product Updated Successfully',
             'messing_details'=>'Something Went Wrong, Please Try Again Later',
             'over_available_stock'=>'Over The Available Stock',
-
+            'already_in_cart'=>'Product Already in Your Cart',
     ],
     'address' => [
         'list'=>'Addresses List',
@@ -54,6 +54,22 @@ return [
         'removed'=>'Address Deleted Successfully',
         'updated'=>'Address Updated Successfully ',
         'missing_details'=>'',
+    ],
+    'order' => [
+        'list'=>'Orders List',
+        'added'=>'Order Submitted Successfully',
+        'removed'=>'Order Deleted Successfully',
+        'updated'=>'Order Updated Successfully ',
+        'missing_details'=>'',
+        'info'=>'Order Information',
+    ],
+    'profile' => [
+        'user_details' => 'User Details',
+        'added'=>'User Details Added Successfully',
+        'updated'=>'User Details Updated Successfully',
+        'password_updated'=>'Password Updated Successfully',
+        'old_password_same_as_new'=>'Your Old Password is The Same as New Password',
+        'info'=>'User Information',
     ],
     'something_went_wrong' => 'Something Went Wrong, Please Try Again Later'
 ];

@@ -27,8 +27,26 @@ class AddressRepository extends BaseRepository
     }
 
 
+    public function getAllUserAddress($user_id){
+        $addresses= Address::where('user_id',$user_id)->latest()->get();
+        return $addresses;
+    }
+
     public function create($input){
         if(Address::create($input)){
+            return true;
+        }
+        return false;
+    }
+    public function update($input){
+        $address = Address::whereId($input['address_id'])->first();
+        $address->first_name = $input['first_name'];
+        $address->last_name = $input['last_name'];
+        $address->phone= $input['phone'];
+        $address->address= $input['address'];
+        $address->lat= $input['lat'];
+        $address->lng= $input['lng'];
+        if($address->save()){
             return true;
         }
         return false;
@@ -50,6 +68,8 @@ class AddressRepository extends BaseRepository
             $address_item['last_name'] = $address->last_name;
             $address_item['phone'] = $address->phone;
             $address_item['address'] = $address->address;
+            $address_item['lat'] = $address->lat;
+            $address_item['lng'] = $address->lng;
             $address_list[] = $address_item;
         }
         return $address_list;

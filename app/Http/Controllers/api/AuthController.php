@@ -53,6 +53,7 @@ class AuthController extends APIController
         if(Auth::attempt($credentials)){
             $user = Auth::user();
             $user->firebase_token = $request->firebase_token;
+            $user->lang = $request->header('lang');
             $user->jwt_token = str_random(25);
             $user->save();
             return $this->respond(

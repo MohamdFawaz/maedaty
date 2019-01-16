@@ -26,4 +26,5 @@ class Product extends Model
             return asset('public/images/products/no-product.png');
         }
     }
+
 }

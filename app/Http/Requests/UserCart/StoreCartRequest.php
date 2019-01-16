@@ -31,9 +31,10 @@ class StoreCartRequest extends Request
         $user_id = $this->input('user_id');
 
         return [
-            'product_id' => 'required',
-            'user_id' => 'required',
-            'qty' => 'required',
+            'product_id' => 'required|exists:products,id',
+            'user_id' => 'required|exists:users,id',
+            'cart_item_id' => '|exists:user_carts,id',
+            'plus' => 'required',
             'jwt_token' => [
                 'required',
                 Rule::exists('users')->where(function ($query) use ($user_id,$jwt_token) {
@@ -49,8 +50,7 @@ class StoreCartRequest extends Request
         return [
             'jwt_token.required' => trans('validation.jwt'),
             'product_id.required' => trans('validation.product_id'),
-            'user_id.required' => trans('validation.user_id'),
-            'qty.required' => trans('validation.qty')
+            'user_id.required' => trans('validation.user_id')
         ];
     }
 }

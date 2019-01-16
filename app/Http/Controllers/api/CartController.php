@@ -32,13 +32,17 @@ class CartController extends APIController
     }
     public function store(StoreCartRequest $request){
             if($request->cart_item_id){
-                if($this->repository->update($request->only('cart_item_id','qty'))){
+                if($this->repository->update($request->except('jwt_token'))){
                     return $this->respondWithMessage(trans('messages.cart.updated'));
                 }else{
                     return $this->respondWithError(trans('messages.cart.over_available_stock'));
                 }
             }else{
-                $cart_item = $request->only(['user_id','product_id','qty']);
+                $ifExists = $this->repository->checkIfProductExists($request->user_id,$request->product_id);
+                if($ifExists){
+                    return $this->respondWithError(trans('messages.cart.already_in_cart'));
+                }
+                $cart_item = $request->except('jwt_token');
                 if($this->repository->create($cart_item)){
                     return $this->respondWithMessage(trans('messages.cart.added'));
                 }else{

@@ -31,8 +31,8 @@ class DeleteAddressRequest extends Request
         $user_id = $this->input('user_id');
 
         return [
-            'address_id' => 'required',
-            'user_id' => 'required',
+            'address_id' => 'required|exists:addresses,id',
+            'user_id' => 'required|exists:users,id',
             'jwt_token' => [
                 'required',
                 Rule::exists('users')->where(function ($query) use ($user_id,$jwt_token) {

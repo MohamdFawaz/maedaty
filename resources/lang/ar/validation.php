@@ -131,6 +131,10 @@ return [
     'user_id'=>'ال user id مطلوب',
     'qty'=>'الكمية مطلوبة',
     'cart_item_id'=>'ال ID الخاص بالسلة مطلوب',
+    'firebase_token'=>'ال Firebase Token الخاص بك مطلوب',
+    'lang'=>'اللفة الخاص بك مطلوب',
+    'old_password'=>'كلمة السر القديمة مطلوبة',
+    'new_password'=>'كلمة السر الجديدة مطلوبة',
 
 
     /*

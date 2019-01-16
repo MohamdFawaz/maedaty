@@ -131,6 +131,11 @@ return [
     'user_id'=>'User ID is Required',
     'qty'=>'Quantity is Required',
     'cart_item_id'=>'Cart Item ID is Required',
+    'firebase_token'=>'Firebase Token is Required',
+    'lang'=>'The Language is Required',
+    'old_password'=>'Old Password is Required',
+    'new_password'=>'New Password is Required',
+
 
 
     /*

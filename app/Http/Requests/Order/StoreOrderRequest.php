@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Address;
+namespace App\Http\Requests\Order;
 
 use App\Http\Requests\Request;
 use Illuminate\Validation\Rule;
 /**
  * Class ManageSettingsRequest.
  */
-class StoreAddressRequest extends Request
+class StoreOrderRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,10 +31,6 @@ class StoreAddressRequest extends Request
         $user_id = $this->input('user_id');
 
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
             'user_id' => 'required|exists:users,id',
             'jwt_token' => [
                 'required',

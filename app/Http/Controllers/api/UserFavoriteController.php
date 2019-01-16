@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Repositories\UserFavorite\UserFavoriteRepository;
 use Illuminate\Http\Request;
-use App\Models\Address\UserFavorite;
+use App\Models\UserFavorite\UserFavorite;
 use App\Http\Requests\UserFavorite\StoreFavoriteRequest;
 
 class UserFavoriteController extends APIController

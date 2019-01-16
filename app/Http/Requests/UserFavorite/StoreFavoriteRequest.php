@@ -31,8 +31,8 @@ class StoreFavoriteRequest extends Request
         $user_id = $this->input('user_id');
 
         return [
-            'product_id' => 'required',
-            'user_id' => 'required',
+            'product_id' => 'required|exists:products,id',
+            'user_id' => 'required|exists:users,id',
             'jwt_token' => [
                 'required',
                 Rule::exists('users')->where(function ($query) use ($user_id,$jwt_token) {

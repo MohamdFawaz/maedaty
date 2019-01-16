@@ -13,7 +13,17 @@ class Address extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id','first_name','last_name','phone','address'];
+    protected $fillable = ['user_id','first_name','last_name','phone','address','lat','lng'];
+
+    public function getFirstNameAttribute($value)
+    {
+        return ucwords($value);
+    }
+
+    public function getLastNameAttribute($value)
+    {
+        return ucwords($value);
+    }
 
     public function user()
     {

@@ -18,7 +18,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'first_name','last_name','phone','location','lat','lng','firebase_token','name', 'email', 'password',
+        'first_name','last_name','phone','location','lat','lng','lang','firebase_token','name', 'email', 'password',
     ];
 
     /**
@@ -37,7 +37,7 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function getUseImageAttribute($value)
+    public function getUserImageAttribute($value)
     {
         if ($value) {
 
@@ -46,7 +46,14 @@ class User extends Authenticatable implements JWTSubject
             return asset('public/images/profile/no-image.jpg');
         }
     }
-
+    public function setUserImageAttribute($value)
+    {
+        if($value){
+            $img_name = time().rand(1111,9999).'.'.$value->getClientOriginalExtension();
+            $value->move(public_path('images/profile/'),$img_name);
+            $this->attributes['user_image']= $img_name ;
+        }
+    }
     public function socialaccount(){
         return $this->hasOne(SocialLogin::class, 'user_id');
     }

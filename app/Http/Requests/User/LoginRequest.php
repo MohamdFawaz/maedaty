@@ -27,11 +27,14 @@ class LoginRequest extends Request
      *
      * @return array
      */
+
     public function rules()
     {
+
         return [
             'phone'       => 'required',
-            'password'       => 'required'
+            'password'       => 'required',
+            'firebase_token'       => 'required'
         ];
     }
 
@@ -39,7 +42,9 @@ class LoginRequest extends Request
     {
         return [
             'phone.required' => trans('validation.phone'),
-            'password.required' => trans('validation.password')
+            'password.required' => trans('validation.password'),
+            'firebase_token.required' => trans('validation.firebase_token'),
+            'lang.required' => trans('validation.lang')
         ];
     }
 }

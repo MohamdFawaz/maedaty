@@ -36,7 +36,7 @@ class UserRepository extends BaseRepository
         if($user->socialaccount){
             $data['user_image'] = $user->socialaccount->profile_picture;
         }else{
-            $data['user_image'] = $this->model->getUseImageAttribute($user['user_image']);
+            $data['user_image'] = $user['user_image'];
         }
         $data['jwt_token'] = $user['jwt_token'];
         $data['location'] = $user['location'];
@@ -55,6 +55,41 @@ class UserRepository extends BaseRepository
             return $input['jwt_token'];
         }
 
+        return false;
+    }
+    public function update($input)
+    {
+        $user = User::whereId($input['user_id'])->first();
+        $user->first_name = $input['first_name'];
+        $user->last_name = $input['last_name'];
+        $user->phone = $input['phone'];
+        $user->email = $input['email'];
+        $user->location = $input['location'];
+        $user->lat = $input['lat'];
+        $user->lng = $input['lng'];
+        if(isset($input['user_image'])){
+            $user->user_image = $input['user_image'];
+        }
+        //If user saved successfully, then return true
+        if ($user->save()) {
+            $data['user_image'] = $user->user_image;
+            return $data;
+        }
+
+        return false;
+    }
+    public function updatePassword($input)
+    {
+        $updated = false;
+        $user = User::whereId($input['user_id'])->first();
+        if(Hash::check($input['old_password'],$user->password)){
+            $user->password = Hash::make($input['new_password']);
+            $updated = $user->save();
+        }
+        //If user saved successfully, then return true
+        if ($updated) {
+            return true;
+        }
         return false;
     }
     public function createSocial($input)

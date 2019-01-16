@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 /**
  * Class ManageSettingsRequest.
  */
-class StoreAddressRequest extends Request
+class EditAddressRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -35,6 +35,7 @@ class StoreAddressRequest extends Request
             'last_name' => 'required',
             'phone' => 'required',
             'address' => 'required',
+            'address_id' => 'required|exists:addresses,id',
             'user_id' => 'required|exists:users,id',
             'jwt_token' => [
                 'required',

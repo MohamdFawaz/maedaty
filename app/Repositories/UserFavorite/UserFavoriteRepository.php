@@ -2,7 +2,7 @@
 
 namespace App\Repositories\UserFavorite;
 
-use App\Models\Address\UserFavorite;
+use App\Models\UserFavorite\UserFavorite;
 use App\Repositories\BaseRepository;
 use App\Repositories\Product\ProductRepository;
 

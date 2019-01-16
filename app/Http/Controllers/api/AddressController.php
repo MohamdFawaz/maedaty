@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Requests\Address\EditAddressRequest;
 use Illuminate\Http\Request;
 use App\Models\Address\Address;
 use App\Http\Requests\Address\StoreAddressRequest;
@@ -32,7 +33,7 @@ class AddressController extends APIController
     }
 
     public function show($user_id){
-        $addresses= Address::where('user_id',$user_id)->latest()->get();
+        $addresses = $this->repository->getAllUserAddress($user_id);
         $data = $this->repository->getAllAddressDetails($addresses);
         return $this->respond(
             200,
@@ -45,6 +46,14 @@ class AddressController extends APIController
         $new_address = $this->repository->create($request->only(['user_id','first_name','last_name','phone','address']));
         if($new_address){
            return $this->respondWithMessage(trans('messages.address.added'));
+        }else{
+            return $this->respondWithError(trans('messages.something_went_wrong'));
+        }
+    }
+    public function edit(EditAddressRequest $request){
+        $updated_address = $this->repository->update($request->except('jwt_token'));
+        if($updated_address){
+           return $this->respondWithMessage(trans('messages.address.updated'));
         }else{
             return $this->respondWithError(trans('messages.something_went_wrong'));
         }

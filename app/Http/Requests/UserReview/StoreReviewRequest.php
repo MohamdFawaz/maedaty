@@ -32,7 +32,7 @@ class StoreReviewRequest extends Request
 
         return [
             'product_id' => 'required',
-            'user_id' => 'required',
+            'user_id' => 'required|exists:users,id',
             'rate_value' => 'required',
             'jwt_token' => [
                 'required',

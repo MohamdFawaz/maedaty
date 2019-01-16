@@ -46,6 +46,7 @@ class CartRepository extends BaseRepository
     }
 
     public function create($input){
+        $input['qty'] = 1;
         if($input['qty'] > $this->productRepository->getProductStock($input['product_id'])){
             return false;
         }
@@ -57,15 +58,17 @@ class CartRepository extends BaseRepository
 
     public function update($input){
         $cart_item = UserCart::where('id',$input['cart_item_id'])->first();
-            if($input['qty'] == 0){
-                $update = $cart_item->delete();
-            }else{
-                if($input['qty'] > $cart_item->product->product_stock){
+            if($input['plus']  == true){
+                $new_qty = $cart_item->qty++;
+                if($new_qty > $cart_item->product->product_stock){
                     return false;
+                }else{
+                    $new_qty;
                 }
-                $cart_item->qty = $input['qty'];
-                $update = $cart_item->save();
+            }else{
+                $cart_item->qty--;
             }
+            $update = $cart_item->save();
         if($update){
             return true;
         }
@@ -74,6 +77,13 @@ class CartRepository extends BaseRepository
 
     public function delete($input){
         if(UserCart::destroy($input)){
+            return true;
+        }
+        return false;
+    }
+    public function deleteAllCartItems($user_id){
+        $deleted = UserCart::where('user_id',$user_id)->delete();
+        if($deleted){
             return true;
         }
         return false;
@@ -89,5 +99,22 @@ class CartRepository extends BaseRepository
             $cart_item->save();
         }
         return 0;
+    }
+
+    public function getCartProducts($user_cart_items){
+        $data=array();
+        foreach ($user_cart_items as $cart_item){
+            $cart_items['product_id']=utf8_encode($cart_item->product_id);
+            $cart_items['qty']=$cart_item->qty;
+            $cart_items['purchase_price']=$cart_item->product->price;
+            array_push($data,$cart_items);
+        }
+
+        return $data;
+    }
+
+    public function checkIfProductExists($user_id,$product_id){
+        $check = UserCart::where('user_id',$user_id)->where('product_id',$product_id)->exists();
+        return $check;
     }
 }

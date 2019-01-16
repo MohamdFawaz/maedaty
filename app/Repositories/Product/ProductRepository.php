@@ -5,16 +5,12 @@ namespace App\Repositories\Product;
 use App\Exceptions\GeneralException;
 use App\Models\Product\Product;
 use App\Models\ProductImage\ProductImage;
-use App\Models\Address\UserFavorite;
+use App\Models\UserFavorite\UserFavorite;
 use App\Models\UserReview\UserReview;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Pagination;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Route;
-use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 
 /**
 * Class NotificationRepository.
@@ -132,7 +128,6 @@ class ProductRepository extends BaseRepository
     }
 
      public function getProductImages($product_id,$product_image){
-         $images = [];
          $images = $this->productImage->where('product_id',$product_id)->pluck('image_name')->toArray();
          array_push($images,$product_image);
          $images = array_reverse($images);
@@ -143,6 +138,12 @@ class ProductRepository extends BaseRepository
     public function getProductStock($product_id){
         $stock = $this->model->where('id',$product_id)->pluck('product_stock')->first();
         return $stock;
+    }
+
+    public function getProductById($product_id){
+        $product = $this->model->whereId($product_id)->first();
+        $product_details = $this->getProductDetails($product);
+        return $product_details;
     }
 
     public function delete($input){

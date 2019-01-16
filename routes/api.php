@@ -32,13 +32,29 @@ Route::get('user/favorite/{user_id}','api\UserFavoriteController@index');
 Route::post('user/favorite/add_or_remove','api\UserFavoriteController@store');
 Route::post('user/review/add','api\UserReviewController@store');
 Route::post('user/cart/add_or_update','api\CartController@store');
-Route::delete('user/cart/delete','api\CartController@delete');
+Route::post('user/cart/delete','api\CartController@delete');
 Route::get('user/cart/{user_id}','api\CartController@index')->where(['user_id' => '[0-9]+']);
 
 //Address CRUD Routes
-Route::group(['prefix' => 'user', 'as' => 'user'], function (){
+Route::group(['prefix' => 'user'], function (){
     Route::get('/address/{user_id}', 'api\AddressController@show')->where(['user_id' => '[0-9]+']);
     Route::post('/address', 'api\AddressController@store');
+    Route::post('/address/edit', 'api\AddressController@edit');
     Route::post('/address/delete', 'api\AddressController@destroy');
+});
+
+//order CRUD Routes
+Route::group(['prefix' => 'order'], function (){
+    Route::get('/user/{user_id}', 'api\OrderController@orderInfo')->where(['user_id' => '[0-9]+']);
+    Route::get('/user/list/{user_id}', 'api\OrderController@listOrder')->where(['user_id' => '[0-9]+']);
+    Route::get('/{order_id}', 'api\OrderController@listOrderProducts')->where(['order_id' => '[0-9]+']);
+    Route::post('/', 'api\OrderController@store');
+});
+
+//User Edit Profile Routes
+Route::group(['prefix' => 'user'], function (){
+    Route::get('/profile/{user_id}', 'api\ProfileController@show')->where(['user_id' => '[0-9]+']);
+    Route::post('/profile/edit', 'api\ProfileController@edit');
+    Route::post('/profile/change_password', 'api\ProfileController@changePassword');
 });
 

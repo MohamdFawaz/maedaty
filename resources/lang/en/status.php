@@ -15,5 +15,10 @@ return [
 
     'success' => 'Operation Successful',
     'failed' => 'Operation Failedْ',
-
+    'order' => [
+        'unconfirmed_order' => 'Unconfirmed Order',
+        'new_order' => 'New Order',
+        'processing' => 'Processing',
+        'missing_info' => 'Missing Info',
+    ],
 ];

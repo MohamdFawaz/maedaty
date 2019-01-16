@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->integer('user_status')->default(0);
             $table->string('activate_code')->comment('sms activation code')->nullable();
+            $table->string('lang')->nullable();
             $table->longText('location');
             $table->decimal('lat',11,7)->nullable();
             $table->decimal('lng', 11, 7)->nullable();
