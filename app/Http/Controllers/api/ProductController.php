@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\api;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Product\Product;
-use App\Http\Requests\Category\ListCategoryRequest;
+use App\Models\HotOffersProduct\HotOffersProduct;
 use App\Repositories\Product\ProductRepository;
-use mysql_xdevapi\Exception;
-use Illuminate\Pagination;
 
 
 class ProductController extends APIController
@@ -51,5 +49,14 @@ class ProductController extends APIController
             );
     }
 
+    public function hotOffers($user_id = null){
+        $hot_offers = HotOffersProduct::where('to_date','>=',Carbon::now()->toDateString())->get();
+        $data = $this->productRepository->getHotOffersList($hot_offers,$user_id);
+        return $this->respond(
+            200,
+            trans('messages.products.list'),
+            $data
+      );
+    }
 
 }

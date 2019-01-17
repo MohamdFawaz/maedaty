@@ -107,6 +107,16 @@ class ProductRepository extends BaseRepository
         return $product_item;
     }
 
+    public function getHotOffersList($hot_offers,$user_id = null){
+        $hot_offers_list = [];
+        $hot_offers_item = [];
+        foreach ($hot_offers as $hot_offer){
+            $hot_offers_item['discounted_price'] = $hot_offer->discounted_price;
+            $hot_offers_item['product'] = $this->getProductDetails($hot_offer->product,$user_id);
+            $hot_offers_list[] = $hot_offers_item;
+        }
+        return $hot_offers_list;
+    }
     public function getRelatedProduct($category_id,$subcategory_id = null, $user_id = null,$current_product_id = null)
     {
             $query = $this->model->where('category_id',$category_id);

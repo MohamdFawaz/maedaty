@@ -24,16 +24,9 @@ Route::post('signup', 'api\AuthController@signup');
 Route::get('category', 'api\CategoryController@index');
 Route::get('subcategory', 'api\CategoryController@test');
 Route::post('social_login', 'api\AuthController@socialLogin');
-Route::get('product/{product_id}/{user_id?}', 'api\ProductController@show')
-    ->where(['product_id' => '[0-9]+','user_id' => '[0-9]+']);
-Route::get('product/list/{category_id}/{subcategory_id?}/{user_id?}', 'api\ProductController@index')
-    ->where(['category_id' => '[0-9]+','subcategory_id' => '[0-9]+', 'user_id' => '[0-9]+']);
-Route::get('user/favorite/{user_id}','api\UserFavoriteController@index');
-Route::post('user/favorite/add_or_remove','api\UserFavoriteController@store');
+
+
 Route::post('user/review/add','api\UserReviewController@store');
-Route::post('user/cart/add_or_update','api\CartController@store');
-Route::post('user/cart/delete','api\CartController@delete');
-Route::get('user/cart/{user_id}','api\CartController@index')->where(['user_id' => '[0-9]+']);
 
 //Address CRUD Routes
 Route::group(['prefix' => 'user'], function (){
@@ -43,7 +36,25 @@ Route::group(['prefix' => 'user'], function (){
     Route::post('/address/delete', 'api\AddressController@destroy');
 });
 
-//order CRUD Routes
+//Favorite CRUD Routes
+Route::group(['prefix' => 'user'], function (){
+    Route::get('/favorite/{user_id}','api\UserFavoriteController@index');
+    Route::post('/favorite/add_or_remove','api\UserFavoriteController@store');
+});
+
+//Suggestion CRUD Routes
+Route::group(['prefix' => 'suggestion'], function (){
+    Route::post('/add','api\SuggestionController@store');
+});
+
+//Cart CRUD Routes
+Route::group(['prefix' => 'user'], function (){
+    Route::post('user/cart/add_or_update','api\CartController@store');
+    Route::post('user/cart/delete','api\CartController@delete');
+    Route::get('user/cart/{user_id}','api\CartController@index')->where(['user_id' => '[0-9]+']);
+});
+
+//Order CRUD Routes
 Route::group(['prefix' => 'order'], function (){
     Route::get('/user/{user_id}', 'api\OrderController@orderInfo')->where(['user_id' => '[0-9]+']);
     Route::get('/user/list/{user_id}', 'api\OrderController@listOrder')->where(['user_id' => '[0-9]+']);
@@ -51,10 +62,21 @@ Route::group(['prefix' => 'order'], function (){
     Route::post('/', 'api\OrderController@store');
 });
 
-//User Edit Profile Routes
+//User profile Routes
 Route::group(['prefix' => 'user'], function (){
     Route::get('/profile/{user_id}', 'api\ProfileController@show')->where(['user_id' => '[0-9]+']);
     Route::post('/profile/edit', 'api\ProfileController@edit');
     Route::post('/profile/change_password', 'api\ProfileController@changePassword');
+    Route::post('/profile/change_lang', 'api\ProfileController@changeLanguage');
+    Route::post('/profile/logout', 'api\ProfileController@logout');
+});
+
+//product Routes
+Route::group(['prefix' => 'product'], function (){
+    Route::get('/{product_id}/{user_id?}', 'api\ProductController@show')
+        ->where(['product_id' => '[0-9]+','user_id' => '[0-9]+']);
+    Route::get('/list/{category_id}/{subcategory_id?}/{user_id?}', 'api\ProductController@index')
+        ->where(['category_id' => '[0-9]+','subcategory_id' => '[0-9]+', 'user_id' => '[0-9]+']);
+    Route::get('/offers/{user_id?}', 'api\ProductController@hotOffers')->where(['user_id' => '[0-9]+']);
 });
 

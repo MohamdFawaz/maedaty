@@ -92,6 +92,28 @@ class UserRepository extends BaseRepository
         }
         return false;
     }
+    public function switchUserLanguage($input)
+    {
+        $user = User::whereId($input['user_id'])->first();
+        $user->lang = $input['lang'];
+        //If user saved successfully, then return true
+        if ($user->save()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function logoutUser($input)
+    {
+        $user = User::whereId($input['user_id'])->first();
+        $user->firebase_token = null;
+        //If user saved successfully, then return true
+        if ($user->save()) {
+            return true;
+        }
+        return false;
+    }
+
     public function createSocial($input)
     {
         $fullname = explode(' ', $input->username);
@@ -112,8 +134,6 @@ class UserRepository extends BaseRepository
                 return $this->getLoggedUserDetails($input);
             }
         }
-
-
         return false;
     }
 }

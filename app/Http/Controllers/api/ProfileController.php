@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Requests\User\ChangeLanguageRequest;
+use App\Http\Requests\User\LogoutRequest;
 use Illuminate\Http\Request;
 use App\Models\User\User;
 use App\Repositories\User\UserRepository;
@@ -52,6 +54,22 @@ class ProfileController extends APIController
         $updated_password = $this->repository->updatePassword($request->except('jwt_token'));
         if($updated_password){
            return $this->respondWithMessage(trans('messages.profile.password_updated'));
+        }else{
+            return $this->respondWithError(trans('messages.something_went_wrong'));
+        }
+    }
+    public function changeLanguage(ChangeLanguageRequest $request){
+        $updated_lang = $this->repository->switchUserLanguage($request->except('jwt_token'));
+        if($updated_lang){
+           return $this->respondWithMessage(trans('messages.profile.lang_updated'));
+        }else{
+            return $this->respondWithError(trans('messages.something_went_wrong'));
+        }
+    }
+    public function logout(LogoutRequest $request){
+        $loggedout = $this->repository->logoutUser($request->except('jwt_token'));
+        if($loggedout){
+           return $this->respondWithMessage(trans('messages.profile.logged_out'));
         }else{
             return $this->respondWithError(trans('messages.something_went_wrong'));
         }

@@ -68,8 +68,13 @@ return [
         'added'=>'User Details Added Successfully',
         'updated'=>'User Details Updated Successfully',
         'password_updated'=>'Password Updated Successfully',
+        'lang_updated'=>'The Language Was Updated Successfully',
         'old_password_same_as_new'=>'Your Old Password is The Same as New Password',
         'info'=>'User Information',
+        'logged_out'=>'User Logged Out',
+    ],
+    'suggestion' => [
+        'added'=>'Suggestion Submitted Successfully'
     ],
     'something_went_wrong' => 'Something Went Wrong, Please Try Again Later'
 ];
