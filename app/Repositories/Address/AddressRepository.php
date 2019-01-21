@@ -38,6 +38,13 @@ class AddressRepository extends BaseRepository
         }
         return false;
     }
+    public function createAddressFromSignup($input){
+        $input['address'] = $input['location'];
+        if(Address::create($input)){
+            return true;
+        }
+        return false;
+    }
     public function update($input){
         $address = Address::whereId($input['address_id'])->first();
         $address->first_name = $input['first_name'];

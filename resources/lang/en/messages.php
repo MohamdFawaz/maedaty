@@ -76,5 +76,9 @@ return [
     'suggestion' => [
         'added'=>'Suggestion Submitted Successfully'
     ],
+    'notification' => [
+        'list'=>'Notifications List',
+        'add'=>'Notification Added'
+    ],
     'something_went_wrong' => 'Something Went Wrong, Please Try Again Later'
 ];

@@ -1,8 +1,7 @@
 <?php
 namespace App\Helpers;
 
-use App\Helpers\uuid;
-use App\Models\Settings\Setting;
+//use App\Models\Settings\Setting;
 use Carbon\Carbon as Carbon;
 
 /**
@@ -13,7 +12,7 @@ use Carbon\Carbon as Carbon;
 
 function generateUuid()
 {
-    return uuid::uuid4();
+    return rand(11111111,1111111);
 }
 
 if (!function_exists('homeRoute')) {
@@ -130,19 +129,19 @@ if (!function_exists('getRtlCss')) {
     }
 }
 
-if (!function_exists('settings')) {
-    /**
-     * Access the settings helper.
-     */
-    function settings()
-    {
-        // Settings Details
-        $settings = Setting::latest()->first();
-        if (!empty($settings)) {
-            return $settings;
-        }
-    }
-}
+//if (!function_exists('settings')) {
+//    /**
+//     * Access the settings helper.
+//     */
+//    function settings()
+//    {
+//        // Settings Details
+//        $settings = Setting::latest()->first();
+//        if (!empty($settings)) {
+//            return $settings;
+//        }
+//    }
+//}
 
 if (!function_exists('createNotification')) {
     /**

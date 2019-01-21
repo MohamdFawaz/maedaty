@@ -95,16 +95,14 @@ class OrderRepository extends BaseRepository
 
     public function getOrderProducts($order_products)
     {
-                $product_list = [];
-                $product_item = [];
-        foreach ($order_products as $order_product) {
-            $product_item['qty'] = $order_product['qty'];
-            $product_item['purchase_price'] = $order_product['purchase_price'];
-            $product_item['product'] = $this->productRepository->getProductById($order_product['product_id']);
-            $product_list[] = $product_item;
-        }
-
-
-        return $product_list;
+            $product_list = [];
+            $product_item = [];
+            foreach ($order_products as $order_product) {
+                $product_item['qty'] = $order_product['qty'];
+                $product_item['purchase_price'] = $order_product['purchase_price'];
+                $product_item['product'] = $this->productRepository->getProductById($order_product['product_id']);
+                $product_list[] = $product_item;
+            }
+            return $product_list;
     }
 }

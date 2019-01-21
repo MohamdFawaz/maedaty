@@ -22,6 +22,8 @@ class LoginRequest extends Request
     }
 
 
+
+
     /**
      * Get the validation rules that apply to the request.
      *

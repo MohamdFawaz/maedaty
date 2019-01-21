@@ -2,10 +2,9 @@
 
 namespace App\Repositories\User;
 
-use App\Exceptions\GeneralException;
 use App\Models\User\User;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\Auth;
+use App\Repositories\Address\AddressRepository;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -20,10 +19,12 @@ class UserRepository extends BaseRepository
 * @var object
 */
     public $model;
+    public $addressRepository;
 
-    public function __construct(User $model)
+    public function __construct(User $model,AddressRepository $addressRepository)
     {
         $this->model = $model;
+        $this->addressRepository= $addressRepository;
     }
 
     public function getLoggedUserDetails($user)
@@ -52,6 +53,9 @@ class UserRepository extends BaseRepository
 
         //If user saved successfully, then return true
         if ($user = User::create($input)) {
+            $input['user_id'] = $user->id;
+            //add new address with user id
+            $this->addressRepository->createAddressFromSignup($input);
             return $input['jwt_token'];
         }
 

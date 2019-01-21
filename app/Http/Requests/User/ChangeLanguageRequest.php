@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use function App\Helpers\access;
 use App\Http\Requests\Request;
 use Illuminate\Validation\Rule;
 
@@ -22,7 +23,6 @@ class ChangeLanguageRequest extends Request
     {
         return true;
     }
-
 
     /**
      * Get the validation rules that apply to the request.

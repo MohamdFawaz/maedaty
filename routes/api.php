@@ -49,9 +49,9 @@ Route::group(['prefix' => 'suggestion'], function (){
 
 //Cart CRUD Routes
 Route::group(['prefix' => 'user'], function (){
-    Route::post('user/cart/add_or_update','api\CartController@store');
-    Route::post('user/cart/delete','api\CartController@delete');
-    Route::get('user/cart/{user_id}','api\CartController@index')->where(['user_id' => '[0-9]+']);
+    Route::post('cart/add_or_update','api\CartController@store');
+    Route::post('cart/delete','api\CartController@delete');
+    Route::get('cart/{user_id}','api\CartController@index')->where(['user_id' => '[0-9]+']);
 });
 
 //Order CRUD Routes
@@ -78,5 +78,15 @@ Route::group(['prefix' => 'product'], function (){
     Route::get('/list/{category_id}/{subcategory_id?}/{user_id?}', 'api\ProductController@index')
         ->where(['category_id' => '[0-9]+','subcategory_id' => '[0-9]+', 'user_id' => '[0-9]+']);
     Route::get('/offers/{user_id?}', 'api\ProductController@hotOffers')->where(['user_id' => '[0-9]+']);
+});
+//notifications Routes
+Route::group(['prefix' => 'notification'], function (){
+    Route::get('/list/{user_id?}', 'api\NotificationController@index')
+        ->where(['user_id' => '[0-9]+']);
+    Route::post('/', 'api\NotificationController@store');
+});
+//notifications Routes
+Route::group(['prefix' => 'promo'], function (){
+    Route::post('/apply', 'api\PromoCodeController@store');
 });
 
