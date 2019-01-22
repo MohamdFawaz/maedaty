@@ -47,4 +47,22 @@ abstract class Request extends FormRequest
 
         return new JsonResponse($errors, 422);
     }
+
+
+    public function respondWithError($message)
+    {
+        $array = [
+            'status' => 401,
+            'message' => $message
+        ];
+        return response()->json($array);
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $response = $this->respondWithError($validator->errors());
+
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
+    }
+
 }

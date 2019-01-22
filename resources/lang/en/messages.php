@@ -62,6 +62,7 @@ return [
         'updated'=>'Order Updated Successfully ',
         'missing_details'=>'',
         'info'=>'Order Information',
+        'completed'=>'Order Completed Successfully',
     ],
     'profile' => [
         'user_details' => 'User Details',
@@ -79,6 +80,11 @@ return [
     'notification' => [
         'list'=>'Notifications List',
         'add'=>'Notification Added'
+    ],
+    'promo_code' => [
+        'not_exists_or_expired'=>'Promo Code Doesn\'t Exist or Expired',
+        'add'=>'Promotion Added Successfully Added',
+        'used_before'=>'Promotion Code Has Been Used Before'
     ],
     'something_went_wrong' => 'Something Went Wrong, Please Try Again Later'
 ];

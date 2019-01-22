@@ -30,7 +30,19 @@ class PromoCodeRepository  extends BaseRepository
      */
     public function getPromoCode($promoCode)
     {
-        return PromoCode::whereCode($promoCode)->first();
+        $promo = PromoCode::whereCode($promoCode)
+            ->whereStatus(1)
+            ->where('valid_from', '<=', Carbon::now())
+            ->where('valid_to', '>=', Carbon::now())
+            ->first();
+        return $promo;
+
+    }
+
+    public function getPromoCodeByID($promo_id)
+    {
+        $promo = PromoCode::whereId($promo_id)->first();
+        return $promo;
 
     }
 

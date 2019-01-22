@@ -2,6 +2,7 @@
 
 namespace App\Models\UserApplyPromo;
 
+use App\Models\PromoCode\PromoCode;
 use Illuminate\Database\Eloquent\Model;
 
 class UserApplyPromo extends Model
@@ -17,6 +18,8 @@ class UserApplyPromo extends Model
         'order_id'
     ];
 
-
+    public function promo_code(){
+        return $this->belongsTo(PromoCode::class,'promo_id');
+    }
     
 }

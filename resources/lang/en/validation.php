@@ -135,6 +135,8 @@ return [
     'lang'=>'The Language is Required',
     'old_password'=>'Old Password is Required',
     'new_password'=>'New Password is Required',
+    'order_already_completed'=>'Order Already Completed',
+    'promo_code' => 'Promotion Code is Required',
 
 
 

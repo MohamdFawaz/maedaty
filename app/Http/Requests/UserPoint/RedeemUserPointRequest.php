@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Order;
+namespace App\Http\Requests\UserPoint;
 
 use App\Http\Requests\Request;
-use Illuminate\Validation\Rule;
+
 /**
  * Class ManageSettingsRequest.
  */
-class StoreOrderRequest extends Request
+class RedeemUserPointRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,10 +29,9 @@ class StoreOrderRequest extends Request
     {
         $jwt_token = $this->input('jwt_token');
         $user_id = $this->input('user_id');
-
         return [
             'user_id' => 'required|exists:users,id',
-            'order_id' => 'required|exists:orders,id,order_status,0',
+            'redeem' => 'required|exists:[1,0]',
             'jwt_token' => [
                 'required',
                 Rule::exists('users')->where(function ($query) use ($user_id,$jwt_token) {
@@ -47,11 +46,9 @@ class StoreOrderRequest extends Request
     {
         return [
             'jwt_token.required' => trans('validation.jwt'),
-            'product_id.required' =>trans('validation.product_id'),
-            'user_id.required' =>trans('validation.user_id'),
-            'order_id.exists' =>trans('validation.order_already_completed')
+            'user_id.required' => trans('validation.user_id'),
+            'redeem.exists' => trans('validation.exists'),
+
         ];
     }
-
-
 }

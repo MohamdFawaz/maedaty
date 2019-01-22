@@ -35,6 +35,8 @@ class StoreAddressRequest extends Request
             'last_name' => 'required',
             'phone' => 'required',
             'address' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
             'user_id' => 'required|exists:users,id',
             'jwt_token' => [
                 'required',

@@ -71,7 +71,7 @@ Route::group(['prefix' => 'user'], function (){
     Route::post('/profile/logout', 'api\ProfileController@logout');
 });
 
-//product Routes
+//Product Routes
 Route::group(['prefix' => 'product'], function (){
     Route::get('/{product_id}/{user_id?}', 'api\ProductController@show')
         ->where(['product_id' => '[0-9]+','user_id' => '[0-9]+']);
@@ -79,14 +79,19 @@ Route::group(['prefix' => 'product'], function (){
         ->where(['category_id' => '[0-9]+','subcategory_id' => '[0-9]+', 'user_id' => '[0-9]+']);
     Route::get('/offers/{user_id?}', 'api\ProductController@hotOffers')->where(['user_id' => '[0-9]+']);
 });
-//notifications Routes
+//Notifications Routes
 Route::group(['prefix' => 'notification'], function (){
     Route::get('/list/{user_id?}', 'api\NotificationController@index')
         ->where(['user_id' => '[0-9]+']);
     Route::post('/', 'api\NotificationController@store');
 });
-//notifications Routes
+//Promo Routes
 Route::group(['prefix' => 'promo'], function (){
     Route::post('/apply', 'api\PromoCodeController@store');
+});
+
+//Point Routes
+Route::group(['prefix' => 'point'], function (){
+    Route::post('/redeem', 'api\UserPointController@store');
 });
 

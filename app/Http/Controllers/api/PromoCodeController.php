@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Models\PromoCode\PromoCode;
-use App\Models\UserApplyPromo\UserApplyPromo;
+use App\Http\Requests\PromoCode\ApplyPromoCodeRequest;
 use App\Repositories\PromoCode\PromoCodeRepository;
 use App\Repositories\UserApplyPromo\UserApplyPromoRepository;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 
@@ -22,30 +20,27 @@ class PromoCodeController extends APIController
         $this->setLang($request->header('lang'));
         $request->headers->set('Accept', 'application/json');
         $this->repository = $repository;
-        $this->userApplyPromoRepository= $userApplyPromoRepository;
+        $this->userApplyPromoRepository = $userApplyPromoRepository;
 
     }
 
 
-    public function store(Request $request){
-//        $data['promo'] = PromoCode::create([
-//            'code' => '2fa7',
-//            'valid_times'=> 4,
-//            'valid_from' => Carbon::now(),
-//            'valid_to' => Carbon::now()->addWeek(1),
-//            'status' => 1
-//        ]);
-        $code = $this->repository->getPromoCode($request->promo_code);
-//        $data['apply'] = UserApplyPromo::create([
-//            'user_id' => $request->user_id,
-//            'promo_id' => $code->id,
-//            'order_id' => $request->order_id
-//        ]);
+    public function store(ApplyPromoCodeRequest $request){
+        $promo_code = $this->repository->getPromoCode($request->promo_code);
+        if(!$promo_code){
+            return $this->respondWithError(trans('messages.promo_code.not_exists_or_expired'));
+        }
+
         $number_of_uses = $this->userApplyPromoRepository->getNumberOfUses($request->user_id, $request->promo_id, $request->order_id);
-        if($number_of_uses >= $code->valid_times){
+        if($number_of_uses >= $promo_code->valid_times){
             return $this->respondWithError(trans('messages.promo_code.used_before'));
         }else{
-           return $this->respondWithMessage(trans('messages.promo_code.added'));
+           $data['discounted_price'] = $this->userApplyPromoRepository->create($request->only('user_id','order_id'), $promo_code);
+           return $this->respond(
+               200,
+               trans('messages.promo_code.added'),
+               $data
+           );
         }
     }
 
