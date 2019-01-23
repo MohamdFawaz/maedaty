@@ -43,7 +43,7 @@ class AddressController extends APIController
     }
 
     public function store(StoreAddressRequest $request){
-        $new_address = $this->repository->create($request->only(['user_id','first_name','last_name','phone','address']));
+        $new_address = $this->repository->create($request->except('jwt_token'));
         if($new_address){
            return $this->respondWithMessage(trans('messages.address.added'));
         }else{

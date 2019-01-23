@@ -37,6 +37,8 @@ class OrderAndCartAndUseraddressesTables extends Migration
             $table->date('order_date')->nullable();
             $table->time('order_time')->nullable();
             $table->integer('order_status')->default(0)->comment('0 new unconfirmed order, 1 new confirmed order	');
+            $table->integer('used_points')->default(0);
+            $table->integer('used_promo')->default(0);
             $table->timestamps();
         });
         Schema::create('addresses', function(Blueprint $table)

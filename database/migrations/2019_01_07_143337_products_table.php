@@ -20,6 +20,7 @@ class ProductsTable extends Migration
             $table->string('product_description')->nullable();
             $table->string('price')->nullable();
             $table->string('product_image')->nullable();
+            $table->integer('shop_id')->default(0);
             $table->string('category_id')->nullable();
             $table->string('subcategory_id')->nullable();
             $table->string('status')->default(0);

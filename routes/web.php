@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
+    Route::get('/terms_and_conditions','TermsAndConditionsController@index');
+    Route::get('/about_us','AboutUsController@index');
+});

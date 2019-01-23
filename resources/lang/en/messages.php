@@ -86,5 +86,13 @@ return [
         'add'=>'Promotion Added Successfully Added',
         'used_before'=>'Promotion Code Has Been Used Before'
     ],
+    'points' => [
+        'redeemed'=>'Points has been Redeemed Successfully',
+        'removed'=>'Points Removed Successfully'
+    ],
+    'shop' => [
+        'list'=>'List Shops',
+        'branches'=>'List Branches'
+    ],
     'something_went_wrong' => 'Something Went Wrong, Please Try Again Later'
 ];

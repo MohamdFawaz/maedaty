@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UserPointsTable extends Migration
+class SettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class UserPointsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_points', function(Blueprint $table)
+        Schema::create('settings', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->string('value');
-            $table->integer('redeemed')->default(0);
+            $table->string('key');
+            $table->text('value');
             $table->timestamps();
 
         });

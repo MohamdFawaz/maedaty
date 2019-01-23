@@ -37,6 +37,15 @@ class ProductController extends APIController
             $data
             );
     }
+    public function getShopProducts($shop_id,$user_id = null){
+        $products= Product::where('shop_id', $shop_id)->whereStatus(1)->get();
+        $data = $this->productRepository->getAllProductsDetailPaginate($products,$user_id);
+        return $this->respond(
+            200,
+            trans('messages.products.list'),
+            $data
+            );
+    }
 
     public function show($product_id, $user_id = null){
         $product = Product::where('id',$product_id)->whereStatus(1)->first();
