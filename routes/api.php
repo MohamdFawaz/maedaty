@@ -75,17 +75,20 @@ Route::group(['prefix' => 'user'], function (){
 Route::group(['prefix' => 'product'], function (){
     Route::get('/{product_id}/{user_id?}', 'api\ProductController@show')
         ->where(['product_id' => '[0-9]+','user_id' => '[0-9]+']);
-    Route::get('/list/{category_id}/{subcategory_id?}/{user_id?}', 'api\ProductController@index')
-        ->where(['category_id' => '[0-9]+','subcategory_id' => '[0-9]+', 'user_id' => '[0-9]+']);
+    Route::get('/list/{category_id}/{subcategory_id?}/{user_id?}/{cart_item_item?}', 'api\ProductController@index')
+        ->where(['category_id' => '[0-9]+','subcategory_id' => '[0-9]+', 'user_id' => '[0-9]+','cart_item_item' => '[0-9]+']);
     Route::get('/offers/{user_id?}', 'api\ProductController@hotOffers')->where(['user_id' => '[0-9]+']);
-    Route::get('/shop/{shop_id}', 'api\ProductController@getShopProducts')->where(['shop_id' => '[0-9]+']);
+    Route::get('/shop/{shop_id}/{user_id?}', 'api\ProductController@getShopProducts')->where(['shop_id' => '[0-9]+','user_id' => '[0-9]+']);
+    Route::get('/search/{search_string}/{user_id?}', 'api\ProductController@searchForProducts')->where(['user_id' => '[0-9]+']);
 });
+
 //Notifications Routes
 Route::group(['prefix' => 'notification'], function (){
     Route::get('/list/{user_id?}', 'api\NotificationController@index')
         ->where(['user_id' => '[0-9]+']);
     Route::post('/', 'api\NotificationController@store');
 });
+
 //Promo Routes
 Route::group(['prefix' => 'promo'], function (){
     Route::post('/apply', 'api\PromoCodeController@store');
@@ -95,6 +98,7 @@ Route::group(['prefix' => 'promo'], function (){
 Route::group(['prefix' => 'point'], function (){
     Route::post('/redeem', 'api\UserPointController@store');
 });
+
 //Shop Routes
 Route::group(['prefix' => 'shop'], function (){
     Route::get('/list', 'api\ShopController@index');

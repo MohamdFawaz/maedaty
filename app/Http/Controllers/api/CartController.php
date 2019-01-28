@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Requests\UserCart\DeleteCartRequest;
+use App\Http\Requests\UserCart\UpdateCartRequest;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserCart\StoreCartRequest;
@@ -49,6 +50,13 @@ class CartController extends APIController
                     return $this->respondWithError(trans('messages.cart.over_available_stock'));
                 }
             }
+    }
+
+    public function update(UpdateCartRequest $request){
+        if($this->repository->delete($request->cart_item_id)){
+            return $this->respondWithMessage(trans('messages.cart.removed'));
+        }
+        return $this->respondWithError(trans('messages.cart.missing_details'));
     }
 
     public function delete(DeleteCartRequest $request){

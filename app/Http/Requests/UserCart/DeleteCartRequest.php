@@ -32,7 +32,7 @@ class DeleteCartRequest extends Request
 
         return [
             'user_id' => 'required|exists:users,id',
-            'cart_item_id' => 'required|exists:user_cart,id',
+            'cart_item_id' => 'required|exists:user_carts,id',
             'jwt_token' => [
                 'required',
                 Rule::exists('users')->where(function ($query) use ($user_id,$jwt_token) {

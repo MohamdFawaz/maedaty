@@ -5,6 +5,8 @@ namespace App\Repositories\Order;
 use App\Models\Order\Order;
 use App\Models\UserApplyPromo\UserApplyPromo;
 use App\Repositories\BaseRepository;
+use App\Repositories\Product\ProductRepository;
+use App\Repositories\PromoCode\PromoCodeRepository;
 use App\Repositories\UserApplyPromo\UserApplyPromoRepository;
 use Carbon\Carbon;
 
@@ -24,7 +26,6 @@ class OrderRepository extends BaseRepository
     public $model;
 
 
-
     public function __construct(Order $model)
     {
         $this->model = $model;
@@ -36,6 +37,8 @@ class OrderRepository extends BaseRepository
         $input['order_number'] = $order_number;
         $input['products'] = $cart;
         $input['user_id'] = $user_id;
+        $input['subtotal_fees'] = $this->getSubtotal($cart);
+        $input['shipping_fees'] = $this->getShippingFees($cart);
         if($order = Order::create($input)){
             return $order->id;
         }
@@ -59,13 +62,26 @@ class OrderRepository extends BaseRepository
         }
         return false;
     }
+    public function getSubtotal($cart_items){
+        foreach ($cart_items as $cart_item){
+            $product_price[] = $cart_item['qty']*$cart_item['purchase_price'];
+        }
+        $subtotal = array_sum($product_price);
+        return $subtotal;
+    }
+
+    public function getShippingFees($cart_items){
+        $shipping = '35';
+        return $shipping;
+    }
 
     public function delete($input){
-        if(UserCart::destroy($input)){
+        if(Order::destroy($input)){
             return true;
         }
         return false;
     }
+
      public function getOrderByID($order_id){
           return Order::whereId($order_id)->first();
     }
@@ -87,8 +103,8 @@ class OrderRepository extends BaseRepository
             $order->subtotal_fees = 0;
         }
         return [
-            'total_fees' => ($order->subtotal_fees + $order->shipping_fees),
-            'new_subtotal' => $order->subtotal_fees
+            'total_fees' => (string)($order->subtotal_fees + $order->shipping_fees),
+            'new_subtotal' => (string)$order->subtotal_fees
             ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Product;
 
+use App\Models\HotOffersProduct\HotOffersProduct;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,6 +18,10 @@ class Product extends Model
     public $translationModel = 'App\Models\Product\ProductTranslation';
 
     protected $fillable = ['name','price','product_image','category_id','subcategory_id','product_stock'];
+
+    public function hot_offer(){
+        return $this->hasOne(HotOffersProduct::class, 'product_id');
+    }
 
     public function getProductImageAttribute($value)
     {

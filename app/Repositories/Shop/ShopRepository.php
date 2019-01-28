@@ -33,7 +33,9 @@ class ShopRepository extends BaseRepository
             $shop_item['name'] = $shop->name;
             $shop_item['description'] = $shop->description;
             $shop_item['image'] = $shop->image;
+            $shop_item['branches'] = $this->getShopBranches($shop->shop_branches);
             $shop_list[] = $shop_item;
+
         }
         return $shop_list;
     }

@@ -52,4 +52,11 @@ class Order extends Model
                 return trans('status.order.missing_info');
         }
     }
+
+    public function scopePerDay($query){
+
+        $query->groupBy('created_at');
+        return $query;
+
+    }
 }

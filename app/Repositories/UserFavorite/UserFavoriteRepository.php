@@ -32,7 +32,7 @@ class UserFavoriteRepository extends BaseRepository
         $favorites_item = [];
         $favorites_list = [];
         foreach ($favorites as $favorite){
-            $favorites_item = $this->productRepository->getProductDetails($favorite->products,$user_id);
+            $favorites_item = $this->productRepository->getProductDetails($favorite->product,$user_id);
             $favorites_list[] = $favorites_item;
         }
         return $favorites_list;

@@ -58,18 +58,18 @@ class CartRepository extends BaseRepository
 
     public function update($input){
         $cart_item = UserCart::where('id',$input['cart_item_id'])->first();
-            if($input['plus']  == true){
+            if(isset($input['plus'])  == true){
                 $new_qty = $cart_item->qty++;
                 if($new_qty > $cart_item->product->product_stock){
                     return false;
                 }else{
                     $new_qty;
                 }
-            }else{
+            }elseif(isset($input['plus']) == false){
                 $cart_item->qty--;
             }
-            $update = $cart_item->save();
-        if($update){
+
+        if($cart_item->save()){
             return true;
         }
         return false;

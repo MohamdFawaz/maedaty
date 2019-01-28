@@ -61,6 +61,33 @@ class ProductRepository extends BaseRepository
         return $this->paginate($product_list,5);
     }
 
+    public function getAllProductsDetailPaginateOffers($products,$user_id = null)
+    {
+        $product_list = [];
+        $product_item = [];
+        foreach ($products as $product){
+
+            $product_item['id'] = $product->product->id;
+            $product_item['name'] = $product->product->name;
+            $product_item['description'] = $product->product->description;
+            $product_item['price'] = $product->product->price;
+            $product_item['discounted_price'] = (double)$product->discounted_price;
+            $product_item['product_image'] = $product->product->product_image;
+            $product_item['share_link'] = '#';
+            $product_item['user_favorite'] = '0';
+            $product_item['rate'] = $this->getProductRate($product->id);
+            if($user_id){
+                $product_item['user_favorite'] = $this->userFavorite
+                    ->where('user_id',$user_id)
+                    ->where('product_id',$product->id)
+                    ->get()
+                    ->count();
+            }
+            $product_list[] = $product_item;
+        }
+        return $this->paginate($product_list,5);
+    }
+
     public function getAllProductsDetail($products,$user_id = null)
     {
         $product_list = [];
@@ -117,6 +144,8 @@ class ProductRepository extends BaseRepository
         }
         return $hot_offers_list;
     }
+
+
     public function getRelatedProduct($category_id,$subcategory_id = null, $user_id = null,$current_product_id = null)
     {
             $query = $this->model->where('category_id',$category_id);
@@ -129,12 +158,27 @@ class ProductRepository extends BaseRepository
             $products = $query->whereStatus(1)->get();
             return $this->getAllProductsDetail($products,$user_id);
     }
+    public function getRelatedProductPaginate($category_id,$subcategory_id = null, $user_id = null,$current_product_id = null)
+    {
+            $query = $this->model->where('category_id',$category_id);
+            if($subcategory_id){
+                $query->where('subcategory_id', $subcategory_id);
+            }
+            if($current_product_id){
+                $query->where('id','!=',$current_product_id);
+            }
+            $products = $query->whereStatus(1)->get();
+            return $this->getAllProductsDetailPaginate($products,$user_id);
+    }
 
     public function getProductRate($product_id){
-        $x = $this->userReview->where('product_id',$product_id)->avg('rate_value');
-        $result = round($x, 1);
-//        dd($result);
+        $avg_rate = $this->userReview->where('product_id',$product_id)->avg('rate_value');
+        $result = round($avg_rate, 1);
         return (string)$result;
+    }
+    public function getProductPrice($product_id){
+        $price = $this->model->where('product_id',$product_id)->pluck('price')->first();
+        return $price;
     }
 
      public function getProductImages($product_id,$product_image){

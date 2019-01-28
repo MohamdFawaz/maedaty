@@ -83,7 +83,7 @@ return [
     ],
     'promo_code' => [
         'not_exists_or_expired'=>'Promo Code Doesn\'t Exist or Expired',
-        'add'=>'Promotion Added Successfully Added',
+        'added'=>'Promotion Added Successfully',
         'used_before'=>'Promotion Code Has Been Used Before'
     ],
     'points' => [

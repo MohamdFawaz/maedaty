@@ -46,6 +46,11 @@ class User extends Authenticatable implements JWTSubject
             return asset('public/images/profile/no-image.jpg');
         }
     }
+
+    public function getFirstNameAttribute($value)
+    {
+      return ucwords($value);
+    }
     public function setUserImageAttribute($value)
     {
         if($value){

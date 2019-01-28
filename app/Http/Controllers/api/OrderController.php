@@ -42,7 +42,7 @@ class OrderController extends APIController
        $new_order_id = $this->repository->create($user_id, $cart);
        $user_address_list = $this->addressRepository->getAllUserAddress($user_id);
        $data['order_id'] = $new_order_id;
-       $data['shipping'] = '35';
+       $data['shipping'] = $this->repository->getShippingFees($cart);
        $data['user_points'] = (string)$this->userPointRepository->getUserPointSum($user_id);
        $data['address_list'] = $this->addressRepository->getAllAddressDetails($user_address_list);
         return $this->respond(

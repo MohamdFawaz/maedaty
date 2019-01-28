@@ -34,7 +34,6 @@ class StoreCartRequest extends Request
             'product_id' => 'required|exists:products,id',
             'user_id' => 'required|exists:users,id',
             'cart_item_id' => '|exists:user_carts,id',
-            'plus' => 'required',
             'jwt_token' => [
                 'required',
                 Rule::exists('users')->where(function ($query) use ($user_id,$jwt_token) {

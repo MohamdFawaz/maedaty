@@ -26,7 +26,7 @@ class ShopController extends APIController
     }
 
     public function index(){
-        $result = Shop::get();
+        $result = Shop::with('shop_branches')->get();
         $data = $this->repository->getShopDetails($result);
         return $this->respond(
             200,

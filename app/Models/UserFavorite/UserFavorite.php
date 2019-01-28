@@ -8,6 +8,7 @@ use App\Models\User\User;
 
 class UserFavorite extends Model
 {
+    protected $with = ['product'];
     /**
      * The attributes that are mass assignable.
      *
@@ -17,6 +18,6 @@ class UserFavorite extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class , 'user_id');
+        return $this->belongsTo(Product::class , 'product_id');
     }
 }

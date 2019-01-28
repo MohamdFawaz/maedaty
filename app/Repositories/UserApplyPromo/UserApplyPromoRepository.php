@@ -38,21 +38,12 @@ class UserApplyPromoRepository extends BaseRepository
     {
         $input['promo_id'] = $promo_code->id;
         $discounted_price = $this->orderRepository->getDiscount($input['order_id'],$promo_code);
-        //If user saved successfully, then return true
-        if ($user = UserApplyPromo::create($input)) {
+        //If promo code added successfully, then return true
+        if ($user = UserApplyPromo::updateOrCreate($input)) {
             return $discounted_price;
         }
 
         return false;
     }
 
-//    public function getDiscount($order_id,$promo_code){
-//        $order = $this->orderRepository->getOrderByID($order_id);
-//        if($promo_code->discount_type == 'fixed'){
-//            $order->subtotal_fees = $order->subtotal_fees - $promo_code->discount_amount;
-//        }elseif($promo_code->disount_type =='percentage'){
-//            $order->subtotal_fees = $order->subtotal_fees * (100*$promo_code->discount_amount);
-//        }
-//        return (string)($order->subtotal_fees + $order->shipping_fees);
-//    }
 }

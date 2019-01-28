@@ -3,7 +3,7 @@
 <head>
     @include('frontend.includes.head')
 </head>
-<body>
+<body style="background: #ebebeb;">
 <div class="container">
 
     <header class="row">
@@ -16,6 +16,9 @@
 
     </div>
 
+    <footer class="row">
+        @include('frontend.includes.footer')
+    </footer>
 
 
 </div>

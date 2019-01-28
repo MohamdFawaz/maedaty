@@ -32,11 +32,11 @@ class UserPointController extends APIController
         $pointsCount = $this->repository->getUserPointSum($request->user_id);
         $data = [];
         if($redeemed == 'redeemed'){
-            $data['subtotal'] = $this->repository->getPointsDiscount($order->subtotal_fees,intval($pointsCount));
+            $data['total_fees'] = $this->repository->getPointsDiscount($order->subtotal_fees,intval($pointsCount)) + $order->shipping_fees;
             $message = trans('messages.points.redeemed');
 
         }elseif($redeemed == 'revoked'){
-            $data['subtotal'] = $order->subtotal_fees;
+            $data['total_fees'] = $order->subtotal_fees + $order->shipping_fees;
             $message = trans('messages.points.removed');
         }
         return $this->respond(
