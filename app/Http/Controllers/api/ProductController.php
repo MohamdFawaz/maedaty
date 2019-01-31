@@ -27,15 +27,16 @@ class ProductController extends APIController
 
 
     public function index($category_id,$subcategory_id = null,$user_id = null,$cart_item_id = null){
-        $query = Product::where('category_id', $category_id);
-        if($subcategory_id > 0){
-            $query->where('subcategory_id',$subcategory_id);
-        }
-        $products = $query->whereStatus(1)->get();
+
         if($cart_item_id > 0){
             $cart_item = UserCart::where('id',$cart_item_id)->first();
             $data = $this->productRepository->getRelatedProductPaginate($cart_item->product->category_id,$cart_item->product->subcategory_id,$user_id,$cart_item->product->id);
         }else{
+            $query = Product::where('category_id', $category_id);
+            if($subcategory_id > 0){
+                $query->where('subcategory_id',$subcategory_id);
+            }
+            $products = $query->with('hot_offer')->whereStatus(1)->get();
             $data = $this->productRepository->getAllProductsDetailPaginate($products,$user_id);
         }
         return $this->respond(
@@ -46,7 +47,7 @@ class ProductController extends APIController
     }
 
     public function getShopProducts($shop_id,$user_id = null){
-        $products= Product::where('shop_id', $shop_id)->whereStatus(1)->get();
+        $products= Product::with('hot_offer')->where('shop_id', $shop_id)->whereStatus(1)->get();
         $data = $this->productRepository->getAllProductsDetailPaginate($products,$user_id);
         return $this->respond(
             200,
@@ -56,7 +57,7 @@ class ProductController extends APIController
     }
 
     public function searchForProducts($searchString,$user_id = null){
-        $products= Product::whereStatus(1)
+        $products= Product::with('hot_offer')->whereStatus(1)
             ->whereTranslationLike('name','%'. $searchString .'%')
             ->orWhereTranslationLike('description', '%' . $searchString . '%')
             ->get();
@@ -69,7 +70,7 @@ class ProductController extends APIController
     }
 
     public function show($product_id, $user_id = null){
-        $product = Product::where('id',$product_id)->whereStatus(1)->first();
+        $product = Product::with('hot_offer')->where('id',$product_id)->whereStatus(1)->first();
         $details['product'] = $this->productRepository->getProductDetails($product,$user_id);
         $details['related_products'] = $this->productRepository->getRelatedProduct($product->category_id,$product->subcategory_id,$user_id,$product_id);
         return $this->respond(
@@ -79,7 +80,7 @@ class ProductController extends APIController
             );
     }
     public function relatedProducts($cart_item_id){
-        $cart_item = UserCart::where('id',$cart_item_id)->first();
+        $cart_item = UserCart::with('hot_offer')->where('id',$cart_item_id)->first();
         $details['related_products'] = $this->productRepository->getRelatedProduct($cart_item->product->category_id,$cart_item->product->subcategory_id,$cart_item->user_id,$cart_item->product->id);
         return $this->respond(
             200,
@@ -89,7 +90,7 @@ class ProductController extends APIController
     }
 
     public function hotOffers($user_id = null){
-        $hot_offers = HotOffersProduct::where('to_date','>=',Carbon::now()->toDateString())->get();
+        $hot_offers = HotOffersProduct::where('from_date','<',Carbon::now()->toDateString())->where('to_date','>=',Carbon::now()->toDateString())->get();
         $data = $this->productRepository->getAllProductsDetailPaginateOffers($hot_offers,$user_id);
         return $this->respond(
             200,

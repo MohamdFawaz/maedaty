@@ -41,10 +41,15 @@ class ProductRepository extends BaseRepository
         $product_list = [];
         $product_item = [];
         foreach ($products as $product){
+            $hot_offer = (double)0;
+            if($product->hot_offer){
+                $hot_offer = (double)$product->hot_offer->discounted_price;
+            }
             $product_item['id'] = $product->id;
             $product_item['name'] = $product->name;
             $product_item['description'] = $product->description;
             $product_item['price'] = $product->price;
+            $product_item['discounted_price'] = $hot_offer;
             $product_item['product_image'] = $product->product_image;
             $product_item['share_link'] = '#';
             $product_item['user_favorite'] = '0';
@@ -93,11 +98,16 @@ class ProductRepository extends BaseRepository
         $product_list = [];
         $product_item = [];
         foreach ($products as $product){
+            $hot_offer = (double)0;
+            if($product->hot_offer){
+                $hot_offer = (double)$product->hot_offer->discounted_price;
+            }
             $product_item['id'] = $product->id;
             $product_item['name'] = $product->name;
             $product_item['description'] = $product->description;
             $product_item['price'] = $product->price;
             $product_item['product_image'] = $product->product_image;
+            $product_item['discounted_price'] = $hot_offer;
             $product_item['share_link'] = '#';
             $product_item['user_favorite'] = '0';
             $product_item['rate'] = $this->getProductRate($product->id);
@@ -114,11 +124,16 @@ class ProductRepository extends BaseRepository
     }
   public function getProductDetails($product,$user_id = null)
     {
+            $hot_offer = (double)0;
+            if($product->hot_offer){
+                $hot_offer = (double)$product->hot_offer->discounted_price;
+            }
             $product_item = [];
             $product_item['id'] = $product->id;
             $product_item['name'] = $product->name;
             $product_item['description'] = $product->description;
             $product_item['price'] = $product->price;
+            $product_item['discounted_price'] = $hot_offer;
             $product_item['product_image'] = $product->product_image;
             $product_item['product_images'] = $this->getProductImages($product->id,$product->product_image);
             $product_item['share_link'] = '#';

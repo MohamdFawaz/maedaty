@@ -24,6 +24,8 @@ Route::post('signup', 'api\AuthController@signup');
 Route::get('category', 'api\CategoryController@index');
 Route::get('subcategory', 'api\CategoryController@test');
 Route::post('social_login', 'api\AuthController@socialLogin');
+Route::post('activate', 'api\AuthController@activateAccount');
+Route::post('forgot_password', 'api\AuthController@forgotPassword');
 
 
 Route::post('user/review/add','api\UserReviewController@store');

@@ -19,11 +19,11 @@ $(function(){
             startDate: moment().subtract('days', 29),
             endDate: moment()            
           },function(start, end) {
-              $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-              let url = `${site_url}/json/filterByDate`;
+              $('#reportrange span').html(start.format('MMMM D, YYYY ') + ' - ' + end.format('MMMM D, YYYY'));
+              let url = `${site_url}/admin/json/filterByDate`;
               let data = {
-                'fromDate': start.format('DD-MM-YYYY'),
-                'toDate' : end.format('DD-MM-YYYY')
+                'fromDate': start.format('DD-MM-YYYY HH:mm:ss'),
+                'toDate' : end.format('DD-MM-YYYY HH:mm:ss')
               };
             $.ajax({
                 type:"POST",
@@ -140,7 +140,7 @@ $(function(){
     // Return the Ajax promise
     function getSales() {
         return $.ajax({
-            url: `${site_url}/json/getSales`,
+            url: `${site_url}/admin/json/getSales`,
             type: "GET",
             async: true,
             dataType: "json",
@@ -196,7 +196,7 @@ $(function(){
             rdc_resize();
         },200);    
     });
-    
+
     
 });
 

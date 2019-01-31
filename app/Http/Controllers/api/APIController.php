@@ -43,7 +43,7 @@ class APIController extends Controller
     /**
      * set language
      *
-     * @return statuscode
+     * @return Locale
      */
     public function setLang($lang)
     {           $this->lang  = $lang;

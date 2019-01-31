@@ -28,6 +28,22 @@ return [
         'home' => 'Home',
         'dashboard' => 'Dashboard'
     ],
+    'products' => [
+        'id' => 'ID',
+        'name_ar' => 'Arabic Name',
+        'name_en' => 'English Name',
+        'shop' => 'Shop',
+        'price' => 'Price',
+        'product_stock' => 'Product Stock',
+        'status' => 'Status',
+        'action' => 'Action',
+        'active' => 'Active',
+        'not_active' => 'Not Active',
+        'image' => 'Product Image',
+        'list' => 'Products List',
+        'description_ar' => 'Arabic Description',
+        'description_en' => 'English Description',
+    ],
     'title' => 'Maedaty',
 
 ];

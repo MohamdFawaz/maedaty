@@ -23,10 +23,11 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     Route::post('login','LoginController@login');
 
 });
-Route::group(['namespace' => 'Backend', 'as' => 'backend.','prefix' => 'admin'], function () {
+Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin'], function () {
     Route::get('/','HomeController@index');
+    Route::post('products/updateStatus','ProductController@updateStatus');
     Route::resource('products','ProductController');
-    Route::group(['prefix' => 'json'], function (){
+    Route::group(['prefix' => 'json', 'as' => 'json.'], function (){
         Route::post('/filterByDate','HomeController@filterOrdersByDate');
         Route::get('/getSales','HomeController@getSalesLineChart');
 

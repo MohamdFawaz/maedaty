@@ -17,7 +17,11 @@ return [
         'list'=>'categories list'
     ],
     'auth' => [
-        'wrong_phone_password'=>'Login Failed, Check your Phone or Password'
+        'wrong_phone_password'=>'Login Failed, Check your Phone or Password',
+        'wrong_activate_code'=>'Wrong Activation Code, Please Check and Try Again',
+        'activated_successfully'=>'Account Activated Successfully',
+        'message_sent'=>'Check Your Message For Activation Code ',
+        'phone_not_exists'=>'No Account Found with this Phone Number, Please Try Again'
     ],
     'subcategory' => [
         'list'=>'subcategories list'
@@ -69,6 +73,7 @@ return [
         'added'=>'User Details Added Successfully',
         'updated'=>'User Details Updated Successfully',
         'password_updated'=>'Password Updated Successfully',
+        'wrong_old_password'=>'Wrong Old Password',
         'lang_updated'=>'The Language Was Updated Successfully',
         'old_password_same_as_new'=>'Your Old Password is The Same as New Password',
         'info'=>'User Information',

@@ -1,4 +1,3 @@
-
 <!-- START SCRIPTS -->
 <!-- START PLUGINS -->
 <script type="text/javascript" src="{{asset('public/js/plugins/jquery/jquery.min.js')}}"></script>
@@ -33,3 +32,4 @@
 <script type="text/javascript" src="{{asset('public/js/demo_dashboard.js')}}"></script>
 <!-- END TEMPLATE -->
 <!-- END SCRIPTS -->
+@yield('script')

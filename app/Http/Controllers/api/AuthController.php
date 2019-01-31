@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Requests\User\ActivateAccountRequest;
+use App\Http\Requests\User\ForgotPasswordRequest;
 use App\Http\Requests\User\SocialLoginRequest;
 use App\Models\User\User;
 use App\Models\SocialLogin\SocialLogin;
@@ -74,11 +76,10 @@ class AuthController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function signup(SignupRequest $request)
+    public function signup(Request $request)
     {
-
-
-        if($user['jwt_token'] = $this->repository->create($request->all())){
+        $data = json_decode($request->data);
+        if($user = $this->repository->create($data)){
 
             return $this->respond(
                 200,
@@ -87,10 +88,11 @@ class AuthController extends APIController
             );
         }
         $token = "";
+        $std = new \stdClass();
         return $this->respond(
-            'success',
+            200,
             trans('api.messages.login.success'),
-            $token
+            $std
         );
     }
 
@@ -153,6 +155,42 @@ class AuthController extends APIController
             }
         }
         return $this->respond(200,trans('login.user_logged_in'),$user);
+    }
+
+    public function activateAccount(ActivateAccountRequest $request)
+    {
+        $user  = $this->repository->checkIfCodeExists($request->all());
+        if(!$user){
+            return $this->respondWithError(trans('messages.auth.wrong_activate_code'));
+        }else{
+            $user->user_status = 1;
+            $user->save();
+            $user = $this->repository->getLoggedUserDetails($user);
+            return $this->respond(200,trans('messages.auth.activated_successfully'),$user);
+        }
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+        $user = User::where('phone',$request->phone)->first();
+        if(!$user){
+            return $this->respondWithError(trans('messages.auth.phone_not_exists'));
+        }
+        $sms_code = $this->repository->sendSMS($user->phone);
+        if($sms_code['response']== '1'){
+            $user->activate_code = $sms_code['code'];
+            $user->user_status = 0;
+            $user->jwt_token = str_random(25);
+            $user->save();
+            $userDetails = $this->repository->getLoggedUserDetails($user);
+            return $this->respond(200,
+                trans('messages.auth.message_sent'),
+                $userDetails
+            );
+        }else{
+            return $this->respondWithError(trans('messages.something_went_wrong'));
+        }
+
     }
 
 }

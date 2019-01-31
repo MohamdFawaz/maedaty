@@ -56,7 +56,7 @@ class User extends Authenticatable implements JWTSubject
         if($value){
             $img_name = time().rand(1111,9999).'.'.$value->getClientOriginalExtension();
             $value->move(public_path('images/profile/'),$img_name);
-            $this->attributes['user_image']= $img_name ;
+            $this->attributes['user_image'] = $img_name ;
         }
     }
     public function socialaccount(){

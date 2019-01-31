@@ -15,6 +15,22 @@ function generateUuid()
     return rand(11111111,1111111);
 }
 
+if (!function_exists('generatePIN')) {
+
+
+    function generatePIN($digits = 4)
+    {
+        $i = 0; //counter
+        $pin = ""; //our default pin is blank.
+        while ($i < $digits) {
+            //generate a random number between 0 and 9.
+            $pin .= mt_rand(0, 9);
+            $i++;
+        }
+        return $pin;
+    }
+}
+
 if (!function_exists('homeRoute')) {
 
     /**

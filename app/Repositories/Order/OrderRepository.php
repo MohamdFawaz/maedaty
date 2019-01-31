@@ -24,11 +24,14 @@ class OrderRepository extends BaseRepository
 * @var object
 */
     public $model;
+    public $productRepository;
 
 
-    public function __construct(Order $model)
+
+    public function __construct(Order $model,ProductRepository $productRepository)
     {
         $this->model = $model;
+        $this->productRepository = $productRepository;
     }
 
 

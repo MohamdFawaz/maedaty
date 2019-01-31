@@ -36,8 +36,9 @@ class ChangePasswordRequest extends Request
         $user_id = $this->input('user_id');
         return [
             'user_id'       => 'required|exists:users,id',
-            'old_password'       => 'required',
+            'old_password'       => 'required_if:from,==,profile',
             'new_password'       => 'required',
+            'from'       => 'required',
             'jwt_token' => [
                     'required',
                     Rule::exists('users')->where(function ($query) use ($user_id,$jwt_token) {

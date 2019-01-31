@@ -35,8 +35,9 @@ class ProfileController extends APIController
             );
     }
 
-    public function edit(EditProfileRequest $request){
-        $updated_profile = $this->repository->update($request->except('jwt_token'));
+    public function edit(Request $request){
+        $data = json_decode($request->data);
+        $updated_profile = $this->repository->update($data,$request->user_image);
         if($updated_profile){
            return $this->respond(
                200,
@@ -47,17 +48,31 @@ class ProfileController extends APIController
             return $this->respondWithError(trans('messages.something_went_wrong'));
         }
     }
-    public function changePassword(ChangePasswordRequest $request){
-        if($request->old_password == $request->new_password){
-            return $this->respondWithError(trans('messages.profile.old_password_same_as_new'));
-        }
-        $updated_password = $this->repository->updatePassword($request->except('jwt_token'));
-        if($updated_password){
-           return $this->respondWithMessage(trans('messages.profile.password_updated'));
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        if ($request->form == 'profile') {
+            if ($request->old_password == $request->new_password) {
+                return $this->respondWithError(trans('messages.profile.old_password_same_as_new'));
+            }
+            $updated_password = $this->repository->updatePasswordProfile($request->except('jwt_token'));
+            if ($updated_password == 1) {
+                return $this->respondWithMessage(trans('messages.profile.password_updated'));
+            } elseif ($updated_password == -1) {
+                return $this->respondWithError(trans('messages.profile.wrong_old_password'));
+            }
+        }elseif($request->from == 'login'){
+            $updated_password = $this->repository->updatePasswordLogin($request->except('jwt_token'));
+            if ($updated_password == 1) {
+                return $this->respondWithMessage(trans('messages.profile.password_updated'));
+            }else{
+                return $this->respondWithError(trans('messages.profile.wrong_old_password'));
+            }
         }else{
             return $this->respondWithError(trans('messages.something_went_wrong'));
         }
+
     }
+
     public function changeLanguage(ChangeLanguageRequest $request){
         $updated_lang = $this->repository->switchUserLanguage($request->except('jwt_token'));
         if($updated_lang){

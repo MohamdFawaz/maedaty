@@ -137,6 +137,7 @@ return [
     'new_password'=>'كلمة السر الجديدة مطلوبة',
     'order_already_completed'=>'تم انهاء الطلب بالفعل',
     'promo_code'=>'كود العرض مطلوب',
+    'activation_code'=>'كود التفعيل مطلوب',
 
 
     /*
