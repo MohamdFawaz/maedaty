@@ -8767,10 +8767,7 @@ li.ext_zip {
   .ui-resizable-se {
     background-image: url("../img/jqyery/resize-icon@2x.png");
   }
-  .x-navigation > li.xn-logo > a:first-child {
-    background-image: url("../img/logo@2x.png");
-    background-size: 220px 50px;
-  }
+
   .x-navigation.x-navigation-minimized > li.xn-logo > a:first-child {
     background-image: url("../img/logo-small@2x.png");
     background-size: 50px 50px;
@@ -8793,4 +8790,12 @@ li.ext_zip {
   .page-container .page-content {
     margin-left: 0px;
   }
+}
+.image-upload > input
+{
+  display: none;
+}
+.image-upload:hover,image-upload-label:hover
+{
+  cursor: pointer;
 }

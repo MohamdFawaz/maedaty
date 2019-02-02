@@ -220,7 +220,8 @@ class UserRepository extends BaseRepository
                 ]
             ]
         );
-        return ['response'=> $req->getBody(),'code'=>$rand_number];
+
+        return ['response'=> json_decode($req->getBody()),'code'=>$rand_number];
     }
 
 

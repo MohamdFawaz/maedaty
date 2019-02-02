@@ -24,9 +24,17 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
 
 });
 Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin'], function () {
-    Route::get('/','HomeController@index');
+    Route::get('/','HomeController@index')->name('dashboard');
     Route::post('products/updateStatus','ProductController@updateStatus');
-    Route::resource('products','ProductController');
+    Route::get('products/deleteImage/{$id}','ProductController@deleteImage')->name('del.product.image');
+    Route::get('products/delete_product/{$product_id}','ProductController@deleteProduct')->name('del.product.product');
+    Route::resource('products','ProductController',[
+        'names' => [
+            'index' => 'products',
+            'store' => 'products.store',
+            'update' => 'products.update'
+        ]
+    ]);
     Route::group(['prefix' => 'json', 'as' => 'json.'], function (){
         Route::post('/filterByDate','HomeController@filterOrdersByDate');
         Route::get('/getSales','HomeController@getSalesLineChart');

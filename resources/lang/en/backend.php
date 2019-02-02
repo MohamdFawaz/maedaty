@@ -28,6 +28,11 @@ return [
         'home' => 'Home',
         'dashboard' => 'Dashboard'
     ],
+    'sidemenu' => [
+        'dashboard' => 'Dashboard',
+        'products' => 'Products'
+    ],
+
     'products' => [
         'id' => 'ID',
         'name_ar' => 'Arabic Name',
@@ -43,7 +48,27 @@ return [
         'list' => 'Products List',
         'description_ar' => 'Arabic Description',
         'description_en' => 'English Description',
+        'details' => 'Product Details',
+        'images' => 'Product Images',
+        'has_discount' => 'Has Offer',
+        'category' => 'Category',
+        'subcategory' => 'Sub Category',
+        'enter_the_new_price' => 'Enter The New Price',
     ],
     'title' => 'Maedaty',
+    'action' => [
+        'add' => 'Add',
+        'create' => 'Create',
+        'edit' => 'Edit',
+        'delete' => 'Delete',
+        'yes' => 'Yes',
+        'no' => 'No',
+    ],
+    'select' => [
+        'choose' => 'Choose Option',
+    ],
+    'question' => [
+        'are_you_sure_delete' => 'Are you sure you want to delete this product?',
 
+    ],
 ];
