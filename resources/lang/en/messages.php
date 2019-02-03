@@ -14,7 +14,11 @@ return [
     */
 
     'category' => [
-        'list'=>'categories list'
+        'list'=>'Categories list'
+    ],
+    'message' => [
+        'list'=>'Messages list',
+        'send'=>'Messages was Sent Successfully'
     ],
     'auth' => [
         'wrong_phone_password'=>'Login Failed, Check your Phone or Password',
@@ -24,7 +28,7 @@ return [
         'phone_not_exists'=>'No Account Found with this Phone Number, Please Try Again'
     ],
     'subcategory' => [
-        'list'=>'subcategories list'
+        'list'=>'Subcategories list'
     ],
      'signup' => [
             'created'=>'Account Created Successfully'

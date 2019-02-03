@@ -20,6 +20,15 @@ class ProductImage extends Model
         return $this->belongsTo(Product::class , 'product_id');
     }
 
+    public function setImageNameAttribute($value)
+    {
+        if($value){
+            $img_name = time().rand(1111,9999).'.'.$value->getClientOriginalExtension();
+            $value->move(public_path('images/products/'),$img_name);
+            $this->attributes['image_name'] = $img_name ;
+        }
+    }
+
     public function getImageNameAttribute($value)
     {
         if ($value) {

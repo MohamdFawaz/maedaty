@@ -11,14 +11,14 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">{{trans('backend.products.list')}}</h3>
                         <ul class="panel-controls">
-                            <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
-                            <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
-                            <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+                            <a href="{{route('backend.products.create')}}" >
+                                <span class="btn btn-success">{{trans('backend.action.create')}}</span>
+                            </a>
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable">
+                            <table class="table datatable" id="products-table">
                                 <thead>
                                 <tr>
                                     <th>{{trans('backend.products.id')}}</th>
@@ -42,7 +42,7 @@
                                     <td>{{$product->shop->translate('en')['name']}}</td>
                                     <td>{{$product->price}} {{config('settings.currency_symbol')}}</td>
                                     <td><img src="{{$product->product_image}}" width="100"></td>
-                                    <td>{{$product->product_stock}}</td>
+                                    <td width="1px">{{$product->product_stock}}</td>
                                     <td>{!! $product->status_label !!}</td>
                                     <td>{!! $product->action !!}</td>
                                 </tr>
@@ -97,6 +97,12 @@
 
             });
         });
+        $(document).ready(function() {
+            $('.datatable').dataTable( {
+                "lengthMenu": [5, 7, 10],
+                "pageLength": 5
+            } );
+        } );
     </script>
     <!-- THIS PAGE PLUGINS -->
     <script type='text/javascript' src="{{asset('public/js/plugins/icheck/icheck.min.js')}}"></script>

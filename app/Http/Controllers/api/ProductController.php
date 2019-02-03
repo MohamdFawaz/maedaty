@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Http\Requests\User\SearchRequest;
 use App\Models\UserCart\UserCart;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,7 +28,6 @@ class ProductController extends APIController
 
 
     public function index($category_id,$subcategory_id = null,$user_id = null,$cart_item_id = null){
-
         if($cart_item_id > 0){
             $cart_item = UserCart::where('id',$cart_item_id)->first();
             $data = $this->productRepository->getRelatedProductPaginate($cart_item->product->category_id,$cart_item->product->subcategory_id,$user_id,$cart_item->product->id);
@@ -56,12 +56,12 @@ class ProductController extends APIController
             );
     }
 
-    public function searchForProducts($searchString,$user_id = null){
+    public function searchForProducts(SearchRequest $request){
         $products= Product::with('hot_offer')->whereStatus(1)
-            ->whereTranslationLike('name','%'. $searchString .'%')
-            ->orWhereTranslationLike('description', '%' . $searchString . '%')
+            ->whereTranslationLike('name','%'. $request->string .'%')
+            ->orWhereTranslationLike('description', '%' . $request->string . '%')
             ->get();
-        $data = $this->productRepository->getAllProductsDetailPaginate($products,$user_id);
+        $data = $this->productRepository->getAllProductsDetailPaginate($products,$request->user_id);
         return $this->respond(
             200,
             trans('messages.products.list'),

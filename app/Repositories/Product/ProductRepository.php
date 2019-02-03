@@ -46,8 +46,8 @@ class ProductRepository extends BaseRepository
                 $hot_offer = (double)$product->hot_offer->discounted_price;
             }
             $product_item['id'] = $product->id;
-            $product_item['name'] = $product->name;
-            $product_item['description'] = $product->description;
+            $product_item['name'] = $product->translate()->name;
+            $product_item['description'] = $product->translate()->description;
             $product_item['price'] = $product->price;
             $product_item['discounted_price'] = $hot_offer;
             $product_item['product_image'] = $product->product_image;
@@ -130,8 +130,8 @@ class ProductRepository extends BaseRepository
             }
             $product_item = [];
             $product_item['id'] = $product->id;
-            $product_item['name'] = $product->name;
-            $product_item['description'] = $product->description;
+            $product_item['name'] = $product->translate()->name;
+            $product_item['description'] = $product->translate()->description;
             $product_item['price'] = $product->price;
             $product_item['discounted_price'] = $hot_offer;
             $product_item['product_image'] = $product->product_image;

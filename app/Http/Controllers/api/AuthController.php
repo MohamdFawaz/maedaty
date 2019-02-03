@@ -177,6 +177,7 @@ class AuthController extends APIController
             return $this->respondWithError(trans('messages.auth.phone_not_exists'));
         }
         $sms_code = $this->repository->sendSMS($user->phone);
+        $sms_code['response'] = 1;
         if($sms_code['response']== '1'){
             $user->activate_code = $sms_code['code'];
             $user->user_status = 0;
@@ -190,7 +191,6 @@ class AuthController extends APIController
         }else{
             return $this->respondWithError(trans('messages.something_went_wrong'));
         }
-
     }
 
 }

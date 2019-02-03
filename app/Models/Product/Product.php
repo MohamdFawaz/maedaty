@@ -2,9 +2,11 @@
 
 namespace App\Models\Product;
 
+use App\Models\Category\Category;
 use App\Models\HotOffersProduct\HotOffersProduct;
 use App\Models\ProductImage\ProductImage;
 use App\Models\Shop\Shop;
+use App\Models\SubCategory\SubCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
@@ -20,7 +22,7 @@ class Product extends Model
 
     public $translationModel = 'App\Models\Product\ProductTranslation';
 
-    protected $fillable = ['name','price','product_image','category_id','subcategory_id','product_stock'];
+    protected $fillable = ['name','price','product_image','category_id','subcategory_id','product_stock','shop_id'];
 
     public function hot_offer(){
         return $this->hasOne(HotOffersProduct::class, 'product_id')
@@ -36,6 +38,24 @@ class Product extends Model
         return $this->belongsTo(Shop::class, 'shop_id');
     }
 
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function subcategory(){
+        return $this->belongsTo(SubCategory::class, 'subcategory_id');
+    }
+
+    public function getNameAttribute($value)
+    {
+        ucwords($value);
+    }
+
+      public function getDescriptionAttribute($value)
+    {
+        ucwords($value);
+    }
+
     public function getProductImageAttribute($value)
     {
         if ($value) {
@@ -45,9 +65,19 @@ class Product extends Model
         }
     }
 
+    public function setProductImageAttribute($value)
+    {
+        if($value){
+            $img_name = time().rand(1111,9999).'.'.$value->getClientOriginalExtension();
+            $value->move(public_path('images/products/'),$img_name);
+            $this->attributes['product_image'] = $img_name ;
+        }
+    }
+
     public function getStatusLabelAttribute()
     {
         if ($this->status == 1) {
+
             return "<span class=\"label label-success label-form\" id='label-$this->id'>".trans('backend.products.active')."</span>";
         } else {
             return "<span class=\"label label-danger label-form\" id='label-$this->id'>".trans('backend.products.not_active')."</span>";
@@ -57,17 +87,27 @@ class Product extends Model
     {
         $action = "";
         if ($this->status == 1) {
-            $action .=  "<label class='switch'>
+            $action .=  "<label class='switch switch-small' >
                     <input type='checkbox' checked='' value='$this->status'  id='$this->id' class='status'>
                     <span></span>
                     </label>";
         } else {
-            $action .=  "<label class='switch'>
+            $action .=  "<label class='switch switch-small'>
                     <input type='checkbox'  value='$this->status' id='$this->id' class='status'>
                     <span></span>
                     </label>";
         }
-//        $action .= "<button class=\"btn btn-info btn-condensed\"><i class=\"glyphicon glyphicon-phone-alt\"></i></button>";
+        $action .= " ";
+
+        $action .= "<a href=".url()->current()."/".$this->id.">
+                    <button type=\"button\" class=\"btn btn-success btn-condensed active\"> <i class='glyphicon glyphicon-eye-open' ></i></button>
+                    </a>";
+        $action .= "<a href=".url()->current()."/".$this->id."/edit".">
+                    <button type=\"button\" class=\"btn btn-success btn-condensed active\"> <i class='glyphicon glyphicon-pencil' ></i></button>
+                    </a>";
+        $action .= '<a href="'.route('backend.products.destroy',$this->id).'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
+
+        $action .= "";
         return $action;
     }
 

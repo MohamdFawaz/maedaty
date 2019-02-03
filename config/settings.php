@@ -7,5 +7,6 @@
  */
 
 return [
-    'currency_symbol' => ' SAR'
+    'currency_symbol' => ' SAR',
+    'name' => "Maedaty"
 ];
