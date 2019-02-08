@@ -3,7 +3,7 @@
         <a id="logo" href="/">Maedaty</a>
         <ul class="nav">
             <li><a href="/">Home</a></li>
-            <li><a href="{{route('frontend.message.index')}}">Message</a></li>
+            <li><a href="#">Message</a></li>
         </ul>
     </div>
 </div>

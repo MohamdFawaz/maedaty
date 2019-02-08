@@ -10,20 +10,28 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
 
-                        <form class="tocify-content" action="{{route('backend.category.store')}}" method="POST" enctype="multipart/form-data">
+                        <form class="tocify-content" action="{{route('backend.subcategory.store')}}" method="POST" enctype="multipart/form-data">
                             {{ method_field('POST') }}
                             {{ csrf_field() }}
 
                             <div class="form-group">
-                                <label for="name_ar">{{trans('backend.category.name_ar')}}</label>
+                                <label for="name_ar">{{trans('backend.subcategory.name_ar')}}</label>
                                 <input type="text" name="name_ar" class="form-control" >
                             </div>
                             <div class="form-group">
-                                <label for="name_en">{{trans('backend.category.name_en')}}</label>
+                                <label for="name_en">{{trans('backend.subcategory.name_en')}}</label>
                                 <input type="text" name="name_en" class="form-control" >
                             </div>
 
-                            <h2>{{trans('backend.category.image')}}</h2>
+                            <div class="form-group">
+                                <label for="name_en">{{trans('backend.subcategory.super_cat_name')}}</label>
+                                <select class="form-control" name="category_id">
+                                    @foreach($supercategory as $super)
+                                        <option value="{{$super->id}}">{{$super->translate()->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <h2>{{trans('backend.subcategory.image')}}</h2>
                             <div class="image-upload friend" >
                                 <label for="file-input" class="image-upload-label">
                                     <img src="{{asset('public/images/category/no-category.jpg')}}" class="thumb"/>

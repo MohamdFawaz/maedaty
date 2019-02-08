@@ -1,30 +1,75 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="{{app()->getLocale()}}" class="body-full-height">
 <head>
-    <title>Look at me Login</title>
+    <!-- META SECTION -->
+    <title>{{trans('backend.title')}}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content="{{csrf_token()}}">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <!-- END META SECTION -->
+
+    <!-- CSS INCLUDE -->
+    <link rel="stylesheet" type="text/css" id="theme" href="{{asset('public/css/theme-night.css')}}"/>
 </head>
-<body><
+<body>
 
-{{ Form::open(array('url' => 'login')) }}
-<h1>Login</h1>
-@csrf
+<div class="login-container">
+
+    <div class="login-box animated fadeInDown">
+
+        <div class="login-title">{{trans('backend.title')}}</div>
+        <div class="login-body">
+            <div class="login-title"><strong>Welcome</strong>, Please login</div>
+            <form role="form" method="POST" action='{{url()->current()}}' class="form-horizontal">
+                {{ csrf_field() }}
+                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+
+                    <div class="col-md-12">
+                        <input id="email" type="email" class="form-control" name="email" placeholder="Enter Your Mail" value="{{ old('email') }}" required autofocus>
+
+                        @if ($errors->has('email'))
+                            <span class="help-block">
+                                      <strong>{{ $errors->first('email') }}</strong>
+                                  </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
 
 
-<!-- if there are login errors, show them here -->
-<p>
-    {{ $errors->first('email') }}
-    {{ $errors->first('password') }}
-</p>
+                    <div class="col-md-12">
+                        <input id="password" type="password" class="form-control" placeholder="Enter Your Password" name="password" required>
 
-<p>
-    {{ Form::label('email', 'Email Address') }}
-    {{ Form::text('email') }}
-</p>
+                        @if ($errors->has('password'))
+                            <span class="help-block">
+                                      <strong>{{ $errors->first('password') }}</strong>
+                                  </span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <button class="btn btn-info btn-block">Log In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="login-footer">
+            <div class="pull-left">
+                &copy; 2018 Maedaty
+            </div>
+            <div class="pull-right">
+                <a href="#">About</a> |
+                <a href="#">Privacy</a> |
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </div>
 
-<p>
-    {{ Form::label('password', 'Password') }}
-    {{ Form::password('password') }}
-</p>
+</div>
 
-<p>{{ Form::submit('Submit!') }}</p>
-{{ Form::close() }}
+</body>
+</html>

@@ -30,7 +30,9 @@ return [
     ],
     'sidemenu' => [
         'dashboard' => 'Dashboard',
-        'products' => 'Products'
+        'products' => 'Products',
+        'category' => 'Category',
+        'subcategory' => 'Sub Categories'
     ],
 
     'products' => [
@@ -67,6 +69,22 @@ return [
         'not_active' => 'Not Active',
         'image' => 'Category Image',
         'list' => 'Categories List',
+        'details' => 'Category Details',
+    ],
+    'subcategory' => [
+        'id' => 'ID',
+        'name_ar' => 'Arabic Name',
+        'name_en' => 'English Name',
+        'super_cat_name' => 'Super Category Name',
+        'shop' => 'Shop',
+        'price' => 'Price',
+        'status' => 'Status',
+        'action' => 'Action',
+        'active' => 'Active',
+        'not_active' => 'Not Active',
+        'image' => 'SubCategory Image',
+        'list' => 'SubCategories List',
+        'details' => 'SubCategory Details',
     ],
     'title' => 'Maedaty',
     'action' => [
@@ -81,7 +99,7 @@ return [
         'choose' => 'Choose Option',
     ],
     'question' => [
-        'are_you_sure_delete' => 'Are you sure you want to delete this product?',
+        'are_you_sure_delete' => 'Are you sure you want to delete this?',
 
     ],
 ];

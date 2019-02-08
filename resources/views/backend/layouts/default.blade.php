@@ -10,35 +10,38 @@
         <!-- START X-NAVIGATION -->
         <ul class="x-navigation">
             <li class="xn-logo">
-                <a href="index.html">{{trans('backend.title')}}</a>
+                <a href="{{route('backend.dashboard')}}">{{trans('backend.title')}}</a>
                 <a href="#" class="x-navigation-control"></a>
             </li>
             <li class="xn-profile">
                 <a href="#" class="profile-mini">
-                    <img src="{{asset('public/assets/images/users/avatar.jpg')}}" alt="John Doe"/>
+                    <img src="{{ Auth()->user()->user_image }}" alt="admin"/>
                 </a>
                 <div class="profile">
                     <div class="profile-image">
-                        <img src="{{ asset('public/assets/images/users/avatar.jpg') }}" alt="John Doe"/>
+                        <img src="{{ Auth()->user()->user_image }}" alt="admin"/>
                     </div>
                     <div class="profile-data">
-                        <div class="profile-data-name">John Doe</div>
-                        <div class="profile-data-title">Web Developer/Designer</div>
+                        <div class="profile-data-name">{{Auth()->user()->first_name}} {{Auth()->user()->last_name}}</div>
+                        <div class="profile-data-title">{{Auth()->user()->email}}</div>
                     </div>
-                    <div class="profile-controls">
-                        <a href="pages-profile.html" class="profile-control-left"><span class="fa fa-info"></span></a>
-                        <a href="pages-messages.html" class="profile-control-right"><span class="fa fa-envelope"></span></a>
-                    </div>
+
                 </div>
             </li>
             <li class="xn-title">Navigation</li>
             <li class="@if(url()->current() == route('backend.dashboard')) active @endif" >
                 <a href="{{route('backend.dashboard')}}"><span class="fa fa-desktop"></span> <span class="xn-text">{{trans('backend.sidemenu.dashboard')}}</span></a>
             </li>
-            <li class="@if(Request::segment(2)) active @endif" >
-                <a href="{{route('backend.products')}}"><span class="fa fa-desktop"></span> <span class="xn-text">{{trans('backend.sidemenu.products')}}</span></a>
+            <li class="@if(Request::segment(2) == 'products') active @endif" >
+                <a href="{{route('backend.products')}}"><span class="fa fa-shopping-cart"></span> <span class="xn-text">{{trans('backend.sidemenu.products')}}</span></a>
             </li>
-            <li class="xn-openable ">
+            <li class="@if(Request::segment(2) == 'category') active @endif" >
+                <a href="{{route('backend.category')}}"><span class="fa fa-bars"></span> <span class="xn-text">{{trans('backend.sidemenu.category')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'subcategory') active @endif" >
+                <a href="{{route('backend.subcategory')}}"><span class="fa fa-bars"></span> <span class="xn-text">{{trans('backend.sidemenu.subcategory')}}</span></a>
+            </li>
+            <li class="xn-openable hidden">
                 <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Pages</span></a>
                 <ul>
                     <li><a href="pages-gallery.html"><span class="fa fa-image"></span> Gallery</a></li>
@@ -109,7 +112,22 @@
         </ul>
         <!-- END X-NAVIGATION -->
     </div>
-
+    <div class="message-box message-box-danger animated fadeIn" data-sound="alert" id="mb-signout">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-sign-out"></span>  <strong>{{trans('backend.action.delete')}}</strong> ?</div>
+                <div class="mb-content">
+                    <p></p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <a href="{{route('backend.logout')}}" class="btn btn-success btn-lg">{{trans('backend.action.yes')}}</a>
+                        <button class="btn btn-default btn-lg mb-control-close">{{trans('backend.action.no')}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <div class="page-content">
 
     <div class="row">

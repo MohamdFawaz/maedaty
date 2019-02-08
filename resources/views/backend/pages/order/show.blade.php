@@ -3,10 +3,10 @@
 
     <div class="page-head">
         <div class="page-head-text">
-            <h1>{{trans('backend.category.details')}}</h1>
+            <h1>{{trans('backend.subcategory.details')}}</h1>
         </div>
         <div class="page-head-controls">
-            <a  href="{{route('backend.category.edit',$category->id)}}" class="btn btn-success btn-rounded"><span class="fa fa-pencil"></span>{{trans('backend.action.edit')}}</a>
+            <a  href="{{route('backend.subcategory.edit',$category->id)}}" class="btn btn-success btn-rounded"><span class="fa fa-pencil"></span>{{trans('backend.action.edit')}}</a>
             <a  href="#" data-box="#mb-delete-product " class="mb-control btn btn-danger btn-rounded"><span class="fa fa-times"></span>{{trans('backend.action.delete')}}</a>
         </div>
     </div>
@@ -17,10 +17,14 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>{{trans('backend.category.name_ar')}}</h3>
+                    <h3>{{trans('backend.subcategory.name_ar')}}</h3>
                     <p>{{$category->translate('ar')->name}}</p>
-                    <h3>{{trans('backend.category.name_en')}}</h3>
+                    <h3>{{trans('backend.subcategory.name_en')}}</h3>
                     <p>{{$category->translate('en')->name}}</p>
+                    @if($category->get_category($category->category_id))
+                    <h3>{{trans('backend.subcategory.super_cat_name')}}</h3>
+                    <p>{{$category->get_category($category->category_id)->translate()->name}}</p>
+                    @endif
                     <div class="tocify-content">
                         <a href="{{$category->category_image}}" target="_blank" >
                             <h2>{{trans('backend.category.image')}}</h2>
@@ -44,7 +48,7 @@
                 </div>
                 <div class="mb-footer">
                     <div class="pull-right">
-                        <form action="{{ route('backend.category.destroy',$category->id) }}" method="POST">
+                        <form action="{{ route('backend.subcategory.destroy',$category->id) }}" method="POST">
                             {{ method_field('DELETE') }}
                             {{ csrf_field() }}
                             <button  class="btn btn-success btn-lg">{{trans('backend.action.yes')}}</button>

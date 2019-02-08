@@ -207,6 +207,7 @@ class UserRepository extends BaseRepository
             // You can set any number of default request options.
             'timeout'  => 2.0,
         ]);
+
         $req = $client->request('GET','https://www.mobily.ws/api/msgSend.php',
             ['query' =>
                 [
@@ -220,7 +221,6 @@ class UserRepository extends BaseRepository
                 ]
             ]
         );
-
         return ['response'=> json_decode($req->getBody()),'code'=>$rand_number];
     }
 

@@ -36,6 +36,12 @@ class Order extends Model
         return $total.config('settings.currency_symbol');
     }
 
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
+
     public function getOrderStatusAttribute($value)
     {
         switch ($value){

@@ -138,6 +138,7 @@ return [
     'order_already_completed'=>'Order Already Completed',
     'promo_code' => 'Promotion Code is Required',
     'activation_code' => 'Activation Code is Required',
+    'body' => 'Message Body is Required',
 
 
 

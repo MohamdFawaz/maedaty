@@ -13,7 +13,7 @@ class Category extends Model
 
     public $translationModel = 'App\Models\Category\CategoryTranslation';
 
-    protected $fillable = ['code'];
+    protected $fillable = ['code','category_image','category_id'];
 
     public function getCategoryImageAttribute($value)
     {
@@ -23,6 +23,19 @@ class Category extends Model
             return asset('public/images/category/no-category.jpg');
         }
     }
+
+
+
+    public function setCategoryImageAttribute($value)
+    {
+        if($value){
+            $img_name = time().rand(1111,9999).'.'.$value->getClientOriginalExtension();
+            $value->move(public_path('images/category/'),$img_name);
+            $this->attributes['category_image'] = $img_name ;
+        }
+    }
+
+
     public function subcategory(){
         return $this->hasMany(SubCategory::class, 'category_id');
     }

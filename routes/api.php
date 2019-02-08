@@ -81,7 +81,7 @@ Route::group(['prefix' => 'product'], function (){
         ->where(['category_id' => '[0-9]+','subcategory_id' => '[0-9]+', 'user_id' => '[0-9]+','cart_item_item' => '[0-9]+']);
     Route::get('/offers/{user_id?}', 'api\ProductController@hotOffers')->where(['user_id' => '[0-9]+']);
     Route::get('/shop/{shop_id}/{user_id?}', 'api\ProductController@getShopProducts')->where(['shop_id' => '[0-9]+','user_id' => '[0-9]+']);
-    Route::get('/search/{search_string}/{user_id?}', 'api\ProductController@searchForProducts')->where(['user_id' => '[0-9]+']);
+    Route::get('/search', 'api\ProductController@searchForProducts')->where(['user_id' => '[0-9]+']);
 });
 
 //Notifications Routes
@@ -99,6 +99,13 @@ Route::group(['prefix' => 'promo'], function (){
 //Point Routes
 Route::group(['prefix' => 'point'], function (){
     Route::post('/redeem', 'api\UserPointController@store');
+});
+
+//Message Routes
+Route::group(['prefix' => 'message'], function (){
+    Route::get('/list/{user_id}', 'api\MessageController@index');
+    Route::post('/send', 'api\MessageController@sendMessage');
+    Route::post('/adminSend', 'api\MessageController@sendAdminMessage');
 });
 
 //Shop Routes

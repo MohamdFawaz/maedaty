@@ -24,6 +24,9 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
 
 });
 Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin'], function () {
+    Route::Auth();
+    Route::group(["middleware" => "auth"], function () {
+
     Route::get('/','HomeController@index')->name('dashboard');
     Route::post('products/updateStatus','ProductController@updateStatus');
     Route::get('products/deleteImage/{$id}','ProductController@deleteImage')->name('del.product.image');
@@ -43,12 +46,27 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
             'update' => 'category.update'
         ]
     ]);
+    Route::resource('subcategory','SubCategoryController',[
+        'names' => [
+            'index' => 'subcategory',
+            'store' => 'subcategory.store',
+            'update' => 'subcategory.update'
+        ]
+    ]);
+    Route::resource('order','OrderController',[
+        'names' => [
+            'index' => 'order',
+            'store' => 'order.store',
+            'update' => 'order.update'
+        ]
+    ]);
     Route::group(['prefix' => 'json', 'as' => 'json.'], function (){
         Route::post('/filterByDate','HomeController@filterOrdersByDate');
         Route::get('/getSales','HomeController@getSalesLineChart');
 
     });
 
+});
 });
 
 
