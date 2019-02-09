@@ -41,6 +41,9 @@
             <li class="@if(Request::segment(2) == 'subcategory') active @endif" >
                 <a href="{{route('backend.subcategory')}}"><span class="fa fa-bars"></span> <span class="xn-text">{{trans('backend.sidemenu.subcategory')}}</span></a>
             </li>
+            <li class="@if(Request::segment(2) == 'order') active @endif" >
+                <a href="{{route('backend.order')}}"><span class="fa fa-files-o"></span> <span class="xn-text">{{trans('backend.sidemenu.order')}}</span></a>
+            </li>
             <li class="xn-openable hidden">
                 <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Pages</span></a>
                 <ul>
@@ -130,7 +133,7 @@
     </div>
 <div class="page-content">
 
-    <div class="row">
+    <div class="row" style="padding: 10px;">
         @yield('content')
     </div>
 </div>

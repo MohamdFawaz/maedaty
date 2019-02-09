@@ -103,5 +103,6 @@ return [
         'list'=>'List Shops',
         'branches'=>'List Branches'
     ],
-    'something_went_wrong' => 'Something Went Wrong, Please Try Again Later'
+    'something_went_wrong' => 'Something Went Wrong, Please Try Again Later',
+    'choose_option' => 'Choose Options'
 ];

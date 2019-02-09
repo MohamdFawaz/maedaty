@@ -9,7 +9,6 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
-
                         <form class="tocify-content" action="{{route('backend.category.store')}}" method="POST" enctype="multipart/form-data">
                             {{ method_field('POST') }}
                             {{ csrf_field() }}
@@ -17,10 +16,14 @@
                             <div class="form-group">
                                 <label for="name_ar">{{trans('backend.category.name_ar')}}</label>
                                 <input type="text" name="name_ar" class="form-control" >
+                                <small class="text-danger">{{ $errors->first('name_ar') }}</small>
+
                             </div>
                             <div class="form-group">
                                 <label for="name_en">{{trans('backend.category.name_en')}}</label>
                                 <input type="text" name="name_en" class="form-control" >
+                                <small class="text-danger">{{ $errors->first('name_en') }}</small>
+
                             </div>
 
                             <h2>{{trans('backend.category.image')}}</h2>
@@ -39,19 +42,20 @@
             </div>
         </div>
 
-    <!-- END PAGE CONTENT WRAPPER -->
-    <!-- MESSAGE BOX-->
-    <div class="message-box message-box-danger animated fadeIn" data-sound="alert" id="mb-delete-product">
-        <div class="mb-container">
-            <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-sign-out"></span>  <strong>{{trans('backend.action.delete')}}</strong> ?</div>
-                <div class="mb-content">
-                    <p>{{trans('backend.question.are_you_sure_delete')}}</p>
-                </div>
-                <div class="mb-footer">
-                    <div class="pull-right">
-                        <a href="#" class="btn btn-success btn-lg">{{trans('backend.action.yes')}}</a>
-                        <button class="btn btn-default btn-lg mb-control-close">{{trans('backend.action.no')}}</button>
+        <!-- END PAGE CONTENT WRAPPER -->
+        <!-- MESSAGE BOX-->
+        <div class="message-box message-box-danger animated fadeIn" data-sound="alert" id="mb-delete-product">
+            <div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title"><span class="fa fa-sign-out"></span>  <strong>{{trans('backend.action.delete')}}</strong> ?</div>
+                    <div class="mb-content">
+                        <p>{{trans('backend.question.are_you_sure_delete')}}</p>
+                    </div>
+                    <div class="mb-footer">
+                        <div class="pull-right">
+                            <a href="#" class="btn btn-success btn-lg">{{trans('backend.action.yes')}}</a>
+                            <button class="btn btn-default btn-lg mb-control-close">{{trans('backend.action.no')}}</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,12 +87,4 @@
 
     <script type="text/javascript" src="{{asset('public/js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <!-- END PAGE PLUGINS -->
-
-@endsection
-
-
-
-
-
-
-
+    @endsection

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use function App\Helpers\getRouteUrl;
+use App\Http\Requests\Backend\Category\StoreCategoryRequest;
+use App\Http\Requests\Backend\Category\UpdateCategoryRequest;
 use App\Models\Category\Category;
 use App\Models\Message\Message;
 use App\Models\Order\Order;
@@ -44,7 +46,7 @@ class CategoryController extends Controller
         return view('backend.pages.category.edit',compact('category'));
     }
 
-    public function update($category_id,Request $request){
+    public function update($category_id,UpdateCategoryRequest $request){
         $category = Category::where('id',$category_id)->first();
         $category->translate('ar')->name = $request->name_ar;
         $category->translate('en')->name = $request->name_en;
@@ -53,7 +55,7 @@ class CategoryController extends Controller
         return redirect('admin/category');
     }
 
-     public function store(Request $request){
+     public function store(StoreCategoryRequest $request){
         $category = new Category();
         $category->create([
                 'category_image' => $request->category_image,

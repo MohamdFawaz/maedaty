@@ -75,7 +75,7 @@ class OrderController extends APIController
                 $updated = $this->repository->update($request->except('jwt_token'));
                 if($updated){
                 //function to delete all items in user cart
-                //$this->cartRepository->deleteAllCartItems($request->user_id);
+                $this->cartRepository->deleteAllCartItems($request->user_id);
                     return $this->respondWithMessage(trans('messages.order.completed'));
                 }else{
                     return $this->respondWithError(trans('messages.something_went_wrong'));

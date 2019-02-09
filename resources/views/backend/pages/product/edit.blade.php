@@ -116,7 +116,7 @@
                 <div class="panel panel-default">
 
                     <div class="panel-body panel-body-image">
-                    <a href="{{route('backend.del.product.image',$image->id)}}"><span class="pull-right"><i class="glyphicon glyphicon-remove "></i></span></a>
+                    <a href="{{route('backend.product.delete.image',$image->id)}}"><span class="pull-right"><i class="glyphicon glyphicon-remove "></i></span></a>
                     <img src="{{$image->image_name}}" class="thumb" alt="product-image-{{$image->id}}" width="30%"/>
                     </div>
                     <div class="panel-footer text-muted">

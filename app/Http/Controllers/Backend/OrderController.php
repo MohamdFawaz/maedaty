@@ -2,36 +2,34 @@
 
 namespace App\Http\Controllers\Backend;
 
-use function App\Helpers\getRouteUrl;
 use App\Models\Category\Category;
-use App\Models\Message\Message;
 use App\Models\Order\Order;
-use App\Models\Product\Product;
-use App\Models\ProductImage\ProductImage;
-use App\Models\Setting\Setting;
-use App\Models\Shop\Shop;
 use App\Models\SubCategory\SubCategory;
-use App\Models\User\User;
-use App\Repositories\Setting\SettingRepository;
+use App\Repositories\Order\OrderRepository;
 use Carbon\Carbon;
-use function GuzzleHttp\Psr7\parse_header;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DB;
 
 class OrderController extends Controller
 {
 
+    protected $repository;
+
+    public function __construct(OrderRepository $repository)
+    {
+        $this->repository = $repository;
+    }
 
     public function index(){
-        $orders = Order::with('user')->get();
+        $orders = Order::with('user')->where('order_status','<>','0')->get();
         return view('backend.pages.order.index',compact('orders'));
     }
 
 
-    public function show($category_id){
-        $category = SubCategory::where('id',$category_id)->first();
-        return view('backend.pages.order.show',compact('category'));
+    public function show($order_id){
+        $order = Order::with('user','address')->where('id',$order_id)->first();
+        $order_products = $this->repository->getOrderProducts($order->products);
+        return view('backend.pages.order.show',compact('order','order_products'));
     }
 
 
@@ -41,10 +39,10 @@ class OrderController extends Controller
         return view('backend.pages.order.create',compact('supercategory'));
     }
 
-    public function edit($category_id){
-        $category = SubCategory::where('id',$category_id)->first();
-        $supercategory = Category::get();
-        return view('backend.pages.order.edit',compact('category','supercategory'));
+    public function edit($order_id){
+        $order = Order::with('user','address')->where('id',$order_id)->first();
+        $order_products = $this->repository->getOrderProducts($order->products);
+        return view('backend.pages.order.edit',compact('order','order_products'));
     }
 
     public function update($category_id,Request $request){

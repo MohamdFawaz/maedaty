@@ -130,11 +130,8 @@ class ProductController extends Controller
     }
 
     public function deleteImage($image_id){
-        $image = ProductImage::whereId($image_id)->destroy();
-        $result = array(
-            'success' => truedeleteImage
-        );
-        return response()->json($result,200);
+        ProductImage::whereId($image_id)->delete();
+        return redirect()->back();
     }
 
 

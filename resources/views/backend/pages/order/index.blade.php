@@ -9,23 +9,20 @@
                 <!-- START DEFAULT DATATABLE -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{trans('backend.category.list')}}</h3>
-                        <ul class="panel-controls">
-                            <a href="{{route('backend.subcategory.create')}}" >
-                                <span class="btn btn-success">{{trans('backend.action.create')}}</span>
-                            </a>
-                        </ul>
+                        <h3 class="panel-title">{{trans('backend.order.list')}}</h3>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table datatable" id="products-table">
                                 <thead>
                                 <tr>
-                                    <th>{{trans('backend.subcategory.id')}}</th>
-                                    <th>{{trans('backend.subcategory.name_ar')}}</th>
-                                    <th>{{trans('backend.subcategory.name_en')}}</th>
-                                    <th>{{trans('backend.subcategory.super_cat_name')}}</th>
-                                    <th>{{trans('backend.subcategory.action')}}</th>
+                                    <th>{{trans('backend.order.id')}}</th>
+                                    <th>{{trans('backend.order.order_number')}}</th>
+                                    <th>{{trans('backend.order.username')}}</th>
+                                    <th>{{trans('backend.order.total_fees')}}</th>
+                                    <th>{{trans('backend.order.order_date')}}</th>
+                                    <th>{{trans('backend.order.status')}}</th>
+                                    <th>{{trans('backend.order.action')}}</th>
 
                                 </tr>
                                 </thead>
@@ -34,9 +31,11 @@
                                 <tr>
                                     <td>{{$order->id}}</td>
                                     <td>{{$order->order_number}}</td>
-                                    <td>{{$order->user()->first_name." ".$order->user()->last_name}}</td>
-                                    <td>{{($order->}}</td>
-                                    <td>{!! $category->action !!}</td>
+                                    <td>{{$order->user->first_name." ".$order->user->last_name}}</td>
+                                    <td>{{ $order->total_fees }}</td>
+                                    <td>{{ $order->order_date }}</td>
+                                    <td>{{ $order->order_status }}</td>
+                                    <td>{!! $order->action !!}</td>
                                 </tr>
                                 @endforeach
                                 </tbody>

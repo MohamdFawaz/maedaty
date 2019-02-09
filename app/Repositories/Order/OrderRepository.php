@@ -144,6 +144,7 @@ class OrderRepository extends BaseRepository
             foreach ($order_products as $order_product) {
                 $product_item['qty'] = $order_product['qty'];
                 $product_item['purchase_price'] = (double)$order_product['purchase_price'];
+                $product_item['product_total'] = $order_product['purchase_price']*$order_product['qty'];
                 $product_item['product'] = $this->productRepository->getProductById($order_product['product_id']);
                 $product_list[] = $product_item;
             }

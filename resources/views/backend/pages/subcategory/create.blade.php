@@ -17,19 +17,23 @@
                             <div class="form-group">
                                 <label for="name_ar">{{trans('backend.subcategory.name_ar')}}</label>
                                 <input type="text" name="name_ar" class="form-control" >
+                                <small class="text-danger">{{ $errors->first('name_ar') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="name_en">{{trans('backend.subcategory.name_en')}}</label>
                                 <input type="text" name="name_en" class="form-control" >
+                                <small class="text-danger">{{ $errors->first('name_en') }}</small>
                             </div>
 
                             <div class="form-group">
                                 <label for="name_en">{{trans('backend.subcategory.super_cat_name')}}</label>
                                 <select class="form-control" name="category_id">
-                                    @foreach($supercategory as $super)
+                                    <option value="">{{trans('messages.choose_option')}}</option>
+                                @foreach($supercategory as $super)
                                         <option value="{{$super->id}}">{{$super->translate()->name}}</option>
                                     @endforeach
                                 </select>
+                                <small class="text-danger">{{ $errors->first('category_id') }}</small>
                             </div>
                             <h2>{{trans('backend.subcategory.image')}}</h2>
                             <div class="image-upload friend" >
