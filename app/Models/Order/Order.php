@@ -42,12 +42,13 @@ class Order extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
     public function address()
     {
         return $this->belongsTo(Address::class,'delivery_address_id');
     }
 
-    public function getOrderStatusAttribute($value)
+    public function getOrderStatusStringAttribute($value)
     {
         switch ($value){
             case 0:
@@ -66,13 +67,25 @@ class Order extends Model
 
     public function getOrderStatusLabelAttribute()
     {
-        if($this->order_status == 0){
-            return trans('status.order.unconfirmed_order');
-        }else{
-            return trans('status.order.missing_info');
+        switch ($this->OrderStatus()){
+            case 0:
+                return "<span class='label label-form label-success'>".trans('status.order.unconfirmed_order')."</span>";
+                break;
+            case 1:
+                return "<span class='label label-form label-success'>".trans('status.order.new_order')."</span>";
+                break;
+            case 2:
+                return "<span class='label label-form label-success'>".trans('status.order.processing')."</span>";
+                break;
+            default:
+                return "<span class='label label-form label-success'>".trans('status.order.missing_info')."</span>";
         }
     }
 
+
+    public function OrderStatus(){
+        return $this->order_status;
+    }
 
     public function getActionAttribute()
     {

@@ -49,6 +49,7 @@ class NotificationRepository extends BaseRepository
             ),
             'notification' => array (
                     "title" => $title,
+                    "body" => $message,
                     "message" => $message,
                     "type" => $type
             )
@@ -67,7 +68,6 @@ class NotificationRepository extends BaseRepository
     curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
 
     $result = curl_exec ( $ch );
-    echo $result;
     curl_close ( $ch );
 }
 

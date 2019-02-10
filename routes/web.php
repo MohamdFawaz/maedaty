@@ -34,6 +34,7 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
     Route::get('logout','Auth\LoginController@logout')->name('logout');
     Route::get('category/delete/{category_id}','CategoryController@destroy')->name('category.delete');
     Route::get('product/deleteImage/{product_id}','ProductController@deleteImage')->name('product.delete.image');
+    Route::post('order/change','OrderController@changeOrderStatus')->name('change.order.address');
     Route::resource('products','ProductController',[
         'names' => [
             'index' => 'products',

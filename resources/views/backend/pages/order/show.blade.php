@@ -6,13 +6,19 @@
             <h1>{{trans('backend.order.details')}}</h1>
         </div>
         <div class="page-head-controls">
-            <a class="btn btn-success btn-rounded"><span class="fa fa-pencil"></span>{{trans('backend.action.edit')}}</a>
+            <button class="btn btn-success btn-rounded" data-toggle="modal" data-target="#edit-order"><span class="fa fa-pencil"></span>{{trans('backend.action.edit')}}</button>
         </div>
+        <!-- Button trigger modal -->
+        {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">--}}
+            {{--Launch demo modal--}}
+        {{--</button>--}}
     </div>
     <!-- PAGE CONTENT WRAPPER -->
     <div class="panel panel-default" style="padding: 20px" id="print_area">
         <div class="panel-body">
             <h2>{{trans('backend.order.order_number')}} <strong>#{{$order->order_number}}</strong></h2>
+            <h2>{{trans('backend.order.order_status')}} <strong>{!! $order->order_status_label !!}</strong></h2>
+
             <div class="push-down-10 pull-right">
                 <button class="btn btn-default" id="print"><span class="fa fa-print"></span> Print</button>
             </div>
@@ -134,40 +140,50 @@
         </div>
     </div>    <!-- END PAGE CONTENT WRAPPER -->
     <!-- MESSAGE BOX-->
+    <div class="modal fade" id="edit-order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{trans('backend.order.update_order')}}
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>
 
+                </div>
+                <form action="{{route('backend.change.order.address')}}" method="post">
+                <div class="modal-body">
+                        <input type="hidden" value="{{csrf_token()}}" name="_token" />
+                        <input type="hidden" value="{{$order->id}}" name="order_id" />
+                        {{method_field('post')}}
+
+                        <div class="form-group">
+                            <label for="order_status">{{trans('backend.action.change_order_status')}}</label>
+                            <select name="order_status" id="order_status" class="form-control" >
+                                <option value="">{{trans('messages.choose_option')}}</option>
+                            @foreach($order_status as $status)
+                                <option value="{{$status->id}}" @if($order->order_status == $status->id) selected @endif>{{$status->name}}</option>
+                            @endforeach
+                        </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping_fees">{{trans('backend.order.shipping')}}</label>
+                            <input name="shipping_fees" id="shipping_fees" class="form-control" @if($order->shipping_fees && $order->order_status == 2 || $order->order_status == 3)  value="{{$order->shipping_fees}}" readonly @endif/>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{trans('backend.action.close')}}</button>
+                    <button type="submit" class="btn btn-primary">{{trans('backend.action.submit')}}</button>
+                </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
     <script type="text/javascript">
-        $(".status").change(function(){
-            var product_id=$(this).attr('id');
-            var status_val=$(this).attr('value');
-            if(status_val==0)
-            {
-                status_val=1;
-                $('#'+product_id).val("1");
-            }else{
-                status_val=0;
-                $('#'+product_id).val("0");
-            }
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.post('{{url()->current()."/updateStatus"}}',
-                {product_id:product_id,status:status_val},
-                function(data){
-                    if(data.success){
-                        if(data.status == 1){
-                            $("#label-"+product_id).toggleClass('label-danger label-success');
-                            $("#label-"+product_id).html('{{trans('backend.products.active')}}');
-                        }else{
-                            $("#label-"+product_id).toggleClass('label-danger label-success');
-                            $("#label-"+product_id).html('{{trans('backend.products.not_active')}}');
-                        }
-                    }
-            });
-        });
+
         $('#print').click(function(){
             window.print();
         });

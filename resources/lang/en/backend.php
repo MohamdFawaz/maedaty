@@ -119,6 +119,8 @@ return [
         'shipping' => 'Shipping Fees',
         'used_promo' => 'Promo Code Used?',
         'used_points' => 'Points Used?',
+        'update_order' => 'Update Order',
+        'order_updated' => 'Order Updated',
     ],
     'title' => 'Maedaty',
     'action' => [
@@ -128,6 +130,9 @@ return [
         'delete' => 'Delete',
         'yes' => 'Yes',
         'no' => 'No',
+        'submit' => 'Submit',
+        'close' => 'Close',
+        'change_order_status' => 'Change Order Status',
     ],
     'select' => [
         'choose' => 'Choose Option',
