@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Requests\Address\EditAddressRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Address\Address;
 use App\Http\Requests\Address\StoreAddressRequest;
@@ -36,7 +37,7 @@ class AddressController extends APIController
         $addresses = $this->repository->getAllUserAddress($user_id);
         $data = $this->repository->getAllAddressDetails($addresses);
         return $this->respond(
-            200,
+            TestController::$SUCCESS,
             trans('messages.address.list'),
             $data
             );

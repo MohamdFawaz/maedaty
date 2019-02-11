@@ -7,6 +7,7 @@ use App\Models\Category\Category;
 use App\Models\Message\Message;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
+use App\Models\Product\ProductTranslation;
 use App\Models\ProductImage\ProductImage;
 use App\Models\Setting\Setting;
 use App\Models\Shop\Shop;
@@ -109,6 +110,7 @@ class ProductController extends Controller
 
     public function destroy($product_id){
         Product::where('id',$product_id)->delete();
+        ProductTranslation::where('product_id',$product_id)->delete();
         return redirect('admin/products');
     }
 

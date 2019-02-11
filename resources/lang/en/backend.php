@@ -33,7 +33,10 @@ return [
         'products' => 'Products',
         'category' => 'Category',
         'subcategory' => 'Sub Categories',
-        'order' => 'Order'
+        'order' => 'Order',
+        'reviews' => 'Reviews',
+        'suggestion' => 'Suggestion',
+        'setting' => 'Setting'
     ],
 
     'products' => [
@@ -86,6 +89,41 @@ return [
         'image' => 'SubCategory Image',
         'list' => 'SubCategories List',
         'details' => 'SubCategory Details',
+    ],
+    'review' => [
+        'list' => 'List',
+        'id' => 'ID',
+        'username' => 'User Name',
+        'review' => 'Review',
+        'on_product' => 'On Product',
+        'comment' => 'Comment',
+        'rate_value' => 'Rate',
+        'action' => 'Action',
+        'active' => 'Active',
+    ],
+    'setting' => [
+        'list' => 'List',
+        'id' => 'ID',
+        'username' => 'User Name',
+        'review' => 'Review',
+        'on_product' => 'On Product',
+        'comment' => 'Comment',
+        'rate_value' => 'Rate',
+        'action' => 'Action',
+        'active' => 'Active',
+    ],
+    'suggestion' => [
+        'list' => 'List',
+        'id' => 'ID',
+        'username' => 'User Name',
+        'review' => 'Review',
+        'date' => 'Date',
+        'on_product' => 'On Product',
+        'comment' => 'Comment',
+        'rate_value' => 'Rate',
+        'action' => 'Action',
+        'active' => 'Active',
+        'suggestion' => 'Suggestion',
     ],
     'order' => [
         'id' => 'ID',

@@ -34,7 +34,7 @@
                                     <td>{{$order->user->first_name." ".$order->user->last_name}}</td>
                                     <td>{{ $order->total_fees }}</td>
                                     <td>{{ $order->order_date }}</td>
-                                    <td>{{ $order->order_status }}</td>
+                                    <td>{!!  $order->order_status_label !!}</td>
                                     <td>{!! $order->action !!}</td>
                                 </tr>
                                 @endforeach
@@ -52,54 +52,28 @@
 
     </div>
     <!-- PAGE CONTENT WRAPPER -->
+
 @endsection
+
 @section('script')
     <script type="text/javascript">
-        $(".status").change(function(){
 
-            var product_id=$(this).attr('id');
-            var status_val=$(this).attr('value');
-            if(status_val==0)
-            {
-                status_val=1;
-                $('#'+product_id).val("1");
-            }else{
-                status_val=0;
-                $('#'+product_id).val("0");
-            }
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.post('{{url()->current()."/updateStatus"}}',
-                {product_id:product_id,status:status_val},
-                function(data){
-                    if(data.success){
-                        if(data.status == 1){
-                            $("#label-"+product_id).toggleClass('label-danger label-success');
-                            $("#label-"+product_id).html('{{trans('backend.products.active')}}');
-                        }else{
-                            $("#label-"+product_id).toggleClass('label-danger label-success');
-                            $("#label-"+product_id).html('{{trans('backend.products.not_active')}}');
-                        }
-                    }
-
-            });
+        $('.delete-category-btn').click(function(){
+            console.log('test');
         });
         $(document).ready(function() {
-            $('.datatable').dataTable( {
+            $('#products-table').dataTable( {
                 "lengthMenu": [5, 7, 10],
                 "pageLength": 5
             } );
+
         } );
     </script>
     <!-- THIS PAGE PLUGINS -->
     <script type='text/javascript' src="{{asset('public/js/plugins/icheck/icheck.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('public/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js')}}"></script>
 
-    <script type="text/javascript" src="{{asset('public/js/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    {{--<script type="text/javascript" src="{{asset('public/js/plugins/datatables/jquery.dataTables.min.js')}}"></script>--}}
     <!-- END PAGE PLUGINS -->
 
 @endsection

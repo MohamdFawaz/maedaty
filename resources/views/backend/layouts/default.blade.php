@@ -44,6 +44,15 @@
             <li class="@if(Request::segment(2) == 'order') active @endif" >
                 <a href="{{route('backend.order')}}"><span class="fa fa-files-o"></span> <span class="xn-text">{{trans('backend.sidemenu.order')}}</span></a>
             </li>
+            <li class="@if(Request::segment(2) == 'review') active @endif" >
+                <a href="{{route('backend.review')}}"><span class="fa fa-comment"></span> <span class="xn-text">{{trans('backend.sidemenu.reviews')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'suggestion') active @endif" >
+                <a href="{{route('backend.suggestion')}}"><span class="fa fa-comment"></span> <span class="xn-text">{{trans('backend.sidemenu.suggestion')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'setting') active @endif" >
+                <a href="{{route('backend.suggestion')}}"><span class="fa fa-cog"></span> <span class="xn-text">{{trans('backend.sidemenu.setting')}}</span></a>
+            </li>
             <li class="xn-openable hidden">
                 <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Pages</span></a>
                 <ul>
@@ -131,6 +140,7 @@
             </div>
         </div>
     </div>
+    @yield('message-box')
 <div class="page-content">
 
     <div class="row" style="padding: 10px;">

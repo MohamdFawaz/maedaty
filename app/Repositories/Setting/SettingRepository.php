@@ -28,6 +28,11 @@ class SettingRepository extends BaseRepository
         $this->model = $model;
     }
 
+    public function getAll(){
+        $settings = Setting::get();
+        return $settings;
+    }
+
     public function getSettingByKey($key){
         $value = Setting::where('key',$key)->pluck('value')->first();
         return $value;

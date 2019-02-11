@@ -60,6 +60,9 @@ class Order extends Model
             case 2:
                 return trans('status.order.processing');
             break;
+            case 3:
+                return trans('status.order.delivered');
+            break;
             default:
                 return trans('status.order.missing_info');
         }
@@ -69,16 +72,19 @@ class Order extends Model
     {
         switch ($this->OrderStatus()){
             case 0:
-                return "<span class='label label-form label-success'>".trans('status.order.unconfirmed_order')."</span>";
+                return "<span class='label label-form label-warning'>".trans('status.order.unconfirmed_order')."</span>";
                 break;
             case 1:
-                return "<span class='label label-form label-success'>".trans('status.order.new_order')."</span>";
+                return "<span class='label label-form label-info'>".trans('status.order.new_order')."</span>";
                 break;
             case 2:
-                return "<span class='label label-form label-success'>".trans('status.order.processing')."</span>";
+                return "<span class='label label-form label-primary'>".trans('status.order.processing')."</span>";
+                break;
+            case 3:
+                return "<span class='label label-form label-success'>".trans('status.order.delivered')."</span>";
                 break;
             default:
-                return "<span class='label label-form label-success'>".trans('status.order.missing_info')."</span>";
+                return "<span class='label label-form label-danger'>".trans('status.order.missing_info')."</span>";
         }
     }
 
@@ -90,16 +96,9 @@ class Order extends Model
     public function getActionAttribute()
     {
         $action = "";
-
         $action .= "<a href=".url()->current()."/".$this->id.">
                     <button type=\"button\" class=\"btn btn-success btn-condensed active\"> <i class='glyphicon glyphicon-eye-open' ></i></button>
                     </a>";
-//        $action .= "<a href=".url()->current()."/".$this->id."/edit".">
-//                    <button type=\"button\" class=\"btn btn-success btn-condensed active\"> <i class='glyphicon glyphicon-pencil' ></i></button>
-//                    </a>";
-//        $action .= '<a href="'.route('backend.order.destroy',$this->id).'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
-
-        $action .= "";
         return $action;
     }
 

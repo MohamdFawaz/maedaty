@@ -5,26 +5,27 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Order\Order;
 use App\Models\ORderStatus\OrderStatus;
 use App\Models\SubCategory\SubCategory;
+use App\Models\UserReview\UserReview;
 use App\Repositories\Order\OrderRepository;
 use App\Repositories\PushNotification\NotificationRepository;
+use App\Repositories\UserReview\UserReviewRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class OrderController extends Controller
+class UserReviewsController extends Controller
 {
 
     protected $repository;
-    protected $notificationRepository;
 
-    public function __construct(OrderRepository $repository,NotificationRepository $notificationRepository)
+    public function __construct(UserReviewRepository $repository)
     {
         $this->repository = $repository;
-        $this->notificationRepository= $notificationRepository;
     }
 
     public function index(){
-        $orders = Order::with('user')->where('order_status','<>','0')->get();
-        return view('backend.pages.order.index',compact('orders'));
+        $userReviews = $this->repository->getAll();
+
+        return view('backend.pages.user_review.index',compact('userReviews'));
     }
 
 
@@ -81,9 +82,9 @@ class OrderController extends Controller
         }
 
 
-    public function destroy($category_id){
-        SubCategory::where('id',$category_id)->delete();
-        return redirect('admin/order');
+    public function destroy($review_id){
+        UserReview::where('id',$review_id)->delete();
+        return redirect('admin/review');
     }
 
     public function deleteProduct($category_id){
