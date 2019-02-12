@@ -31,12 +31,12 @@ return [
     'sidemenu' => [
         'dashboard' => 'Dashboard',
         'products' => 'Products',
-        'category' => 'Category',
+        'category' => 'Categories',
         'subcategory' => 'Sub Categories',
-        'order' => 'Order',
+        'order' => 'Orders',
         'reviews' => 'Reviews',
-        'suggestion' => 'Suggestion',
-        'setting' => 'Setting'
+        'suggestion' => 'Suggestions',
+        'setting' => 'Settings'
     ],
 
     'products' => [
@@ -75,6 +75,20 @@ return [
         'list' => 'Categories List',
         'details' => 'Category Details',
     ],
+    'shop' => [
+        'id' => 'ID',
+        'name_ar' => 'Arabic Name',
+        'name_en' => 'English Name',
+        'shop' => 'Shop',
+        'price' => 'Price',
+        'status' => 'Status',
+        'action' => 'Action',
+        'active' => 'Active',
+        'not_active' => 'Not Active',
+        'image' => 'Shop Image',
+        'list' => 'Shop List',
+        'details' => 'Shop Details',
+    ],
     'subcategory' => [
         'id' => 'ID',
         'name_ar' => 'Arabic Name',
@@ -111,6 +125,17 @@ return [
         'rate_value' => 'Rate',
         'action' => 'Action',
         'active' => 'Active',
+        'terms_and_conditions_en' => 'English Terms and Conditions',
+        'terms_and_conditions_ar' => 'Arabic Terms and Conditions',
+        'about_us_ar' => 'Arabic About Us',
+        'about_us_en' => 'English About us ',
+        'sms_username' => 'SMS Account Username',
+        'sms_password' => 'SMS Account Password',
+        'sms_message' => 'SMS Message',
+        'sms_sender' => 'SMS Sender',
+        'range' => 'Points Range',
+        'amount' => 'Points Discount Amount',
+        'points_range_example' => 'Example: 1-100',
     ],
     'suggestion' => [
         'list' => 'List',

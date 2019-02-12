@@ -78,6 +78,13 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
             'show' => 'suggestion.show'
         ]
     ]);
+    Route::resource('shop','ShopController',[
+        'names' => [
+            'index' => 'shop',
+            'show' => 'shop.show',
+            'edit' => 'shop.edit'
+        ]
+    ]);
     Route::resource('settings','SettingController');
 
     Route::group(['prefix' => 'json', 'as' => 'json.'], function (){

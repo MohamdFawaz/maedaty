@@ -159,7 +159,7 @@
 
                         <div class="form-group">
                             <label for="order_status">{{trans('backend.action.change_order_status')}}</label>
-                            <select name="order_status" id="order_status" class="form-control" >
+                            <select name="order_status" id="order_status" class="form-control show-tick" >
                                 <option value="">{{trans('messages.choose_option')}}</option>
                             @foreach($order_status as $status)
                                 <option value="{{$status->id}}" @if($order->order_status == $status->id) selected @endif>{{$status->name}}</option>

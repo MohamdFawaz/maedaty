@@ -58,9 +58,6 @@
 @section('script')
     <script type="text/javascript">
 
-        $('.delete-category-btn').click(function(){
-            console.log('test');
-        });
         $(document).ready(function() {
             $('#products-table').dataTable( {
                 "lengthMenu": [5, 7, 10],

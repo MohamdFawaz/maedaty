@@ -4,7 +4,6 @@
     @include('backend.includes.head')
 </head>
 <body>
-@include('backend.includes.header')
 <div class="page-container">
     <div class="page-sidebar">
         <!-- START X-NAVIGATION -->
@@ -48,10 +47,10 @@
                 <a href="{{route('backend.review')}}"><span class="fa fa-comment"></span> <span class="xn-text">{{trans('backend.sidemenu.reviews')}}</span></a>
             </li>
             <li class="@if(Request::segment(2) == 'suggestion') active @endif" >
-                <a href="{{route('backend.suggestion')}}"><span class="fa fa-comment"></span> <span class="xn-text">{{trans('backend.sidemenu.suggestion')}}</span></a>
+                <a href="{{route('backend.suggestion')}}"><span class="fa fa-comments-o"></span> <span class="xn-text">{{trans('backend.sidemenu.suggestion')}}</span></a>
             </li>
             <li class="@if(Request::segment(2) == 'setting') active @endif" >
-                <a href="{{route('backend.suggestion')}}"><span class="fa fa-cog"></span> <span class="xn-text">{{trans('backend.sidemenu.setting')}}</span></a>
+                <a href="{{route('backend.settings.edit',1)}}"><span class="fa fa-cog"></span> <span class="xn-text">{{trans('backend.sidemenu.setting')}}</span></a>
             </li>
             <li class="xn-openable hidden">
                 <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Pages</span></a>
@@ -142,6 +141,7 @@
     </div>
     @yield('message-box')
 <div class="page-content">
+    @include('backend.includes.header')
 
     <div class="row" style="padding: 10px;">
         @yield('content')

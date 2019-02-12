@@ -6806,6 +6806,9 @@ div.datepicker thead tr:first-child th:hover {
   padding: 0;
   border: none;
 }
+textarea {
+    resize:vertical;
+}
 .bootstrap-select.btn-group.pull-right,
 .bootstrap-select.btn-group[class*="span"].pull-right,
 .row-fluid .bootstrap-select.btn-group[class*="span"].pull-right {

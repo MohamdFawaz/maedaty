@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Order\Order;
-use App\Models\ORderStatus\OrderStatus;
+use App\Models\OrderStatus\OrderStatus;
 use App\Models\SubCategory\SubCategory;
 use App\Repositories\Order\OrderRepository;
 use App\Repositories\PushNotification\NotificationRepository;

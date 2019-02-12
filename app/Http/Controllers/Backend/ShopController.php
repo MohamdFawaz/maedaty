@@ -4,22 +4,23 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Requests\Backend\Setting\UpdateSettingRequest;
 use App\Repositories\Setting\SettingRepository;
+use App\Repositories\Shop\ShopRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class SettingController extends Controller
+class ShopController extends Controller
 {
 
     protected $repository;
 
-    public function __construct(SettingRepository $repository)
+    public function __construct(ShopRepository $repository)
     {
         $this->repository = $repository;
     }
 
     public function index(){
-        $setting = $this->repository->getAll();
-        return view('backend.pages.setting.index',compact('setting'));
+        $shops = $this->repository->getAll();
+        return view('backend.pages.shop.index',compact('shops'));
     }
 
 
