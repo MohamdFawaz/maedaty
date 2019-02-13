@@ -88,7 +88,12 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
     Route::resource('settings','SettingController');
 
     Route::post('message/get_messages','MessageController@listMessages')->name('list.messages');
-    Route::resource('message','MessageController');
+    Route::post('message/send_message','MessageController@sendMessage')->name('send.messages');
+    Route::resource('message','MessageController',[
+        'names' => [
+            'index' => 'message'
+        ]
+    ]);
 
     Route::group(['prefix' => 'json', 'as' => 'json.'], function (){
         Route::post('/filterByDate','HomeController@filterOrdersByDate');

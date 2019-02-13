@@ -35,7 +35,9 @@ return [
         'subcategory' => 'Sub Categories',
         'order' => 'Orders',
         'reviews' => 'Reviews',
+        'messages' => 'Messages',
         'suggestion' => 'Suggestions',
+        'shop' => 'Shops',
         'setting' => 'Settings'
     ],
 
@@ -88,6 +90,10 @@ return [
         'image' => 'Shop Image',
         'list' => 'Shop List',
         'details' => 'Shop Details',
+    ],
+    'message' => [
+        'admin_chat' => 'Admin Chat',
+        'recent' => 'Recent',
     ],
     'subcategory' => [
         'id' => 'ID',

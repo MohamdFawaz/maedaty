@@ -3,11 +3,10 @@
 
     <div class="page-head">
         <div class="page-head-text">
-            <h1>{{trans('backend.subcategory.details')}}</h1>
+            <h1>{{trans('backend.shop.details')}}</h1>
         </div>
         <div class="page-head-controls">
-            <a  href="{{route('backend.subcategory.edit',$category->id)}}" class="btn btn-success btn-rounded"><span class="fa fa-pencil"></span>{{trans('backend.action.edit')}}</a>
-            <a  href="#" data-box="#mb-delete-product " class="mb-control btn btn-danger btn-rounded"><span class="fa fa-times"></span>{{trans('backend.action.delete')}}</a>
+            <a  href="{{route('backend.shop.edit',$shop->id)}}" class="btn btn-success btn-rounded"><span class="fa fa-pencil"></span>{{trans('backend.action.edit')}}</a>
         </div>
     </div>
     <!-- PAGE CONTENT WRAPPER -->
@@ -17,18 +16,14 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>{{trans('backend.subcategory.name_ar')}}</h3>
-                    <p>{{$category->translate('ar')->name}}</p>
-                    <h3>{{trans('backend.subcategory.name_en')}}</h3>
-                    <p>{{$category->translate('en')->name}}</p>
-                    @if($category->get_category($category->category_id))
-                    <h3>{{trans('backend.subcategory.super_cat_name')}}</h3>
-                    <p>{{$category->get_category($category->category_id)->translate()->name}}</p>
-                    @endif
+                    <h3>{{trans('backend.shop.name_ar')}}</h3>
+                    <p>{{$shop->translate('ar')->name}}</p>
+                    <h3>{{trans('backend.shop.name_en')}}</h3>
+                    <p>{{$shop->translate('en')->name}}</p>
                     <div class="tocify-content">
-                        <a href="{{$category->category_image}}" target="_blank" >
-                            <h2>{{trans('backend.category.image')}}</h2>
-                            <img class="image thumbnail" alt="thumbnail" src="{{$category->category_image}}" style="width: 300px">
+                        <a href="{{$shop->img}}" target="_blank" class="friend" >
+                            <h2>{{trans('backend.shop.image')}}</h2>
+                            <img class="image thumbnail friend"  alt="thumbnail" src="{{$shop->image}}" style="width: 50%">
                         </a>
                     </div>
                 </div>
@@ -38,28 +33,7 @@
 
 </div>
     <!-- END PAGE CONTENT WRAPPER -->
-    <!-- MESSAGE BOX-->
-    <div class="message-box message-box-danger animated fadeIn" data-sound="alert" id="mb-delete-product">
-        <div class="mb-container">
-            <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-sign-out"></span>  <strong>{{trans('backend.action.delete')}}</strong> ?</div>
-                <div class="mb-content">
-                    <p>{{trans('backend.question.are_you_sure_delete')}}</p>
-                </div>
-                <div class="mb-footer">
-                    <div class="pull-right">
-                        <form action="{{ route('backend.subcategory.destroy',$category->id) }}" method="POST">
-                            {{ method_field('DELETE') }}
-                            {{ csrf_field() }}
-                            <button  class="btn btn-success btn-lg">{{trans('backend.action.yes')}}</button>
-                            <button class="btn btn-default btn-lg mb-control-close">{{trans('backend.action.no')}}</button>
 
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 @section('script')
     <script type="text/javascript">

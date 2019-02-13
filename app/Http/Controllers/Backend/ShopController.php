@@ -24,6 +24,11 @@ class ShopController extends Controller
     }
 
 
+    public function show($shop_id){
+        $shop = $this->repository->getShopById($shop_id);
+        return view('backend.pages.shop.show',compact('shop'));
+    }
+
     public function edit($setting_id){
         $setting= $this->repository->getAll();
         $points_rules = json_decode($setting->points);

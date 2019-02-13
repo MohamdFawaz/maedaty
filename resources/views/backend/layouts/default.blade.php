@@ -46,8 +46,14 @@
             <li class="@if(Request::segment(2) == 'review') active @endif" >
                 <a href="{{route('backend.review')}}"><span class="fa fa-comment"></span> <span class="xn-text">{{trans('backend.sidemenu.reviews')}}</span></a>
             </li>
+            <li class="@if(Request::segment(2) == 'message') active @endif" >
+                <a href="{{route('backend.message')}}"><span class="fa fa-comments"></span> <span class="xn-text">{{trans('backend.sidemenu.messages')}}</span></a>
+            </li>
             <li class="@if(Request::segment(2) == 'suggestion') active @endif" >
                 <a href="{{route('backend.suggestion')}}"><span class="fa fa-comments-o"></span> <span class="xn-text">{{trans('backend.sidemenu.suggestion')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'shop') active @endif" >
+                <a href="{{route('backend.shop')}}"><span class="fa fa-home"></span> <span class="xn-text">{{trans('backend.sidemenu.shop')}}</span></a>
             </li>
             <li class="@if(Request::segment(2) == 'setting') active @endif" >
                 <a href="{{route('backend.settings.edit',1)}}"><span class="fa fa-cog"></span> <span class="xn-text">{{trans('backend.sidemenu.setting')}}</span></a>

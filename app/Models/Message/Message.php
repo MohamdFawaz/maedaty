@@ -14,7 +14,7 @@ class Message extends Model
      *
      * @var array
      */
-    protected $fillable = ['user','body'];
+    protected $fillable = ['user','body','message_read'];
 
     public function getHumanCreatedAtAttribute()
     {

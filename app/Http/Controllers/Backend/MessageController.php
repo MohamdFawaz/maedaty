@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Http\Requests\User\AdminSendMessageRequest;
 use App\Models\Message\Message;
 use App\Models\Order\Order;
 use App\Models\OrderStatus\OrderStatus;
 use App\Models\SubCategory\SubCategory;
+use App\Repositories\Message\MessageRepository;
 use App\Repositories\Order\OrderRepository;
+use App\Models\User\User;
 use App\Repositories\PushNotification\NotificationRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,44 +18,41 @@ class MessageController extends Controller
 {
 
     protected $repository;
+    protected $notificationRepository;
 
-    public function __construct(OrderRepository $repository)
+    public function __construct(MessageRepository $repository,NotificationRepository $notificationRepository)
     {
         $this->repository = $repository;
+        $this->notificationRepository = $notificationRepository;
     }
 
     public function index(){
-        $inbox_users = Message::groupBy('user')->where('user','<>','admin')->latest()->get();
-        $messages = Message::get();
-        return view('backend.pages.message.index',compact('inbox_users','messages'));
+        $inbox_users = Message::where('user','<>','admin')->orderBy('created_at','DESC')->groupBy('user')->get();
+        $inbox_users = $this->repository->getLatestMessage($inbox_users);
+        return view('backend.pages.message.index',compact('inbox_users'));
     }
 
 
     public function listMessages(Request $request){
-        $messages = Message::where('user',$request->user_id)->orWhere('target',$request->user_id)->get();
+        $messages = Message::where('user',$request->user_id)->orWhere('target',$request->user_id)->orderBy('created_at','ASC')->get();
         return response()->json($messages);
     }
 
 
-    public function edit($order_id){
-        $order = Order::with('user','address')->where('id',$order_id)->first();
-        $order_products = $this->repository->getOrderProducts($order->products);
-        return view('backend.pages.order.edit',compact('order','order_products'));
+    public function sendMessage(AdminSendMessageRequest $request){
+        $sent = $this->repository->createAdminMessage($request->all());
+        if($sent){
+            $user = User::whereId($request->user_id)->first();
+            $this->notificationRepository->sendGCM($request->body,'chat',$user->firebase_token);
+            $status = ['status' => true,'message' => $sent];
+            return response()->json($status);
+        }else{
+            $status = ['status' => false];
+            return response()->json($status);
+        }
+
     }
 
-
-    public function changeOrderStatus(Request $request){
-        $order = $this->repository->getOrderByID($request->order_id);
-        $order->order_status = $request->order_status;
-        if($request->shipping_fees){
-            $order->shipping_fees = $request->shipping_fees;
-        }
-        if($order->save()){
-            app()->setLocale($order->user->lang);
-            $this->notificationRepository->sendGCM("".trans('messages.order_updated')."".$order->order_status_string."",'notification',$order->user->firebase_token);
-            return redirect(route('backend.order.show',$order->id));
-        }
-    }
 
 
 
