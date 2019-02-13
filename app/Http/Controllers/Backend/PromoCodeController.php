@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Category\Category;
 use App\Models\Order\Order;
 use App\Models\OrderStatus\OrderStatus;
 use App\Models\SubCategory\SubCategory;
 use App\Repositories\Order\OrderRepository;
 use App\Repositories\PushNotification\NotificationRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class OrderController extends Controller
+class PromoCodeController extends Controller
 {
 
     protected $repository;
-    protected $notificationRepository;
 
-    public function __construct(OrderRepository $repository,NotificationRepository $notificationRepository)
+    public function __construct(OrderRepository $repository)
     {
         $this->repository = $repository;
-        $this->notificationRepository= $notificationRepository;
     }
 
     public function index(){
@@ -56,7 +56,7 @@ class OrderController extends Controller
         }
     }
 
-
+    
 
 
 }

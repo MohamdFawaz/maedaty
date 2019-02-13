@@ -87,6 +87,9 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
     ]);
     Route::resource('settings','SettingController');
 
+    Route::post('message/get_messages','MessageController@listMessages')->name('list.messages');
+    Route::resource('message','MessageController');
+
     Route::group(['prefix' => 'json', 'as' => 'json.'], function (){
         Route::post('/filterByDate','HomeController@filterOrdersByDate');
         Route::get('/getSales','HomeController@getSalesLineChart');

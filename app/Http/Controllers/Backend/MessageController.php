@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Message\Message;
 use App\Models\Order\Order;
 use App\Models\OrderStatus\OrderStatus;
 use App\Models\SubCategory\SubCategory;
@@ -10,29 +11,26 @@ use App\Repositories\PushNotification\NotificationRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class OrderController extends Controller
+class MessageController extends Controller
 {
 
     protected $repository;
-    protected $notificationRepository;
 
-    public function __construct(OrderRepository $repository,NotificationRepository $notificationRepository)
+    public function __construct(OrderRepository $repository)
     {
         $this->repository = $repository;
-        $this->notificationRepository= $notificationRepository;
     }
 
     public function index(){
-        $orders = Order::with('user')->where('order_status','<>','0')->get();
-        return view('backend.pages.order.index',compact('orders'));
+        $inbox_users = Message::groupBy('user')->where('user','<>','admin')->latest()->get();
+        $messages = Message::get();
+        return view('backend.pages.message.index',compact('inbox_users','messages'));
     }
 
 
-    public function show($order_id){
-        $order = Order::with('user','address')->where('id',$order_id)->first();
-        $order_products = $this->repository->getOrderProducts($order->products);
-        $order_status = OrderStatus::get();
-        return view('backend.pages.order.show',compact('order','order_products','order_status'));
+    public function listMessages(Request $request){
+        $messages = Message::where('user',$request->user_id)->orWhere('target',$request->user_id)->get();
+        return response()->json($messages);
     }
 
 
