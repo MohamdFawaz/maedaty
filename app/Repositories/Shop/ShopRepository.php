@@ -3,6 +3,7 @@
 namespace App\Repositories\Shop;
 
 use App\Models\Shop\Shop;
+use App\Models\Shop\ShopTranslation;
 use App\Models\UserReview\UserReview;
 use App\Repositories\BaseRepository;
 
@@ -59,19 +60,37 @@ class ShopRepository extends BaseRepository
     }
 
     public function getShopById($shop_id){
-        $shops = Shop::whereId($shop_id)->first();
+        $shops = Shop::whereHas('user')->whereId($shop_id)->first();
         return $shops;
     }
 
-    public function create($input){
-        if(Shop::create($input)){
-            return true;
+    public function update($shop_id,$input){
+        $shop = Shop::whereId($shop_id)->first();
+        $shop->translate('en')->name = $input['name_en'];
+        $shop->translate('ar')->name = $input['name_ar'];
+        $shop->translate('en')->description = $input['description_en'];
+        $shop->translate('ar')->description = $input['description_ar'];
+        $shop->user_id = $input['owner_id'];
+        if(isset($input['shop_image'])){
+            $shop->image  = $input['shop_image'];
         }
-        return false;
+        $shop->save();
+        return true;
     }
 
-    public function delete($input){
-        if(Shop::destroy($input)){
+    public function create($input){
+        Shop::create([
+            'user_id' => $input['owner_id'],
+            'image' => $input['shop_image'],
+            'ar' =>  ['name' => $input['name_ar'],'description' => $input['description_ar']],
+            'en' =>  ['name' => $input['name_en'],'description' => $input['description_en']],
+        ]);
+        return true;
+    }
+
+    public function delete($shop_id){
+        if(Shop::destroy($shop_id)){
+            ShopTranslation::whereShopId($shop_id)->delete();
             return true;
         }
         return false;

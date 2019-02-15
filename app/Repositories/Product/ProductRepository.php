@@ -182,7 +182,7 @@ class ProductRepository extends BaseRepository
             if($current_product_id){
                 $query->where('id','!=',$current_product_id);
             }
-            $products = $query->whereStatus(1)->get();
+            $products = $query->status()->get();
             return $this->getAllProductsDetailPaginate($products,$user_id);
     }
 

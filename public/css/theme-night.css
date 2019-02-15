@@ -51,6 +51,9 @@ body {
   color: #656d78;
   overflow-x: hidden;
 }
+a:hover {
+  text-decoration: none;
+}
 .body-full-height {
   height: 100%;
 }
@@ -8457,6 +8460,9 @@ li.ext_xml {
 li.ext_zip {
   background: url(../img/filetree/zip.png) left top no-repeat;
 }
+.thumb:hover{
+    cursor: pointer;
+}
 .inbox_people {
   background: #f8f8f8 none repeat scroll 0 0;
   float: left;
@@ -8520,7 +8526,7 @@ li.ext_zip {
 
 .incoming_msg_img {
   display: inline-block;
-  width: 6%;
+  width: 5%;
 }
 .received_msg {
   display: inline-block;

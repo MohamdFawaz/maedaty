@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Shop;
 
 use App\Http\Requests\Request;
 
 /**
  * Class ManageSettingsRequest.
  */
-class LoginRequest extends Request
+class UpdateShopRequest extends Request
 {
 
 
@@ -21,7 +21,7 @@ class LoginRequest extends Request
         return true;
     }
 
-  
+
 
 
     /**
@@ -34,19 +34,17 @@ class LoginRequest extends Request
     {
 
         return [
-            'phone'       => 'required',
-            'password'       => 'required',
-            'firebase_token'       => 'required'
+            'name_ar'       => 'required',
+            'name_en'       => 'required',
+            'owner_id'       => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'phone.required' => trans('validation.phone'),
-            'password.required' => trans('validation.password'),
-            'firebase_token.required' => trans('validation.firebase_token'),
-            'lang.required' => trans('validation.lang')
+            'name_ar.required' => trans('validation.name_ar'),
+            'name_en.required' => trans('validation.name_en')
         ];
     }
 }

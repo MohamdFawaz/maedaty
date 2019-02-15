@@ -28,14 +28,14 @@ class ListCategoryRequest extends Request
     public function rules()
     {
         return [
-            //
+//            'jwt_token'       => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            //
+            'jwt_token.required' => trans('validation.jwt')
         ];
     }
 }

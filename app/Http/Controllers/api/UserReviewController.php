@@ -6,7 +6,7 @@ use App\Http\Requests\UserFavorite\StoreFavoriteRequest;
 use App\Models\UserReview\UserReview;
 use App\Repositories\UserReview\UserReviewRepository;
 use Illuminate\Http\Request;
-use App\Models\Address\UserFavorite;
+use App\Models\UserFavorite\UserFavorite;
 use App\Http\Requests\UserReview\StoreReviewRequest;
 
 class UserReviewController extends APIController

@@ -86,7 +86,7 @@ class OrderRepository extends BaseRepository
     }
 
      public function getOrderByID($order_id){
-          return Order::whereId($order_id)->with('user')->first();
+          return Order::whereId($order_id)->first();
     }
 
 
@@ -131,7 +131,7 @@ class OrderRepository extends BaseRepository
             $order_item['order_number'] = $order->order_number;
             $order_item['order_date'] = $order->order_date;
             $order_item['total_fees'] = $order->total_fees;
-            $order_item['order_status'] = $order->order_status_string;
+            $order_item['order_status'] = $order->order_status;
             $orders_list[] = $order_item;
         }
         return $orders_list;

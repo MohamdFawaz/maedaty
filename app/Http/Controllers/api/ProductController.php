@@ -47,7 +47,7 @@ class ProductController extends APIController
     }
 
     public function getShopProducts($shop_id,$user_id = null){
-        $products= Product::with('hot_offer')->where('shop_id', $shop_id)->whereStatus(1)->get();
+        $products= Product::status()->with('hot_offer')->where('shop_id', $shop_id)->whereStatus(1)->get();
         $data = $this->productRepository->getAllProductsDetailPaginate($products,$user_id);
         return $this->respond(
             200,
@@ -57,7 +57,7 @@ class ProductController extends APIController
     }
 
     public function searchForProducts(SearchRequest $request){
-        $products= Product::with('hot_offer')->whereStatus(1)
+        $products= Product::status()->with('hot_offer')->whereStatus(1)
             ->whereTranslationLike('name','%'. $request->string .'%')
             ->orWhereTranslationLike('description', '%' . $request->string . '%')
             ->get();
@@ -70,7 +70,7 @@ class ProductController extends APIController
     }
 
     public function show($product_id, $user_id = null){
-        $product = Product::with('hot_offer')->where('id',$product_id)->whereStatus(1)->first();
+        $product = Product::with('hot_offer')->where('id',$product_id)->status()->first();
         $details['product'] = $this->productRepository->getProductDetails($product,$user_id);
         $details['related_products'] = $this->productRepository->getRelatedProduct($product->category_id,$product->subcategory_id,$user_id,$product_id);
         return $this->respond(

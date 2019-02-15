@@ -9,32 +9,34 @@
                 <!-- START DEFAULT DATATABLE -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{trans('backend.category.list')}}</h3>
+                        <h3 class="panel-title">{{trans('backend.shop_branch.list')}}</h3>
                         <ul class="panel-controls">
-                            <a href="{{route('backend.category.create')}}" >
+                            <a href="{{route('backend.shop_branch.create')}}" >
                                 <span class="btn btn-success">{{trans('backend.action.create')}}</span>
                             </a>
                         </ul>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table datatable" id="products-table">
+                            <table class="table datatable" id="shop-branch-table">
                                 <thead>
                                 <tr>
-                                    <th>{{trans('backend.category.id')}}</th>
-                                    <th>{{trans('backend.category.name_ar')}}</th>
-                                    <th>{{trans('backend.category.name_en')}}</th>
-                                    <th>{{trans('backend.category.action')}}</th>
+                                    <th>{{trans('backend.shop_branch.id')}}</th>
+                                    <th>{{trans('backend.shop_branch.shop')}}</th>
+                                    <th>{{trans('backend.shop_branch.address')}}</th>
+                                    <th>{{trans('backend.shop_branch.location')}}</th>
+                                    <th>{{trans('backend.shop.action')}}</th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($categories as $category)
+                                @foreach($shopBranches as $shopBranch)
                                 <tr>
-                                    <td>{{$category->id}}</td>
-                                    <td>{{$category->translate('ar')['name']}}</td>
-                                    <td>{{$category->translate('en')['name']}}</td>
-                                    <td>{!! $category->action !!}</td>
+                                    <td>{{$shopBranch->id}}</td>
+                                    <td>{{$shopBranch->shop->name}}</td>
+                                    <td>{{$shopBranch->address}}</td>
+                                    <td><a href="http://maps.google.com/?q={{$shopBranch->lat}},{{$shopBranch->lng}}" target="_blank">{{trans('backend.shop_branch.location')}}</a></td>
+                                    <td>{!! $shopBranch->action !!}</td>
                                 </tr>
                                 @endforeach
                                 </tbody>
@@ -52,10 +54,10 @@
     </div>
     <!-- PAGE CONTENT WRAPPER -->
     <!-- MESSAGE BOX-->
-    <div class="message-box message-box-danger animated fadeIn" id="mb-delete-category">
+    <div class="message-box message-box-danger animated fadeIn" id="mb-delete-branch">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-sign-out"></span>{{trans('backend.action.delete')}} <strong id="cat-name"></strong> ?</div>
+                <div class="mb-title"><span class="fa fa-sign-out"></span>{{trans('backend.question.are_you_sure_delete')}}</div>
                 <div class="mb-footer">
                     <div class="pull-right">
                         <a id="delete-ref" class="btn btn-success btn-lg">Yes</a>
@@ -67,24 +69,15 @@
     </div>
     <!-- END MESSAGE BOX-->
 @endsection
-
 @section('script')
     <script type="text/javascript">
-        $(".delete-category-btn").click(function(){
-            var cat_id = $(this).data('id');
-            var cat_name = $(this).data('name');
-            $('#cat-name').text(cat_name);
-            var url  = '{{route("backend.category.delete",":id")}}';
-            url = url.replace(':id',cat_id);
+        $(".delete-branch-btn").click(function(){
+            var branch_id = $(this).data('id');
+            var url  = '{{route("backend.shop.branch.delete",":id")}}';
+            url = url.replace(':id',branch_id);
             $("#delete-ref").attr("href",url);
-            $('#mb-delete-category').addClass('open');
+            $('#mb-delete-branch').addClass('open');
         });
-        $(document).ready(function() {
-            $('.datatable').dataTable( {
-                "lengthMenu": [5, 7, 10],
-                "pageLength": 5
-            } );
-        } );
     </script>
     <!-- THIS PAGE PLUGINS -->
     <script type='text/javascript' src="{{asset('public/js/plugins/icheck/icheck.min.js')}}"></script>

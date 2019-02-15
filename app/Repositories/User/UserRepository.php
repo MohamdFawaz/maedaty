@@ -223,8 +223,7 @@ class UserRepository extends BaseRepository
         );
         return ['response'=> json_decode($req->getBody()),'code'=>$rand_number];
     }
-
-
+    
     public function createSocial($input)
     {
         $fullname = explode(' ', $input->username);
@@ -249,5 +248,10 @@ class UserRepository extends BaseRepository
     }
     public function sendActivationSMS(){
 
+    }
+    public function getAll()
+    {
+        $users = User::whereUserStatus(1)->get();
+        return $users;
     }
 }

@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Favorite;
 
 use App\Http\Requests\Request;
 
 /**
  * Class ManageSettingsRequest.
  */
-class LoginRequest extends Request
+class StoreFavoriteRequest extends Request
 {
-
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -21,32 +19,25 @@ class LoginRequest extends Request
         return true;
     }
 
-  
-
 
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
-
     public function rules()
     {
-
         return [
-            'phone'       => 'required',
-            'password'       => 'required',
-            'firebase_token'       => 'required'
+            'jwt_token' => 'required',
+            'product_id' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'phone.required' => trans('validation.phone'),
-            'password.required' => trans('validation.password'),
-            'firebase_token.required' => trans('validation.firebase_token'),
-            'lang.required' => trans('validation.lang')
+            'jwt_token.required' => trans('validation.jwt'),
+            'product_id' =>trans('validation.product_id')
         ];
     }
 }

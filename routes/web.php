@@ -78,11 +78,22 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
             'show' => 'suggestion.show'
         ]
     ]);
+    Route::post('shop/updateStatus', 'ShopController@updateStatus')->name('shop.update.status');
+    Route::get('shop/delete/{shop_id}', 'ShopController@destroy')->name('shop.delete');
     Route::resource('shop','ShopController',[
         'names' => [
             'index' => 'shop',
             'show' => 'shop.show',
             'edit' => 'shop.edit'
+        ]
+    ]);
+    Route::get('shop_branch/delete/{branch_id}', 'ShopBranchController@destroy')->name('shop.branch.delete');
+
+    Route::resource('shop_branch','ShopBranchController',[
+        'names' => [
+            'index' => 'shop_branch',
+            'show' => 'shop_branch.show',
+            'edit' => 'shop_branch.edit'
         ]
     ]);
     Route::resource('settings','SettingController');

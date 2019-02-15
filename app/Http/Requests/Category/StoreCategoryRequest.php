@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Category;
 
 use App\Http\Requests\Request;
-
+use Illuminate\Validation\Rule;
 /**
  * Class ManageSettingsRequest.
  */
-class LoginRequest extends Request
+class StoreCategoryRequest extends Request
 {
-
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -21,32 +19,27 @@ class LoginRequest extends Request
         return true;
     }
 
-  
-
 
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
-
     public function rules()
     {
-
         return [
-            'phone'       => 'required',
-            'password'       => 'required',
-            'firebase_token'       => 'required'
+            'category_image' => 'required',
+            'name_ar' => 'required',
+            'name_en' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'phone.required' => trans('validation.phone'),
-            'password.required' => trans('validation.password'),
-            'firebase_token.required' => trans('validation.firebase_token'),
-            'lang.required' => trans('validation.lang')
+            'category_image.required' => trans('validation.image'),
+            'name_ar.required' => trans('validation.name_ar'),
+            'name_en.required' => trans('validation.name_en')
         ];
     }
 }

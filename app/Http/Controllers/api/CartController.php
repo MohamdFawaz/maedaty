@@ -58,7 +58,7 @@ class CartController extends APIController
         }
         return $this->respondWithError(trans('messages.cart.missing_details'));
     }
-
+    
     public function delete(DeleteCartRequest $request){
         if($this->repository->delete($request->cart_item_id)){
             return $this->respondWithMessage(trans('messages.cart.removed'));

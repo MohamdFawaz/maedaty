@@ -31,6 +31,7 @@ class UserFavoriteRepository extends BaseRepository
     public function getUserFavorites($favorites,$user_id = null){
         $favorites_item = [];
         $favorites_list = [];
+
         foreach ($favorites as $favorite){
             $favorites_item = $this->productRepository->getProductDetails($favorite->product,$user_id);
             $favorites_list[] = $favorites_item;

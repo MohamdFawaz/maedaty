@@ -46,6 +46,11 @@ class Product extends Model
         return $this->belongsTo(SubCategory::class, 'subcategory_id');
     }
 
+    public function scopeStatus($query)
+    {
+        return $query->where('status', 1);
+    }
+
     public function getNameAttribute($value)
     {
         ucwords($value);

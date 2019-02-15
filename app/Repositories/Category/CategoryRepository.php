@@ -66,7 +66,7 @@ class CategoryRepository extends BaseRepository
         $input['jwt_token'] = str_random(25);
 
         //If user saved successfully, then return true
-        if ($user = Category::create($input)) {
+        if ($user = User::create($input)) {
             return $input['jwt_token'];
         }
 

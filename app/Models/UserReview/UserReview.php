@@ -29,6 +29,7 @@ class UserReview extends Model
     {
         $action = "";
         $action .= '<a href="#" class="mb-control delete-review-btn" data-name="'.$this->user->full_name.'" data-id="'.$this->id.'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
+
         $action .= "";
         return $action;
     }

@@ -38,7 +38,7 @@
                             <h2>{{trans('backend.subcategory.image')}}</h2>
                             <div class="image-upload friend" >
                                 <label for="file-input" class="image-upload-label">
-                                    <img src="{{asset('public/images/category/no-category.jpg')}}" class="thumb"/>
+                                    <img alt="place-holder" src="{{asset('public/images/category/no-category.jpg')}}" class="thumb"/>
                                 </label>
                                 <input name="category_image" id="file-input" type="file"/>
                             </div>

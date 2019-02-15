@@ -57,6 +57,39 @@ class OrderController extends Controller
     }
 
 
+    public function update($category_id,Request $request){
+        $category = SubCategory::where('id',$category_id)->first();
+        $category->translate('ar')->name = $request->name_ar;
+        $category->translate('en')->name = $request->name_en;
+        $category->category_image = $request->category_image;
+        $category->category_id = $request->category_id;
+        $category->save();
+        return redirect('admin/order');
+    }
+
+     public function store(Request $request){
+        $category = new SubCategory();
+        $category->create([
+                'category_image' => $request->category_image,
+                'category_id' => $request->category_id,
+                'ar' => ["name" => $request->name_ar],
+                'en' => ["name" => $request->name_en]
+            ]);
+
+
+            return redirect('admin/order');
+        }
+
+
+    public function destroy($category_id){
+        SubCategory::where('id',$category_id)->delete();
+        return redirect('admin/order');
+    }
+
+    public function deleteProduct($category_id){
+        SubCategory::where('id',$category_id)->delete();
+        return redirect('admin/order');
+    }
 
 
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Backend\ShopBranch;
 
-use App\Http\Requests\Request;
+use App\Http\Requests\Backend\Request;
 
 /**
  * Class ManageSettingsRequest.
  */
-class SocialLoginRequest extends Request
+class StoreShopBranchRequest extends Request
 {
 
 
@@ -22,27 +22,29 @@ class SocialLoginRequest extends Request
     }
 
 
+
+
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
+
     public function rules()
     {
+
         return [
-            'provider'       => 'required',
-            'auth_id'       => 'required',
-            'username'       => 'required',
-            'email'       => 'required',
-            'profile_picture'       => 'required',
+            'shop_id'       => 'required',
+            'address'       => 'required',
+            'lat'       => 'required',
+            'lng'       => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'phone.required' => trans('validation.phone'),
-            'password.required' => trans('validation.password')
+           //
         ];
     }
 }

@@ -40,7 +40,7 @@ class SocialLoginRepository extends BaseRepository
     public function updateOrCreate(array $input)
     {
         $input['user_id'] = (User::max('id'))+1;
-
+        
         //If user saved successfully, then return true
         if ($user = SocialLogin::updateOrCreate(
         [
