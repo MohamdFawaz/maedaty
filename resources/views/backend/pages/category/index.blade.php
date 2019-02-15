@@ -50,6 +50,22 @@
         </div>
 
     </div>
+    <div class="message-box message-box-danger animated fadeIn" data-sound="alert" id="mb-delete-category">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-sign-out"></span>  <strong>{{trans('backend.action.asas')}}</strong> ?</div>
+                <div class="mb-content">
+                    <p></p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <a href="{{route('backend.logout')}}" class="btn btn-success btn-lg">{{trans('backend.action.yes')}}</a>
+                        <button class="btn btn-default btn-lg mb-control-close">{{trans('backend.action.no')}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- PAGE CONTENT WRAPPER -->
 @endsection
 @section('script')

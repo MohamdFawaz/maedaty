@@ -65,8 +65,6 @@ class SubCategoryController extends Controller
                 'ar' => ["name" => $request->name_ar],
                 'en' => ["name" => $request->name_en]
             ]);
-
-
             return redirect('admin/subcategory');
         }
 

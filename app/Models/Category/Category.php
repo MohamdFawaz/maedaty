@@ -50,7 +50,7 @@ class Category extends Model
         $action .= "<a href=".url()->current()."/".$this->id."/edit".">
                     <button type=\"button\" class=\"btn btn-success btn-condensed active\"> <i class='glyphicon glyphicon-pencil' ></i></button>
                     </a>";
-        $action .= '<a href="'.route('backend.category.destroy',$this->id).'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
+        $action .= '<a href="'.route('backend.category.delete',$this->id).'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
 
         $action .= "";
         return $action;

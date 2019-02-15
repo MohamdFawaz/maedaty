@@ -32,6 +32,7 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
     Route::get('products/deleteImage/{$id}','ProductController@deleteImage')->name('del.product.image');
     Route::get('products/delete_product/{$product_id}','ProductController@deleteProduct')->name('del.product.product');
     Route::get('logout','Auth\LoginController@logout')->name('logout');
+    Route::get('category/delete/{category_id}','CategoryController@destroy')->name('category.delete');
     Route::resource('products','ProductController',[
         'names' => [
             'index' => 'products',

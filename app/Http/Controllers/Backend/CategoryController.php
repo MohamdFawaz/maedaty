@@ -2,26 +2,16 @@
 
 namespace App\Http\Controllers\Backend;
 
-use function App\Helpers\getRouteUrl;
+use App\Http\Requests\Backend\Category\StoreCategoryRequest;
 use App\Models\Category\Category;
-use App\Models\Message\Message;
-use App\Models\Order\Order;
 use App\Models\Product\Product;
 use App\Models\ProductImage\ProductImage;
-use App\Models\Setting\Setting;
-use App\Models\Shop\Shop;
-use App\Models\SubCategory\SubCategory;
-use App\Models\User\User;
-use App\Repositories\Setting\SettingRepository;
 use Carbon\Carbon;
-use function GuzzleHttp\Psr7\parse_header;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DB;
 
 class CategoryController extends Controller
 {
-
 
     public function index(){
         $categories = Category::get();
@@ -53,7 +43,7 @@ class CategoryController extends Controller
         return redirect('admin/category');
     }
 
-     public function store(Request $request){
+     public function store(StoreCategoryRequest $request){
         $category = new Category();
         $category->create([
                 'category_image' => $request->category_image,
