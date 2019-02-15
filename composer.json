@@ -17,6 +17,7 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.4.0",
         "predis/predis": "^1.1",
+        "spatie/laravel-permission": "^2.31",
         "tymon/jwt-auth": "1.0.0-rc.3"
     },
     "require-dev": {

@@ -53,15 +53,25 @@ class ShopRepository extends BaseRepository
     }
 
 
+    public function getAll(){
+        $shops = Shop::get();
+        return $shops;
+    }
+
+    public function getShopById($shop_id){
+        $shops = Shop::whereId($shop_id)->first();
+        return $shops;
+    }
+
     public function create($input){
-        if(UserReview::create($input)){
+        if(Shop::create($input)){
             return true;
         }
         return false;
     }
 
     public function delete($input){
-        if(UserReview::destroy($input)){
+        if(Shop::destroy($input)){
             return true;
         }
         return false;

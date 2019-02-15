@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use function App\Helpers\getRouteUrl;
+use App\Http\Requests\Backend\Subcategory\StoreSubCategoryRequest;
+use App\Http\Requests\Backend\Subcategory\UpdateSubCategoryRequest;
 use App\Models\Category\Category;
 use App\Models\Message\Message;
 use App\Models\Order\Order;
@@ -47,7 +49,7 @@ class SubCategoryController extends Controller
         return view('backend.pages.subcategory.edit',compact('category','supercategory'));
     }
 
-    public function update($category_id,Request $request){
+    public function update($category_id,UpdateSubCategoryRequest $request){
         $category = SubCategory::where('id',$category_id)->first();
         $category->translate('ar')->name = $request->name_ar;
         $category->translate('en')->name = $request->name_en;
@@ -57,7 +59,7 @@ class SubCategoryController extends Controller
         return redirect('admin/subcategory');
     }
 
-     public function store(Request $request){
+     public function store(StoreSubCategoryRequest $request){
         $category = new SubCategory();
         $category->create([
                 'category_image' => $request->category_image,

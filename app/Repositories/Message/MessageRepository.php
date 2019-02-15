@@ -48,6 +48,40 @@ class MessageRepository extends BaseRepository
         return false;
     }
 
+    public function createAdminMessage($input){
+        $message = new Message();
+        $message->user = 'admin';
+        $message->target = $input['user_id'];
+        $message->body = $input['body'];
+        if($message->save()){
+            $this->setMessagesAsRead($input['user_id']);
+            return $message;
+        }
+        return false;
+    }
+
+    public function getLatestMessage($inbox_users)
+    {
+        foreach($inbox_users as $user)
+        {
+            $latest = Message::where(function ($q) use($user){
+                $q->where('user', $user->user);
+                $q->orWhere('target', $user->user);
+            })->latest()->first()->body;
+            $user['body'] = $latest;
+        }
+        return $inbox_users;
+    }
+
+    /**
+     * @param integer $user_id
+     */
+    public function setMessagesAsRead($user_id)
+    {
+        $messages = Message::where('user' ,$user_id)->update(['message_read' => 1]);
+        return true;
+    }
+
     public function delete($input){
         if(Message::destroy($input)){
             return true;

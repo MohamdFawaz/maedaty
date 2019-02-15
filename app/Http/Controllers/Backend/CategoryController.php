@@ -2,16 +2,28 @@
 
 namespace App\Http\Controllers\Backend;
 
+use function App\Helpers\getRouteUrl;
 use App\Http\Requests\Backend\Category\StoreCategoryRequest;
+use App\Http\Requests\Backend\Category\UpdateCategoryRequest;
 use App\Models\Category\Category;
+use App\Models\Message\Message;
+use App\Models\Order\Order;
 use App\Models\Product\Product;
 use App\Models\ProductImage\ProductImage;
+use App\Models\Setting\Setting;
+use App\Models\Shop\Shop;
+use App\Models\SubCategory\SubCategory;
+use App\Models\User\User;
+use App\Repositories\Setting\SettingRepository;
 use Carbon\Carbon;
+use function GuzzleHttp\Psr7\parse_header;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use DB;
 
 class CategoryController extends Controller
 {
+
 
     public function index(){
         $categories = Category::get();
@@ -34,7 +46,7 @@ class CategoryController extends Controller
         return view('backend.pages.category.edit',compact('category'));
     }
 
-    public function update($category_id,Request $request){
+    public function update($category_id,UpdateCategoryRequest $request){
         $category = Category::where('id',$category_id)->first();
         $category->translate('ar')->name = $request->name_ar;
         $category->translate('en')->name = $request->name_en;

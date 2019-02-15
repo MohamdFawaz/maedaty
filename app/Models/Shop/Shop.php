@@ -35,4 +35,19 @@ class Shop extends Model
         return $this->hasMany(ShopBranches::class, 'shop_id');
     }
 
+    public function getActionAttribute()
+    {
+        $action = "";
+
+        $action .= "<a href=".route('backend.shop.show',$this->id).">
+                    <button type=\"button\" class=\"btn btn-success btn-condensed active\"> <i class='glyphicon glyphicon-eye-open' ></i></button>
+                    </a>";
+        $action .= "<a href=".route('backend.shop.edit',$this->id).">
+                    <button type=\"button\" class=\"btn btn-success btn-condensed active\"> <i class='glyphicon glyphicon-pencil' ></i></button>
+                    </a>";
+        $action .= '<a href="#" class="mb-control delete-shop-btn" data-name="'.$this->name.'" data-id="'.$this->id.'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
+
+        $action .= "";
+        return $action;
+    }
 }

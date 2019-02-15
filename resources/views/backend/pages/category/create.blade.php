@@ -9,13 +9,6 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        @if($errors)
-                            <div class="alert alert-danger">
-                            @foreach($errors as $error)
-                                <span> {{$error}} </span>
-                            @endforeach
-                            </div>
-                        @endif
                         <form class="tocify-content" action="{{route('backend.category.store')}}" method="POST" enctype="multipart/form-data">
                             {{ method_field('POST') }}
                             {{ csrf_field() }}
@@ -23,10 +16,14 @@
                             <div class="form-group">
                                 <label for="name_ar">{{trans('backend.category.name_ar')}}</label>
                                 <input type="text" name="name_ar" class="form-control" >
+                                <small class="text-danger">{{ $errors->first('name_ar') }}</small>
+
                             </div>
                             <div class="form-group">
                                 <label for="name_en">{{trans('backend.category.name_en')}}</label>
                                 <input type="text" name="name_en" class="form-control" >
+                                <small class="text-danger">{{ $errors->first('name_en') }}</small>
+
                             </div>
 
                             <h2>{{trans('backend.category.image')}}</h2>

@@ -28,23 +28,58 @@ class SettingRepository extends BaseRepository
         $this->model = $model;
     }
 
+    public function getAll(){
+        $settings = Setting::get();
+        $setting_list = [];
+        foreach ($settings as $setting){
+            $setting_list[$setting->key] = $setting->value;
+        }
+        return (object)$setting_list;
+    }
+
     public function getSettingByKey($key){
         $value = Setting::where('key',$key)->pluck('value')->first();
         return $value;
     }
 
-    public function create($input){
-        if(UserFavorite::create($input)){
-            return true;
+    public function updateSettings($input,$points_rules){
+      if($this->flushSettings(array_keys($input))){
+          foreach ($input as $key=>$val){
+                Setting::create([
+                    'key' => $key,
+                    'value' => $val
+                ]);
+          }
+        $this->updatePointsRules($points_rules);
+        return true;
         }
-        return false;
+    return false;
     }
 
-    public function delete($input){
-        if(UserFavorite::destroy($input)){
-            return true;
+
+    public function flushSettings($input){
+        Setting::whereIn('key',$input)->delete();
+        return true;
+    }
+
+    public function flushSettingByKey($key){
+        Setting::where('key',$key)->delete();
+        return true;
+    }
+
+    public function updatePointsRules($rules){
+        $points = [];
+        for ($i = 0; $i < count($rules['range']);$i++) {
+            $value['range'] = $rules['range'][$i];
+            $value['amount'] = $rules['amount'][$i];
+            array_push($points,$value);
         }
-        return false;
+        $this->flushSettingByKey('points');
+        Setting::create([
+            'key' => 'points',
+            'value' => json_encode($points)
+        ]);
+        return true;
     }
 
 }

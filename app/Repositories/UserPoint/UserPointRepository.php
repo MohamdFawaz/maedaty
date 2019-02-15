@@ -2,10 +2,9 @@
 
 namespace App\Repositories\UserPoint;
 
-use App\Models\Setting\Setting;
 use App\Models\UserPoint\UserPoint;
 use App\Repositories\BaseRepository;
-use phpDocumentor\Reflection\Types\Integer;
+use App\Repositories\Setting\SettingRepository;
 
 /**
 * Class NotificationRepository.
@@ -19,10 +18,12 @@ class UserPointRepository extends BaseRepository
 * @var object
 */
     public $model;
+    public $settingRepository;
 
-    public function __construct(UserPoint $model)
+    public function __construct(UserPoint $model,SettingRepository $settingRepository)
     {
         $this->model = $model;
+        $this->settingRepository= $settingRepository;
     }
 
     public function getUserPointSum($user_id){
@@ -34,7 +35,7 @@ class UserPointRepository extends BaseRepository
     }
 
     public function getPointsDiscount($subtotal, $pointsCount){
-        $pointsRules = Setting::where('key','points')->first();
+        $pointsRules = $this->settingRepository->getSettingByKey('points');
         $pointsRules = json_decode($pointsRules->value);
         $rules_list = [];
 

@@ -12,7 +12,7 @@
 */
 
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
@@ -33,6 +33,12 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
     Route::get('products/delete_product/{$product_id}','ProductController@deleteProduct')->name('del.product.product');
     Route::get('logout','Auth\LoginController@logout')->name('logout');
     Route::get('category/delete/{category_id}','CategoryController@destroy')->name('category.delete');
+    Route::get('subcategory/delete/{subcategory_id}','SubCategoryController@destroy')->name('subcategory.delete');
+    Route::get('review/delete/{review_id}','UserReviewsController@destroy')->name('review.delete');
+    Route::get('product/deleteImage/{product_id}','ProductController@deleteImage')->name('product.delete.image');
+    Route::get('product/delete/{product_id}','ProductController@destroy')->name('product.delete');
+    Route::get('suggestion/delete/{sug_id}','SuggestionController@destroy')->name('suggestion.delete');
+    Route::post('order/change','OrderController@changeOrderStatus')->name('change.order.address');
     Route::resource('products','ProductController',[
         'names' => [
             'index' => 'products',
@@ -61,6 +67,34 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
             'update' => 'order.update'
         ]
     ]);
+    Route::resource('review','UserReviewsController',[
+        'names' => [
+            'index' => 'review'
+        ]
+    ]);
+    Route::resource('suggestion','SuggestionController',[
+        'names' => [
+            'index' => 'suggestion',
+            'show' => 'suggestion.show'
+        ]
+    ]);
+    Route::resource('shop','ShopController',[
+        'names' => [
+            'index' => 'shop',
+            'show' => 'shop.show',
+            'edit' => 'shop.edit'
+        ]
+    ]);
+    Route::resource('settings','SettingController');
+
+    Route::post('message/get_messages','MessageController@listMessages')->name('list.messages');
+    Route::post('message/send_message','MessageController@sendMessage')->name('send.messages');
+    Route::resource('message','MessageController',[
+        'names' => [
+            'index' => 'message'
+        ]
+    ]);
+
     Route::group(['prefix' => 'json', 'as' => 'json.'], function (){
         Route::post('/filterByDate','HomeController@filterOrdersByDate');
         Route::get('/getSales','HomeController@getSalesLineChart');

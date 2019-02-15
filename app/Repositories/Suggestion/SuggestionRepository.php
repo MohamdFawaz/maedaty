@@ -26,6 +26,12 @@ class SuggestionRepository extends BaseRepository
     }
 
 
+    public function getAll(){
+        $suggestions = Suggestion::get();
+        return $suggestions;
+    }
+
+
     public function create($input){
         if(Suggestion::create($input)){
             return true;

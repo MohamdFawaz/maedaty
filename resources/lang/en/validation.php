@@ -139,6 +139,9 @@ return [
     'promo_code' => 'Promotion Code is Required',
     'activation_code' => 'Activation Code is Required',
     'body' => 'Message Body is Required',
+    'name_ar' => 'Arabic Name is Required',
+    'name_en' => 'English Name is Required',
+    'category_id' => 'Super Category is Required',
 
 
 

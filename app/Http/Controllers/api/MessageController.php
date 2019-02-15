@@ -53,11 +53,9 @@ class MessageController extends APIController
     }
 
     public function sendAdminMessage(SendMessageRequest $request){
-        $messageSent = $this->repository->create($request->except('jwt_token'));
+        $messageSent = $this->repository->create($request->all());
         $user = User::where('id',$request->user_id)->first();
-
         if($messageSent){
-            // TODO send Push Notification
             $this->notificationRepository->sendGCM($messageSent->body,'chat',$user->firebase_token);
             return $this->respondWithMessage(trans('messages.message.send'));
         }else{

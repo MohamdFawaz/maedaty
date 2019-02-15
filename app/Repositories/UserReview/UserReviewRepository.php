@@ -24,6 +24,11 @@ class UserReviewRepository extends BaseRepository
         $this->model = $model;
     }
 
+    public function getAll(){
+        $userReviews = UserReview::with('user','product')->get();
+        return $userReviews;
+    }
+
     public function create($input){
         if(UserReview::create($input)){
             return true;

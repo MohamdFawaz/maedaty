@@ -2,84 +2,61 @@
 
 namespace App\Http\Controllers\Backend;
 
-use function App\Helpers\getRouteUrl;
-use App\Models\Category\Category;
-use App\Models\Message\Message;
 use App\Models\Order\Order;
-use App\Models\Product\Product;
-use App\Models\ProductImage\ProductImage;
-use App\Models\Setting\Setting;
-use App\Models\Shop\Shop;
+use App\Models\OrderStatus\OrderStatus;
 use App\Models\SubCategory\SubCategory;
-use App\Models\User\User;
-use App\Repositories\Setting\SettingRepository;
-use Carbon\Carbon;
-use function GuzzleHttp\Psr7\parse_header;
+use App\Repositories\Order\OrderRepository;
+use App\Repositories\PushNotification\NotificationRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DB;
 
 class OrderController extends Controller
 {
 
+    protected $repository;
+    protected $notificationRepository;
+
+    public function __construct(OrderRepository $repository,NotificationRepository $notificationRepository)
+    {
+        $this->repository = $repository;
+        $this->notificationRepository= $notificationRepository;
+    }
 
     public function index(){
-        $orders = Order::with('user')->get();
+        $orders = Order::with('user')->where('order_status','<>','0')->get();
         return view('backend.pages.order.index',compact('orders'));
     }
 
 
-    public function show($category_id){
-        $category = SubCategory::where('id',$category_id)->first();
-        return view('backend.pages.order.show',compact('category'));
+    public function show($order_id){
+        $order = Order::with('user','address')->where('id',$order_id)->first();
+        $order_products = $this->repository->getOrderProducts($order->products);
+        $order_status = OrderStatus::get();
+        return view('backend.pages.order.show',compact('order','order_products','order_status'));
     }
 
 
-    public function create(){
-        $supercategory = Category::get();
-
-        return view('backend.pages.order.create',compact('supercategory'));
+    public function edit($order_id){
+        $order = Order::with('user','address')->where('id',$order_id)->first();
+        $order_products = $this->repository->getOrderProducts($order->products);
+        return view('backend.pages.order.edit',compact('order','order_products'));
     }
 
-    public function edit($category_id){
-        $category = SubCategory::where('id',$category_id)->first();
-        $supercategory = Category::get();
-        return view('backend.pages.order.edit',compact('category','supercategory'));
-    }
 
-    public function update($category_id,Request $request){
-        $category = SubCategory::where('id',$category_id)->first();
-        $category->translate('ar')->name = $request->name_ar;
-        $category->translate('en')->name = $request->name_en;
-        $category->category_image = $request->category_image;
-        $category->category_id = $request->category_id;
-        $category->save();
-        return redirect('admin/order');
-    }
-
-     public function store(Request $request){
-        $category = new SubCategory();
-        $category->create([
-                'category_image' => $request->category_image,
-                'category_id' => $request->category_id,
-                'ar' => ["name" => $request->name_ar],
-                'en' => ["name" => $request->name_en]
-            ]);
-
-
-            return redirect('admin/order');
+    public function changeOrderStatus(Request $request){
+        $order = $this->repository->getOrderByID($request->order_id);
+        $order->order_status = $request->order_status;
+        if($request->shipping_fees){
+            $order->shipping_fees = $request->shipping_fees;
         }
-
-
-    public function destroy($category_id){
-        SubCategory::where('id',$category_id)->delete();
-        return redirect('admin/order');
+        if($order->save()){
+            app()->setLocale($order->user->lang);
+            $this->notificationRepository->sendGCM("".trans('messages.order_updated')."".$order->order_status_string."",'notification',$order->user->firebase_token);
+            return redirect(route('backend.order.show',$order->id));
+        }
     }
 
-    public function deleteProduct($category_id){
-        SubCategory::where('id',$category_id)->delete();
-        return redirect('admin/order');
-    }
+
 
 
 }

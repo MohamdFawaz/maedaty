@@ -28,7 +28,6 @@ class StoreCategoryRequest extends Request
     public function rules()
     {
         return [
-            'category_image' => 'required',
             'name_ar' => 'required',
             'name_en' => 'required'
         ];
@@ -37,9 +36,8 @@ class StoreCategoryRequest extends Request
     public function messages()
     {
         return [
-//            'category_image.required' => trans('validation.image'),
-//            'name_ar.required' => trans('validation.name_ar'),
-//            'name_en.required' => trans('validation.name_en')
+           'name_ar.required' => trans('validation.name_ar'),
+           'name_en.required' => trans('validation.name_en')
         ];
     }
 }

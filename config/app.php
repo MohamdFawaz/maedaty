@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Dimsav\Translatable\TranslatableServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
 
 

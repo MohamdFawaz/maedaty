@@ -17,10 +17,14 @@
                         <div class="form-group">
                             <label for="name_ar">{{trans('backend.category.name_ar')}}</label>
                             <input type="text" name="name_ar" class="form-control" value="{{$category->translate('ar')->name}}">
+                            <small class="text-danger">{{ $errors->first('name_ar') }}</small>
+
                         </div>
                         <div class="form-group">
                             <label for="name_en">{{trans('backend.category.name_en')}}</label>
                             <input type="text" name="name_en" class="form-control" value="{{$category->translate('en')->name}}">
+                            <small class="text-danger">{{ $errors->first('name_en') }}</small>
+
                         </div>
 
                         <h2>{{trans('backend.category.image')}}</h2>

@@ -4,7 +4,6 @@
     @include('backend.includes.head')
 </head>
 <body>
-@include('backend.includes.header')
 <div class="page-container">
     <div class="page-sidebar">
         <!-- START X-NAVIGATION -->
@@ -40,6 +39,24 @@
             </li>
             <li class="@if(Request::segment(2) == 'subcategory') active @endif" >
                 <a href="{{route('backend.subcategory')}}"><span class="fa fa-bars"></span> <span class="xn-text">{{trans('backend.sidemenu.subcategory')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'order') active @endif" >
+                <a href="{{route('backend.order')}}"><span class="fa fa-files-o"></span> <span class="xn-text">{{trans('backend.sidemenu.order')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'review') active @endif" >
+                <a href="{{route('backend.review')}}"><span class="fa fa-comment"></span> <span class="xn-text">{{trans('backend.sidemenu.reviews')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'message') active @endif" >
+                <a href="{{route('backend.message')}}"><span class="fa fa-comments"></span> <span class="xn-text">{{trans('backend.sidemenu.messages')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'suggestion') active @endif" >
+                <a href="{{route('backend.suggestion')}}"><span class="fa fa-comments-o"></span> <span class="xn-text">{{trans('backend.sidemenu.suggestion')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'shop') active @endif" >
+                <a href="{{route('backend.shop')}}"><span class="fa fa-home"></span> <span class="xn-text">{{trans('backend.sidemenu.shop')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'setting') active @endif" >
+                <a href="{{route('backend.settings.edit',1)}}"><span class="fa fa-cog"></span> <span class="xn-text">{{trans('backend.sidemenu.setting')}}</span></a>
             </li>
             <li class="xn-openable hidden">
                 <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Pages</span></a>
@@ -128,9 +145,11 @@
             </div>
         </div>
     </div>
+    @yield('message-box')
 <div class="page-content">
+    @include('backend.includes.header')
 
-    <div class="row">
+    <div class="row" style="padding: 10px;">
         @yield('content')
     </div>
 </div>

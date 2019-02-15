@@ -19,6 +19,7 @@ return [
         'unconfirmed_order' => 'Unconfirmed Order',
         'new_order' => 'New Order',
         'processing' => 'Processing',
+        'delivered' => 'Delivered',
         'missing_info' => 'Missing Info',
     ],
 ];

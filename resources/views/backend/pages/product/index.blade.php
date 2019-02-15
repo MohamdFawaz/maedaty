@@ -53,14 +53,26 @@
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
-
-
-
             </div>
         </div>
 
     </div>
     <!-- PAGE CONTENT WRAPPER -->
+    <!-- MESSAGE BOX-->
+    <div class="message-box message-box-danger animated fadeIn" id="mb-delete-product">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-sign-out"></span>{{trans('backend.action.delete')}} <strong id="product-name"></strong> ?</div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <a id="delete-ref" class="btn btn-success btn-lg">Yes</a>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MESSAGE BOX-->
 @endsection
 @section('script')
     <script type="text/javascript">
@@ -96,6 +108,15 @@
                     }
 
             });
+        });
+        $(".delete-product-btn").click(function(){
+            var product_id = $(this).data('id');
+            var product_name = $(this).data('name');
+            $('#product-name').text(product_name);
+            var url  = '{{route("backend.product.delete",":id")}}';
+            url = url.replace(':id',product_id);
+            $("#delete-ref").attr("href",url);
+            $('#mb-delete-product').addClass('open');
         });
         $(document).ready(function() {
             $('.datatable').dataTable( {

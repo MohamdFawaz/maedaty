@@ -56,7 +56,7 @@ class SubCategory extends Model
         $action .= "<a href=".url()->current()."/".$this->id."/edit".">
                     <button type=\"button\" class=\"btn btn-success btn-condensed active\"> <i class='glyphicon glyphicon-pencil' ></i></button>
                     </a>";
-        $action .= '<a href="'.route('backend.subcategory.destroy',$this->id).'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
+        $action .= '<a href="#" class="mb-control delete-subcategory-btn" data-name="'.$this->name.'" data-id="'.$this->id.'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
 
         $action .= "";
         return $action;

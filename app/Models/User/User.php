@@ -51,6 +51,11 @@ class User extends Authenticatable implements JWTSubject
     {
       return ucwords($value);
     }
+
+    public function getFullNameAttribute()
+    {
+      return ucwords($this->first_name)." ".ucwords($this->last_name);
+    }
     public function setUserImageAttribute($value)
     {
         if($value){

@@ -28,8 +28,7 @@ class HomeController extends Controller
         $delivered_orders = $orders->where('order_status',3)->count();
         $new_to_total_percentage = floor($new_orders/$total_orders);
         $messages = new Message();
-
-        $messages_count = $messages->where('user','!=', 'admin')->count(); // TODO change id with auth user id
+        $messages_count = $messages->where('user','!=', 'admin')->where('message_read',0)->count();
         $users = new User();
         $activated_users = $users->where('user_status', 1)->where('role_id',2)->count();
 

@@ -53,41 +53,32 @@
 
     </div>
     <!-- PAGE CONTENT WRAPPER -->
+    <!-- MESSAGE BOX-->
+    <div class="message-box message-box-danger animated fadeIn" id="mb-delete-subcategory">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-sign-out"></span>{{trans('backend.action.delete')}} <strong id="subcat-name"></strong> ?</div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <a id="delete-ref" class="btn btn-success btn-lg">Yes</a>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MESSAGE BOX-->
 @endsection
 @section('script')
     <script type="text/javascript">
-        $(".status").change(function(){
-
-            var product_id=$(this).attr('id');
-            var status_val=$(this).attr('value');
-            if(status_val==0)
-            {
-                status_val=1;
-                $('#'+product_id).val("1");
-            }else{
-                status_val=0;
-                $('#'+product_id).val("0");
-            }
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.post('{{url()->current()."/updateStatus"}}',
-                {product_id:product_id,status:status_val},
-                function(data){
-                    if(data.success){
-                        if(data.status == 1){
-                            $("#label-"+product_id).toggleClass('label-danger label-success');
-                            $("#label-"+product_id).html('{{trans('backend.products.active')}}');
-                        }else{
-                            $("#label-"+product_id).toggleClass('label-danger label-success');
-                            $("#label-"+product_id).html('{{trans('backend.products.not_active')}}');
-                        }
-                    }
-
-            });
+        $(".delete-subcategory-btn").click(function(){
+            var cat_id = $(this).data('id');
+            var cat_name = $(this).data('name');
+            $('#subcat-name').text(cat_name);
+            var url  = '{{route("backend.subcategory.delete",":id")}}';
+            url = url.replace(':id',cat_id);
+            $("#delete-ref").attr("href",url);
+            $('#mb-delete-subcategory').addClass('open');
         });
         $(document).ready(function() {
             $('.datatable').dataTable( {

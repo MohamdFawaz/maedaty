@@ -73,8 +73,8 @@ class ProductRepository extends BaseRepository
         foreach ($products as $product){
 
             $product_item['id'] = $product->product->id;
-            $product_item['name'] = $product->product->name;
-            $product_item['description'] = $product->product->description;
+            $product_item['name'] = $product->product->translate()->name;
+            $product_item['description'] = $product->product->translate()->description;
             $product_item['price'] = $product->product->price;
             $product_item['discounted_price'] = (double)$product->discounted_price;
             $product_item['product_image'] = $product->product->product_image;
@@ -103,8 +103,8 @@ class ProductRepository extends BaseRepository
                 $hot_offer = (double)$product->hot_offer->discounted_price;
             }
             $product_item['id'] = $product->id;
-            $product_item['name'] = $product->name;
-            $product_item['description'] = $product->description;
+            $product_item['name'] = $product->translate()->name;
+            $product_item['description'] = $product->translate()->description;
             $product_item['price'] = $product->price;
             $product_item['product_image'] = $product->product_image;
             $product_item['discounted_price'] = $hot_offer;
