@@ -61,10 +61,60 @@ class HomeController extends Controller
     {
         $orders = new Order();
         $new=$orders->select(DB::raw('DATE(created_at) as date_created,count(*) as order_count'))->groupBy('date_created')->get();
-
+        $orderAddresses = $orders->whereHas('address')->groupBy('delivery_address_id')->get();
+        $countries =[];
+        foreach ($orderAddresses as $orderAddress){
+            $country['name']= $this->getCountryName($orderAddress->address->lat,$orderAddress->address->lng);
+            $country['latLng']= [(string)round($orderAddress->address->lat,2),(string)round($orderAddress->address->lng,2)];
+            if($this->is_in_array($countries,'name',$country['name']) == 'no'){
+                array_push($countries,$country);
+            }
+        }
         $arr = [
-           'data' => $new
+           'data' => $new,
+            'country' =>$countries
         ];
         return response()->json($arr);
+    }
+
+    public function getMapCountries($lat,$lng)
+    {
+        $country = $this->getCountryName($lat,$lng);
+        return response()->json($country);
+    }
+
+    public function getCountryName($lat,$lng){
+
+        $geocode=file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?latlng='.$lat.','.$lng.'&sensor=false&key=AIzaSyDhnmMC23noePz6DA8iEvO9_yNDGGlEaeM');
+        $output= json_decode($geocode);
+
+        for($j=0;$j<count($output->results[0]->address_components);$j++){
+
+            $cn=array($output->results[0]->address_components[$j]->types[0]);
+
+            if(in_array("country", $cn)){
+                $country= $output->results[0]->address_components[$j]->long_name;
+            }
+        }
+
+        return $country ;
+    }
+    public function is_in_array($array, $key, $key_value)
+    {
+        $within_array = 'no';
+        foreach ($array as $k => $v) {
+            if (is_array($v)) {
+                $within_array = $this->is_in_array($v, $key, $key_value);
+                if ($within_array == 'yes') {
+                    break;
+                }
+            } else {
+                if ($v == $key_value && $k == $key) {
+                    $within_array = 'yes';
+                    break;
+                }
+            }
+        }
+        return $within_array;
     }
 }

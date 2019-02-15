@@ -19,7 +19,7 @@ return [
         'in_your_mail_box' => 'In Your Inbox',
         'messages' => 'Messages',
         'registered_users' => 'Registered Users',
-        'on_your_website' => 'On Your Website',
+        'on_your_website' => 'On Your Application',
         'on_progress_orders' => 'On Progress Orders',
         'delivered' => 'Delivered Orders',
         'sales' => 'Sales',

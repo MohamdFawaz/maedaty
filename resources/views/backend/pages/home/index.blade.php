@@ -42,7 +42,7 @@
                     <div class="col-md-3">
 
                         <!-- START WIDGET MESSAGES -->
-                        <div class="widget widget-default widget-item-icon" onclick="location.href='pages-messages.html';">
+                        <div class="widget widget-default widget-item-icon" >
                             <div class="widget-item-left">
                                 <span class="fa fa-envelope"></span>
                             </div>

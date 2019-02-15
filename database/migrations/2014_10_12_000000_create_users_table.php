@@ -28,6 +28,8 @@ class CreateUsersTable extends Migration
             $table->decimal('lat',11,7)->nullable();
             $table->decimal('lng', 11, 7)->nullable();
             $table->longText('firebase_token')->nullable();
+            $table->longText('remember_token')->nullable();
+            $table->integer('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

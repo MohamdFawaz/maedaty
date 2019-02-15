@@ -109,6 +109,7 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
     Route::group(['prefix' => 'json', 'as' => 'json.'], function (){
         Route::post('/filterByDate','HomeController@filterOrdersByDate');
         Route::get('/getSales','HomeController@getSalesLineChart');
+        Route::get('/getMapCountries/{lat}/{lng}','HomeController@getMapCountries');
 
     });
 
