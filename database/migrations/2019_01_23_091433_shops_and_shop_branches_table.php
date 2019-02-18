@@ -18,6 +18,7 @@ class ShopsAndShopBranchesTable extends Migration
         {
             $table->increments('id');
             $table->string('user_id');
+            $table->integer('status')->default(0);
             $table->string('image')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

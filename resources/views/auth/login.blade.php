@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{csrf_token()}}">
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="{{asset('public/images/maedaty-logo.jpg')}}" type="image/x-icon" />
+
     <!-- END META SECTION -->
 
     <!-- CSS INCLUDE -->
@@ -27,29 +28,36 @@
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 
                     <div class="col-md-12">
-                        <input id="email" type="email" class="form-control" name="email" placeholder="Enter Your Mail" value="{{ old('email') }}" required autofocus>
-
+                        <input id="email" type="email" class="form-control" name="email" placeholder="{{trans('backend.auth.email_placeholder')}}" value="{{ old('email') }}" required autofocus>
                         @if ($errors->has('email'))
                             <span class="help-block">
-                                      <strong>{{ $errors->first('email') }}</strong>
-                                  </span>
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
                         @endif
                     </div>
                 </div>
 
                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-
-
                     <div class="col-md-12">
-                        <input id="password" type="password" class="form-control" placeholder="Enter Your Password" name="password" required>
-
+                        <input id="password" type="password" class="form-control" placeholder="{{trans('backend.auth.password_placeholder')}}" name="password" required>
                         @if ($errors->has('password'))
                             <span class="help-block">
-                                      <strong>{{ $errors->first('password') }}</strong>
-                                  </span>
+                                  <strong>{{ $errors->first('password') }}</strong>
+                            </span>
                         @endif
                     </div>
                 </div>
+                {{--<div class="form-group">--}}
+                    {{--<div class="col-md-12">--}}
+                        {{--<label for="role_id">{{trans('backend.auth.role')}}</label>--}}
+                        {{--<select id="role_id" type="role_id" class="form-control" name="role_id">--}}
+                            {{--<option value="" >{{trans('messages.choose_option')}}</option>--}}
+                            {{--@foreach($roles as $role)--}}
+                                {{--<option class="form-control" value="{{$role->id}}" >{{$role->title}}</option>--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
                 <div class="form-group">
                     <div class="col-md-6">
                         <button class="btn btn-info btn-block">Log In</button>

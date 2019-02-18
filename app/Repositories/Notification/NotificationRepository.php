@@ -40,14 +40,25 @@ class NotificationRepository extends BaseRepository
         return $notifications_list;
     }
 
+    public function getAll()
+    {
+        $notifications = Notification::with('user')->get();
+        return $notifications;
+    }
+
     public function create(array $input)
     {
-        $input['password'] = Hash::make($input['password']);
-        $input['jwt_token'] = str_random(25);
-
-        //If user saved successfully, then return true
-        if ($user = Category::create($input)) {
-            return $input['jwt_token'];
+        $notification_image = $input['notification_image'];
+        $notification = Notification::create([
+            'image' => $notification_image,
+            'target' => $input['target'],
+            'status' => 1,
+            'ar' => ['title' => $input['title_ar'], 'message' => $input['text_ar']],
+            'en' => ['title' => $input['title_en'], 'message' => $input['text_en']]
+        ]);
+        //If notification saved successfully then return true
+        if ($notification) {
+            return $notification;
         }
 
         return false;

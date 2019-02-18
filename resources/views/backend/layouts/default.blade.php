@@ -31,9 +31,12 @@
             <li class="@if(url()->current() == route('backend.dashboard')) active @endif" >
                 <a href="{{route('backend.dashboard')}}"><span class="fa fa-desktop"></span> <span class="xn-text">{{trans('backend.sidemenu.dashboard')}}</span></a>
             </li>
+            @role('Super Admin')
             <li class="@if(Request::segment(2) == 'products') active @endif" >
                 <a href="{{route('backend.products')}}"><span class="fa fa-shopping-cart"></span> <span class="xn-text">{{trans('backend.sidemenu.products')}}</span></a>
             </li>
+            @endrole
+
             <li class="@if(Request::segment(2) == 'category') active @endif" >
                 <a href="{{route('backend.category')}}"><span class="fa fa-bars"></span> <span class="xn-text">{{trans('backend.sidemenu.category')}}</span></a>
             </li>
@@ -42,6 +45,9 @@
             </li>
             <li class="@if(Request::segment(2) == 'order') active @endif" >
                 <a href="{{route('backend.order')}}"><span class="fa fa-files-o"></span> <span class="xn-text">{{trans('backend.sidemenu.order')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'user') active @endif" >
+                <a href="{{route('backend.user')}}"><span class="fa fa-users"></span> <span class="xn-text">{{trans('backend.sidemenu.user')}}</span></a>
             </li>
             <li class="@if(Request::segment(2) == 'review') active @endif" >
                 <a href="{{route('backend.review')}}"><span class="fa fa-comment"></span> <span class="xn-text">{{trans('backend.sidemenu.reviews')}}</span></a>
@@ -55,84 +61,25 @@
             <li class="@if(Request::segment(2) == 'shop') active @endif" >
                 <a href="{{route('backend.shop')}}"><span class="fa fa-home"></span> <span class="xn-text">{{trans('backend.sidemenu.shop')}}</span></a>
             </li>
-            <li class="@if(Request::segment(2) == 'setting') active @endif" >
+            <li class="@if(Request::segment(2) == 'shop_branch') active @endif" >
+                <a href="{{route('backend.shop_branch')}}"><span class="fa fa-building-o"></span> <span class="xn-text">{{trans('backend.sidemenu.shop_branch')}}</span></a>
+            </li>
+            <li class="@if(Request::segment(2) == 'settings') active @endif" >
                 <a href="{{route('backend.settings.edit',1)}}"><span class="fa fa-cog"></span> <span class="xn-text">{{trans('backend.sidemenu.setting')}}</span></a>
             </li>
-            <li class="xn-openable hidden">
-                <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Pages</span></a>
-                <ul>
-                    <li><a href="pages-gallery.html"><span class="fa fa-image"></span> Gallery</a></li>
-                    <li><a href="pages-invoice.html"><span class="fa fa-dollar"></span> Invoice</a></li>
-                    <li><a href="pages-edit-profile.html"><span class="fa fa-wrench"></span> Edit Profile</a></li>
-                    <li><a href="pages-profile.html"><span class="fa fa-user"></span> Profile</a></li>
-                    <li><a href="pages-address-book.html"><span class="fa fa-users"></span> Address Book</a></li>
-                    <li class="xn-openable">
-                        <a href="#"><span class="fa fa-clock-o"></span> Timeline</a>
-                        <ul>
-                            <li><a href="pages-timeline.html"><span class="fa fa-align-center"></span> Default</a></li>
-                            <li><a href="pages-timeline-simple.html"><span class="fa fa-align-justify"></span> Full Width</a></li>
-                        </ul>
-                    </li>
-                    <li class="xn-openable">
-                        <a href="#"><span class="fa fa-envelope"></span> Mailbox</a>
-                        <ul>
-                            <li><a href="pages-mailbox-inbox.html"><span class="fa fa-inbox"></span> Inbox</a></li>
-                            <li><a href="pages-mailbox-message.html"><span class="fa fa-file-text"></span> Message</a></li>
-                            <li><a href="pages-mailbox-compose.html"><span class="fa fa-pencil"></span> Compose</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="pages-messages.html"><span class="fa fa-comments"></span> Messages</a></li>
-                    <li><a href="pages-calendar.html"><span class="fa fa-calendar"></span> Calendar</a></li>
-                    <li><a href="pages-tasks.html"><span class="fa fa-edit"></span> Tasks</a></li>
-                    <li><a href="pages-content-table.html"><span class="fa fa-columns"></span> Content Table</a></li>
-                    <li><a href="pages-faq.html"><span class="fa fa-question-circle"></span> FAQ</a></li>
-                    <li><a href="pages-search.html"><span class="fa fa-search"></span> Search</a></li>
-                    <li class="xn-openable">
-                        <a href="#"><span class="fa fa-file"></span> Blog</a>
-
-                        <ul>
-                            <li><a href="pages-blog-list.html"><span class="fa fa-copy"></span> List of Posts</a></li>
-                            <li><a href="pages-blog-post.html"><span class="fa fa-file-o"></span>Single Post</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="pages-lock-screen.html"><span class="fa fa-lock"></span> Lock Screen</a></li>
-                    <li class="xn-openable">
-                        <a href="#"><span class="fa fa-sign-in"></span> Login</a>
-                        <ul>
-                            <li><a href="pages-login.html">Login v1</a></li>
-                            <li><a href="pages-login-v2.html">Login v2</a></li>
-                            <li><a href="pages-login-inside.html">Login v2 Inside</a></li>
-                            <li><a href="pages-login-website.html">Website Login</a></li>
-                            <li><a href="pages-login-website-light.html"> Website Login Light</a></li>
-                        </ul>
-                    </li>
-                    <li class="xn-openable">
-                        <a href="#"><span class="fa fa-plus"></span> Registration</a><div class="informer informer-danger">New!</div>
-                        <ul>
-                            <li><a href="pages-registration.html">Default</a></li>
-                            <li><a href="pages-registration-login.html">With Login</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="pages-forgot-password.html"><span class="fa fa-question"></span> Forgot Password</a><div class="informer informer-danger">New!</div></li>
-                    <li class="xn-openable">
-                        <a href="#"><span class="fa fa-warning"></span> Error Pages</a>
-                        <ul>
-                            <li><a href="pages-error-404.html">Error 404 Sample 1</a></li>
-                            <li><a href="pages-error-404-2.html">Error 404 Sample 2</a></li>
-                            <li><a href="pages-error-500.html"> Error 500</a></li>
-                        </ul>
-                    </li>
-                </ul>
+            <li class="@if(Request::segment(2) == 'admin_users') active @endif" >
+                <a href="{{route('backend.admin_users')}}"><span class="fa fa-user-md"></span> <span class="xn-text">{{trans('backend.sidemenu.admin_users')}}</span></a>
             </li>
-
-
+            <li class="@if(Request::segment(2) == 'notification') active @endif" >
+                <a href="{{route('backend.notification')}}"><span class="fa fa-bell-o"></span> <span class="xn-text">{{trans('backend.sidemenu.notification')}}</span></a>
+            </li>
         </ul>
         <!-- END X-NAVIGATION -->
     </div>
-    <div class="message-box message-box-danger animated fadeIn" data-sound="alert" id="mb-signout">
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-sign-out"></span>  <strong>{{trans('backend.action.delete')}}</strong> ?</div>
+                <div class="mb-title"><span class="fa fa-sign-out"></span>  <strong>{{trans('backend.question.are_you_sure_logout')}}</strong> ?</div>
                 <div class="mb-content">
                     <p></p>
                 </div>
