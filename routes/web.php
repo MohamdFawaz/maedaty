@@ -121,7 +121,8 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
         'index' => 'admin_users',
         'show' => 'admin.show',
         'edit' => 'admin.edit',
-        'update' => 'admin.update'
+        'update' => 'admin.update',
+        'create' => 'admin.create'
     ]
     ]);
 

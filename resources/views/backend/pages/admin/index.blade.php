@@ -11,7 +11,9 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">{{trans('backend.admin.list')}}</h3>
                         <ul class="panel-controls">
-
+                            <a href="{{route('backend.admin.create')}}" >
+                                <span class="btn btn-success">{{trans('backend.action.create')}}</span>
+                            </a>
                         </ul>
                     </div>
                     <div class="panel-body">

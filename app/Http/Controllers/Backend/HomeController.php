@@ -11,15 +11,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
 
 
     public function index(){
-//        $role = Role::create(['name' => 'Super Admin']);
+//        $role = Role::where('name','Super Admin')->first();
 //        $permission = Permission::where('name','show products')->first();
 //        $role->givePermissionTo($permission);
-//        dd(Auth::user()->permissions);
         $orders = new Order();
         $total_orders = $orders->count();
         $unconfirmed_orders = $orders->where('order_status',0)->count();

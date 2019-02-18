@@ -271,6 +271,14 @@ class UserRepository extends BaseRepository
         return $user;
     }
 
+    public function createAdminAccount($input)
+    {
+        $input['password'] = Hash::make($input['password']);
+        $input['role_id'] = 1;
+        $user = User::create($input);
+        return $user;
+    }
+
     public function updateUser($user_id,$input)
     {
         $user = User::whereId($user_id)->first();

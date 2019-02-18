@@ -31,11 +31,11 @@
             <li class="@if(url()->current() == route('backend.dashboard')) active @endif" >
                 <a href="{{route('backend.dashboard')}}"><span class="fa fa-desktop"></span> <span class="xn-text">{{trans('backend.sidemenu.dashboard')}}</span></a>
             </li>
-            @role('Super Admin')
+            @can('show products')
             <li class="@if(Request::segment(2) == 'products') active @endif" >
                 <a href="{{route('backend.products')}}"><span class="fa fa-shopping-cart"></span> <span class="xn-text">{{trans('backend.sidemenu.products')}}</span></a>
             </li>
-            @endrole
+            @endcan
 
             <li class="@if(Request::segment(2) == 'category') active @endif" >
                 <a href="{{route('backend.category')}}"><span class="fa fa-bars"></span> <span class="xn-text">{{trans('backend.sidemenu.category')}}</span></a>

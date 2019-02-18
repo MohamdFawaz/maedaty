@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Http\Requests\Backend\AdminUser\StoreAdminUserRequest;
 use App\Models\User\User;
 use App\Repositories\User\UserRepository;
 use Illuminate\Http\Request;
@@ -30,6 +31,15 @@ class AdminController extends Controller
     public function edit($user_id){
         $user = $this->repository->getUserByID($user_id);
         return view('backend.pages.admin.edit',compact('user'));
+    }
+
+    public function create(){
+        return view('backend.pages.admin.create');
+    }
+
+    public function store(StoreAdminUserRequest $request){
+        $this->repository->createAdminAccount($request->except('_token','_method'));
+        return redirect('admin/admin_users');
     }
 
     public function update($user_id,Request $request){
