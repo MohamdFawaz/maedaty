@@ -22,6 +22,7 @@ return [
     ],
     'auth' => [
         'wrong_phone_password'=>'Login Failed, Check your Phone or Password',
+        'account_suspended'=>'Your Account is Suspended by The Administrator',
         'wrong_activate_code'=>'Wrong Activation Code, Please Check and Try Again',
         'activated_successfully'=>'Account Activated Successfully',
         'message_sent'=>'Check Your Message For Activation Code ',

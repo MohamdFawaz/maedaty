@@ -33,6 +33,13 @@ class NotificationRepository extends BaseRepository
         return $this->sendGCM($message,$type,$token);
     }
 
+    public function sendPushToAllUsers($users,$notification){
+
+        foreach ($users as $user){
+            $this->sendGCM($notification->translate($user->lang)->message,'notification',$user->token,$notification->translate($user->lang)->title);
+        }
+    }
+
     function sendGCM($message,$type, $token,$title = 'Maedaty') {
 
 

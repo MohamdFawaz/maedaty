@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Backend;
 
-use function App\Helpers\getRouteUrl;
 use App\Models\Message\Message;
 use App\Models\Order\Order;
-use App\Models\Setting\Setting;
 use App\Models\User\User;
-use App\Repositories\Setting\SettingRepository;
 use Carbon\Carbon;
-use function GuzzleHttp\Psr7\parse_header;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DB;
-use function Sodium\crypto_auth;
-
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 class HomeController extends Controller
 {
 
 
     public function index(){
+//        $role = Role::create(['name' => 'Super Admin']);
+//        $permission = Permission::where('name','show products')->first();
+//        $role->givePermissionTo($permission);
+//        dd(Auth::user()->permissions);
         $orders = new Order();
         $total_orders = $orders->count();
         $unconfirmed_orders = $orders->where('order_status',0)->count();

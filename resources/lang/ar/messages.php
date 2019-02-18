@@ -19,6 +19,7 @@ return [
     'auth' => [
         'wrong_phone_password'=>'فشل في تسجيل الدخول تأكد من صحة البيانات ',
         'wrong_activate_code'=>'كود تفعيل خاطئ،حاول مرة اخرى',
+        'account_suspended'=>'تم ايقاف حسابك من قبل الادارة',
         'activated_successfully'=>'تم تفعيل الحساب بنجاح',
         'message_sent'=>'تفقد كود التفعيل في الرسائل',
         'phone_not_exists'=>'لا يوجد حساب بهذا الرقم، تأكد من الرقم و حاول مره اخرى'

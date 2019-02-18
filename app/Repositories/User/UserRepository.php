@@ -246,12 +246,45 @@ class UserRepository extends BaseRepository
         }
         return false;
     }
-    public function sendActivationSMS(){
 
-    }
     public function getAll()
     {
-        $users = User::whereUserStatus(1)->get();
+        $users = User::whereUserStatus(1)->whereRoleId(2)->get();
         return $users;
+    }
+
+    public function getAdminAll()
+    {
+        $users = User::whereRoleId(1)->get();
+        return $users;
+    }
+
+    public function getUserByID($user_id)
+    {
+        $user = User::whereId($user_id)->first();
+        return $user;
+    }
+
+    public function destroyUser($user_id)
+    {
+        $user = User::whereId($user_id)->delete();
+        return $user;
+    }
+
+    public function updateUser($user_id,$input)
+    {
+        $user = User::whereId($user_id)->first();
+        $user->first_name = $input['first_name'];
+        $user->last_name = $input['last_name'];
+        $user->email = $input['email'];
+        $user->phone = $input['phone'];
+        if(isset($input['password'])){
+            $user->phone = Hash::make($input['phone']);
+        }
+        if(isset($input['user_image'])){
+            $user->user_image = $input['user_image'];
+        }
+        $user->save();
+        return $user;
     }
 }

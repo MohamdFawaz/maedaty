@@ -106,6 +106,33 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
         ]
     ]);
 
+    Route::post('user/updateStatus','UserController@updateStatus');
+    Route::resource('user','UserController',[
+    'names' => [
+        'index' => 'user',
+        'show' => 'user.show',
+        'edit' => 'user.edit'
+    ]
+    ]);
+
+    Route::get('admin_users/delete/{user_id}','AdminController@delete')->name('admin_users.delete');
+    Route::resource('admin_users','AdminController',[
+    'names' => [
+        'index' => 'admin_users',
+        'show' => 'admin.show',
+        'edit' => 'admin.edit',
+        'update' => 'admin.update'
+    ]
+    ]);
+
+    Route::get('notification/delete/{notification_id}','NotificationController@delete')->name('notification.delete');
+    Route::resource('notification','NotificationController',[
+    'names' => [
+        'index' => 'notification',
+        'show' => 'notification.show',
+    ]
+    ]);
+
     Route::group(['prefix' => 'json', 'as' => 'json.'], function (){
         Route::post('/filterByDate','HomeController@filterOrdersByDate');
         Route::get('/getSales','HomeController@getSalesLineChart');
