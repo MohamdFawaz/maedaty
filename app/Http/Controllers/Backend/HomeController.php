@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Message\Message;
 use App\Models\Order\Order;
+use App\Models\Product\Product;
 use App\Models\User\User;
+use App\Repositories\Order\OrderRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,24 +17,47 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
 
+    protected $repository;
+
+    public function __construct(OrderRepository $repository)
+    {
+        $this->repository = $repository;
+    }
 
     public function index(){
-//        $role = Role::where('name','Super Admin')->first();
-//        $permission = Permission::where('name','show products')->first();
+//        $role = Role::where('name','Store Admin')->first();
+//        $permission = Permission::create(['name'=>'show orders on dashboard']);
 //        $role->givePermissionTo($permission);
-        $orders = new Order();
-        $total_orders = $orders->count();
-        $unconfirmed_orders = $orders->where('order_status',0)->count();
-        $new_orders = $orders->where('order_status',1)->count();
-        $onprogress_orders = $orders->where('order_status',2)->count();
-        $delivered_orders = $orders->where('order_status',3)->count();
-        $new_to_total_percentage = floor($new_orders/$total_orders);
-        $messages = new Message();
-        $messages_count = $messages->where('user','!=', 'admin')->where('message_read',0)->count(); // TODO change id with auth user id
-        $users = new User();
-        $activated_users = $users->where('user_status', 1)->where('role_id',2)->count();
+        if(Auth::user()->hasRole('Super Admin')){
+            $orders = new Order();
+            $total_orders = $orders->count();
+            $unconfirmed_orders = $orders->where('order_status',0)->count();
+            $new_orders = $orders->where('order_status',1)->count();
+            $onprogress_orders = $orders->where('order_status',2)->count();
+            $delivered_orders = $orders->where('order_status',3)->count();
+            $new_to_total_percentage = floor($new_orders/$total_orders);
+            $messages = new Message();
+            $messages_count = $messages->where('user','!=', 'admin')->where('message_read',0)->count(); // TODO change id with auth user id
+            $users = new User();
+            $activated_users = $users->where('user_status', 1)->where('role_id',2)->count();
+            $products = new Product();
+            $products = $products->where('status',1)->count();
+        }elseif(Auth::user()->hasRole('Store Admin')){
+            $orders = new Order();
+            $store_orders = $this->repository->getProductStoreId($orders->get());
+            $total_orders = $orders->whereIn('id',$store_orders)->count();
+            $unconfirmed_orders = $orders->whereIn('id',$store_orders)->where('order_status',0)->count();
+            $new_orders = $orders->whereIn('id',$store_orders)->where('order_status',1)->count();
+            $onprogress_orders = $orders->whereIn('id',$store_orders)->where('order_status',2)->count();
+            $delivered_orders = $orders->whereIn('id',$store_orders)->where('order_status',3)->count();
+            $new_to_total_percentage = floor($new_orders/$total_orders);
+            $products = new Product();
+            $products = $products->where('status',1)->where('shop_id',Auth::user()->shop->id)->count();
+        }
 
-        return view('backend.pages.home.index',compact('total_orders','unconfirmed_orders','new_orders','onprogress_orders','delivered_orders','new_to_total_percentage','messages_count','activated_users'));
+
+
+        return view('backend.pages.home.index',compact('total_orders','unconfirmed_orders','new_orders','onprogress_orders','delivered_orders','new_to_total_percentage','messages_count','activated_users','products'));
     }
 
     public function filterOrdersByDate(Request $request)

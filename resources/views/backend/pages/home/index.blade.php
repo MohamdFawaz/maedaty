@@ -10,7 +10,6 @@
 
             <!-- PAGE CONTENT WRAPPER -->
             <div class="page-content-wrap">
-
                 <!-- START WIDGETS -->
                 <div class="row">
                     <div class="col-md-3">
@@ -39,6 +38,7 @@
                         <!-- END WIDGET SLIDER -->
 
                     </div>
+                    @role('Super Admin')
                     <div class="col-md-3">
 
                         <!-- START WIDGET MESSAGES -->
@@ -73,6 +73,8 @@
                         <!-- END WIDGET REGISTRED -->
 
                     </div>
+                    @endrole
+
                     <div class="col-md-3">
 
                         <!-- START WIDGET CLOCK -->

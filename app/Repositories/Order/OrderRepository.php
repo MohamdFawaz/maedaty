@@ -3,6 +3,7 @@
 namespace App\Repositories\Order;
 
 use App\Models\Order\Order;
+use App\Models\Product\Product;
 use App\Models\UserApplyPromo\UserApplyPromo;
 use App\Repositories\BaseRepository;
 use App\Repositories\Product\ProductRepository;
@@ -149,5 +150,19 @@ class OrderRepository extends BaseRepository
                 $product_list[] = $product_item;
             }
             return $product_list;
+    }
+
+    public function getProductStoreId($orders){
+        $shop = [];
+        foreach($orders as $order){
+            foreach ($order->products as $product){
+                $shop_id = Product::whereId($product['product_id'])->first()->shop_id;
+                $order_id = $order->id;
+                if(!in_array($order_id,$shop)){
+                    $shop[] = $order_id;
+                }
+            }
+        }
+        return $shop;
     }
 }

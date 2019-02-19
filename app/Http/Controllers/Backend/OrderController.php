@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Order\Order;
 use App\Models\OrderStatus\OrderStatus;
+use App\Models\Product\Product;
 use App\Models\SubCategory\SubCategory;
 use App\Repositories\Order\OrderRepository;
 use App\Repositories\PushNotification\NotificationRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -23,7 +25,13 @@ class OrderController extends Controller
     }
 
     public function index(){
-        $orders = Order::with('user')->where('order_status','<>','0')->get();
+        if(Auth::user()->hasRole('Super Admin')){
+            $orders = Order::with('user')->where('order_status','<>','0')->get();
+        }else{
+            $products_id = Product::where('shop_id',Auth::user()->shop->id)->pluck('id');
+            $orders = Order::with('user')->where('order_status','<>','0')->whereJsonContains('products->product_id', [1,2])->get();
+            dd($orders);
+        }
         return view('backend.pages.order.index',compact('orders'));
     }
 

@@ -29,6 +29,7 @@ return [
         'dashboard' => 'Dashboard'
     ],
     'sidemenu' => [
+        'navigation' => 'Navigation',
         'dashboard' => 'Dashboard',
         'products' => 'Products',
         'category' => 'Categories',

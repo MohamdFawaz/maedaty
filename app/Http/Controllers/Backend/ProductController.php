@@ -2,37 +2,45 @@
 
 namespace App\Http\Controllers\Backend;
 
-use function App\Helpers\getRouteUrl;
 use App\Models\Category\Category;
-use App\Models\Message\Message;
-use App\Models\Order\Order;
 use App\Models\Product\Product;
 use App\Models\Product\ProductTranslation;
 use App\Models\ProductImage\ProductImage;
-use App\Models\Setting\Setting;
 use App\Models\Shop\Shop;
 use App\Models\SubCategory\SubCategory;
-use App\Models\User\User;
-use App\Repositories\Setting\SettingRepository;
-use Carbon\Carbon;
-use function GuzzleHttp\Psr7\parse_header;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
 
 
     public function index(){
-        $products = Product::with('shop')->get();
+        if(Auth::user()->hasRole('Super Admin')){
+            $products = Product::with('shop')->get();
+        }elseif(Auth::user()->hasRole('Store Admin')){
+            $products = Product::with('shop')->where('shop_id',Auth::user()->shop->id)->get();
+
+        }
         return view('backend.pages.product.index',compact('products'));
     }
 
 
-    public function show($product_id){
+    public function show($product_id, Request $request)
+    {
+        $request->merge(['product_id' => $product_id]);
+
+        $this->validate($request,
+            [
+                'product_id' => 'required|exists:products,id,shop_id,'.Auth::user()->shop->id,
+            ]
+        );
+
         $product = Product::with('shop','product_images','hot_offer')->where('id',$product_id)->first();
         $images = ProductImage::where('product_id',$product_id)->get();
+
         return view('backend.pages.product.show',compact('product','images'));
     }
 
@@ -44,7 +52,15 @@ class ProductController extends Controller
         return view('backend.pages.product.create',compact('shops','categories','subcategory'));
     }
 
-    public function edit($product_id){
+    public function edit($product_id,Request $request){
+
+        $request->merge(['product_id' => $product_id]);
+
+        $this->validate($request,
+            [
+                'product_id' => 'required|exists:products,id,shop_id,'.Auth::user()->shop->id,
+            ]
+        );
         $product = Product::with('shop','product_images','hot_offer','category','subcategory')->where('id',$product_id)->first();
         $images = ProductImage::where('product_id',$product_id)->get();
         $shops = Shop::get();

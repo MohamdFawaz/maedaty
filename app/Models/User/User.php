@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Shop\Shop;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +17,7 @@ class User extends Authenticatable implements JWTSubject
     use SoftDeletes;
     use HasRoles;
 
-    protected $with = ['socialaccount'];
+    protected $with = ['socialaccount','shop'];
     /**
      * The attributes that are mass assignable.
      *
@@ -78,6 +79,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function address(){
         return $this->hasMany(Address::class, 'user_id');
+    }
+
+    public function shop(){
+        return $this->hasOne(Shop::class, 'user_id');
     }
 
     public function getActionAttribute()
