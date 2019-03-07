@@ -25,6 +25,11 @@ class PromoCodeRepository  extends BaseRepository
         $this->model = $model;
     }
 
+    public function getAll()
+    {
+        return PromoCode::get();
+    }
+
     /**
      * @param object $model
      */
@@ -55,5 +60,15 @@ class PromoCodeRepository  extends BaseRepository
         }
 
         return false;
+    }
+
+    public function delete($promo_id){
+        PromoCode::where('id',$promo_id)->delete();
+        return true;
+    }
+
+    public function getPromoById($promo_id){
+        PromoCode::where('id',$promo_id)->first();
+        return true;
     }
 }

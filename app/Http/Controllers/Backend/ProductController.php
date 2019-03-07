@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use test\Mockery\MockClassWithUnknownTypeHintTest;
 
 class ProductController extends Controller
 {
@@ -30,13 +31,14 @@ class ProductController extends Controller
 
     public function show($product_id, Request $request)
     {
-        $request->merge(['product_id' => $product_id]);
-
-        $this->validate($request,
-            [
-                'product_id' => 'required|exists:products,id,shop_id,'.Auth::user()->shop->id,
-            ]
-        );
+        if(Auth::user()->shop != null){
+            $request->merge(['product_id' => $product_id]);
+            $this->validate($request,
+                [
+                    'product_id' => 'required|exists:products,id,shop_id,'.Auth::user()->shop->id,
+                ]
+            );
+        }
 
         $product = Product::with('shop','product_images','hot_offer')->where('id',$product_id)->first();
         $images = ProductImage::where('product_id',$product_id)->get();
@@ -54,13 +56,14 @@ class ProductController extends Controller
 
     public function edit($product_id,Request $request){
 
-        $request->merge(['product_id' => $product_id]);
-
-        $this->validate($request,
-            [
-                'product_id' => 'required|exists:products,id,shop_id,'.Auth::user()->shop->id,
-            ]
-        );
+        if(Auth::user()->shop != null){
+            $request->merge(['product_id' => $product_id]);
+            $this->validate($request,
+                [
+                    'product_id' => 'required|exists:products,id,shop_id,'.Auth::user()->shop->id,
+                ]
+            );
+        }
         $product = Product::with('shop','product_images','hot_offer','category','subcategory')->where('id',$product_id)->first();
         $images = ProductImage::where('product_id',$product_id)->get();
         $shops = Shop::get();

@@ -4,6 +4,7 @@ namespace App\Repositories\UserReview;
 
 use App\Models\UserReview\UserReview;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 
 /**
 * Class NotificationRepository.
@@ -26,6 +27,13 @@ class UserReviewRepository extends BaseRepository
 
     public function getAll(){
         $userReviews = UserReview::with('user','product')->get();
+        return $userReviews;
+    }
+
+    public function getStoreReviewAll(){
+        $userReviews = UserReview::with('user')->whereHas('product',function ($query){
+            $query->where('shop_id',Auth::user()->shop->id);
+        })->get();
         return $userReviews;
     }
 

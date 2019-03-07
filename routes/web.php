@@ -21,12 +21,17 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     Route::resource('message','MessageController');
     Route::get('login','LoginController@showLogin');
     Route::post('login','LoginController@login');
+    Route::get('/test', function() {
+        return File::get(public_path() . '/website/index.html');
+    });
 
 });
 Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin'], function () {
+    Route::get('/home',function (){
+        redirect('admin');
+    });
     Route::Auth();
     Route::group(["middleware" => "auth"], function () {
-
     Route::get('/','HomeController@index')->name('dashboard');
     Route::post('products/updateStatus','ProductController@updateStatus');
     Route::get('products/deleteImage/{$id}','ProductController@deleteImage')->name('del.product.image');
@@ -87,8 +92,8 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
             'edit' => 'shop.edit'
         ]
     ]);
-    Route::get('shop_branch/delete/{branch_id}', 'ShopBranchController@destroy')->name('shop.branch.delete');
 
+    Route::get('shop_branch/delete/{branch_id}', 'ShopBranchController@destroy')->name('shop.branch.delete');
     Route::resource('shop_branch','ShopBranchController',[
         'names' => [
             'index' => 'shop_branch',
@@ -96,6 +101,7 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
             'edit' => 'shop_branch.edit'
         ]
     ]);
+
     Route::resource('settings','SettingController');
 
     Route::post('message/get_messages','MessageController@listMessages')->name('list.messages');
@@ -131,6 +137,16 @@ Route::group(['namespace' => 'Backend', 'as' => 'backend.', 'prefix' => 'admin']
     'names' => [
         'index' => 'notification',
         'show' => 'notification.show',
+    ]
+    ]);
+
+    Route::get('promo/delete/{promo_id}','PromoCodeController@delete')->name('promo.delete');
+    Route::post('promo/updateStatus','PromoCodeController@updateStatus');
+
+    Route::resource('promo','PromoCodeController',[
+    'names' => [
+        'index' => 'promo',
+        'show' => 'promo.show',
     ]
     ]);
 

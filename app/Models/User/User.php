@@ -24,7 +24,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'first_name','last_name','phone','location','lat','lng','lang','firebase_token','role_id', 'email', 'password',
+        'first_name','last_name','phone','user_image','location','lat','lng','lang','firebase_token','role_id','jwt_token','activate_code', 'email', 'password','shop_id'
     ];
 
     /**
@@ -82,7 +82,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function shop(){
-        return $this->hasOne(Shop::class, 'user_id');
+        return $this->hasOne(Shop::class, 'id','shop_id');
     }
 
     public function getActionAttribute()

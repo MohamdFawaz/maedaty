@@ -2452,6 +2452,9 @@ input[type=checkbox] {
 .form-control[readonly] {
   color: #CCC;
 }
+.readonly{
+    cursor: not-allowed;
+}
 .form-control[disabled]:focus,
 .form-control[readonly]:focus {
   background: #EEE;

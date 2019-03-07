@@ -151,7 +151,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-6">
                                         <div id="dashboard-map-seles" style="width: 100%; height: 200px"></div>
                                     </div>
                                 </div>
@@ -160,10 +160,10 @@
                         <!-- END SALES BLOCK -->
 
                     </div>
-                    <div class="col-md-4">
+                    <!--<div class="col-md-4">-->
 
                         <!-- START PROJECTS BLOCK -->
-                        <div class="panel panel-default">
+                        <!--<div class="panel panel-default">
                             <div class="panel-heading">
                                 <div class="panel-title-box">
                                     <h3>Projects</h3>
@@ -252,7 +252,7 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </div>-->
                         <!-- END PROJECTS BLOCK -->
 
                     </div>
@@ -266,7 +266,6 @@
                             <div class="panel-heading">
                                 <div class="panel-title-box">
                                     <h3>{{trans('backend.dashboard.sales')}}</h3>
-                                    <span>Event "Purchase Button"</span>
                                 </div>
                                 <ul class="panel-controls" style="margin-top: 2px;">
                                     <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
@@ -347,14 +346,13 @@
 
                 <!-- START DASHBOARD CHART -->
                 <div class="block-full-width">
-                    <div id="dashboard-chart" style="height: 250px; width: 100%; float: left;"></div>
+                    <div id="dashboard-chart" style="height: 1px; width: 100%; float: left;"></div>
                     <div class="chart-legend">
                         <div id="dashboard-legend"></div>
                     </div>
                 </div>
                 <!-- END DASHBOARD CHART -->
 
-            </div>
             <!-- END PAGE CONTENT WRAPPER -->
 
 

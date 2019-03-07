@@ -8,6 +8,7 @@ use App\Models\User\User;
 use App\Repositories\BaseRepository;
 use App\Repositories\Address\AddressRepository;
 use App\Repositories\Setting\SettingRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use GuzzleHttp\Client;
 
@@ -54,25 +55,31 @@ class UserRepository extends BaseRepository
         return $data;
     }
 
-    public function create($input)
+    public function create($input,$user_image = null)
     {
+
         $jwt_token = str_random(25);
         $input->password = Hash::make($input->password);
         $array = array(
-            'email' => $input->email,
+            'email' => ($input->email) ?? "",
             'first_name' => $input->first_name,
             'last_name' => $input->last_name,
-            'firebase_token' => $input->firebase_token,
             'jwt_token' => $jwt_token,
             'lat' => $input->lat,
             'lng' => $input->lng,
             'location' => $input->location,
-            'password' => Hash::make($input->password),
+            'password' => $input->password,
             'phone' => $input->phone,
         );
+
         //If user saved successfully, then return true
         if ($user = User::create($array)) {
-            $input->user_id = $user->id;
+            if($user_image){
+                $user->user_image = $user_image;
+            }
+            $sms_code = $this->sendSMS($input->phone);
+            $user->activate_code = $sms_code['code'];
+            $user->save();
             //add new address with user id
             $this->addressRepository->createAddressFromSignup($array);
             return ['user_id' => $user->id,'jwt_token' => $jwt_token];
@@ -193,6 +200,11 @@ class UserRepository extends BaseRepository
         return true;
     }
 
+    public function checkIfAccountExists($phone)
+    {
+        return User::where('phone',$phone)->first();
+    }
+
     public function sendSMS($mobile_number)
     {
 
@@ -259,6 +271,12 @@ class UserRepository extends BaseRepository
         return $users;
     }
 
+    public function getShopAdminAll()
+    {
+        $users = User::where('shop_id',Auth::user()->shop->id)->whereRoleId(1)->get();
+        return $users;
+    }
+
     public function getUserByID($user_id)
     {
         $user = User::whereId($user_id)->first();
@@ -275,6 +293,15 @@ class UserRepository extends BaseRepository
     {
         $input['password'] = Hash::make($input['password']);
         $input['role_id'] = 1;
+        $user = User::create($input);
+        return $user;
+    }
+
+    public function createStoreAdminAccount($input)
+    {
+        $input['password'] = Hash::make($input['password']);
+        $input['role_id'] = 1;
+        $input['shop_id'] = Auth::user()->shop->id;
         $user = User::create($input);
         return $user;
     }

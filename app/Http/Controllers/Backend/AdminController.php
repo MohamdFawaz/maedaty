@@ -7,6 +7,7 @@ use App\Models\User\User;
 use App\Repositories\User\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -19,7 +20,11 @@ class AdminController extends Controller
     }
 
     public function index(){
-        $users = $this->repository->getAdminAll();
+        if(Auth::user()->hasRole('Super Admin')){
+            $users = $this->repository->getAdminAll();
+        }else{
+            $users = $this->repository->getShopAdminAll();
+        }
         return view('backend.pages.admin.index',compact('users'));
     }
 
@@ -38,7 +43,11 @@ class AdminController extends Controller
     }
 
     public function store(StoreAdminUserRequest $request){
-        $this->repository->createAdminAccount($request->except('_token','_method'));
+        if(Auth::user()->hasRole('Super Admin')){
+            $this->repository->createAdminAccount($request->except('_token','_method'));
+        }elseif (Auth::user()->hasRole('Store Admin')){
+            $this->repository->createStoreAdminAccount($request->except('_token','_method'));
+        }
         return redirect('admin/admin_users');
     }
 

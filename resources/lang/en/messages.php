@@ -24,6 +24,7 @@ return [
         'wrong_phone_password'=>'Login Failed, Check your Phone or Password',
         'account_suspended'=>'Your Account is Suspended by The Administrator',
         'wrong_activate_code'=>'Wrong Activation Code, Please Check and Try Again',
+        'account_exists'=>'Phone Number Already Exists',
         'activated_successfully'=>'Account Activated Successfully',
         'message_sent'=>'Check Your Message For Activation Code ',
         'phone_not_exists'=>'No Account Found with this Phone Number, Please Try Again'
@@ -102,7 +103,8 @@ return [
     ],
     'shop' => [
         'list'=>'List Shops',
-        'branches'=>'List Branches'
+        'branches'=>'List Branches',
+        'category'=>'Category List'
     ],
     'something_went_wrong' => 'Something Went Wrong, Please Try Again Later',
     'choose_option' => 'Choose Option',

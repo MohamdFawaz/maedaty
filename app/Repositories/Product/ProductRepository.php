@@ -230,7 +230,7 @@ class ProductRepository extends BaseRepository
      * @param int  $page
      * @param array $options
      *
-     * @return LengthAwarePaginator
+     * @return array
      */
     public function paginate($items, $perPage = 15, $page = null, $options = [])
     {

@@ -25,7 +25,8 @@ $(function(){
                 'fromDate': start.format('DD-MM-YYYY HH:mm:ss'),
                 'toDate' : end.format('DD-MM-YYYY HH:mm:ss')
               };
-            $.jvectormap({
+            console.log(data);
+            $.ajax({
                 type:"POST",
                 url: url,
                 data:data ,
@@ -42,6 +43,8 @@ $(function(){
                     $('#delivered-orders').html(data.delivered_orders);
                     $('#delivered-orders-bar').html(data.delivered_orders);
                     $('#delivered-orders-bar').attr('style','width: '+data.delivered_orders+'px');
+                    $('#dashboard-map-seles').empty();
+                    displayMap(data);
 
                 }
             });
@@ -148,7 +151,7 @@ $(function(){
     }
     getSales().then(function(data){
         displayChart(data.data);
-        displayMap(data)
+        displayMap(data.data)
     }).fail(function(data){
         // Do something with the data when it fails
     });

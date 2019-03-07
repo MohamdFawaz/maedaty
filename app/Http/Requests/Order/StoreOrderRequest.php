@@ -33,6 +33,7 @@ class StoreOrderRequest extends Request
         return [
             'user_id' => 'required|exists:users,id',
             'order_id' => 'required|exists:orders,id,order_status,0',
+            'delivery_address_id' => 'required',
             'jwt_token' => [
                 'required',
                 Rule::exists('users')->where(function ($query) use ($user_id,$jwt_token) {

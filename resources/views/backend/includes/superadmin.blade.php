@@ -37,3 +37,6 @@
 <li class="@if(Request::segment(2) == 'notification') active @endif" >
     <a href="{{route('backend.notification')}}"><span class="fa fa-bell-o"></span> <span class="xn-text">{{trans('backend.sidemenu.notification')}}</span></a>
 </li>
+<li class="@if(Request::segment(2) == 'promo') active @endif" >
+    <a href="{{route('backend.promo')}}"><span class="fa fa-tag"></span> <span class="xn-text">{{trans('backend.sidemenu.promo')}}</span></a>
+</li>

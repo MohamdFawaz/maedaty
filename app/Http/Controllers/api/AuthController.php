@@ -6,17 +6,13 @@ use App\Http\Requests\User\ActivateAccountRequest;
 use App\Http\Requests\User\ForgotPasswordRequest;
 use App\Http\Requests\User\SocialLoginRequest;
 use App\Models\User\User;
-use App\Models\SocialLogin\SocialLogin;
 use App\Repositories\TempUser\TempUserRepository;
 use App\Repositories\SocialLogin\SocialLoginRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\User\UserRepository;
-use JWTAuth;
 use App\Http\Requests\User\LoginRequest;
-use App\Http\Requests\User\SignupRequest;
-use Validator;
-use Helper;
+
 
 class AuthController extends APIController
 {
@@ -51,7 +47,6 @@ class AuthController extends APIController
     public function login(LoginRequest $request)
     {
         $credentials = $request->only(['phone', 'password']);
-
         if(Auth::attempt($credentials)){
             $user = Auth::user();
             if($user->status == 0){
@@ -82,7 +77,12 @@ class AuthController extends APIController
     public function signup(Request $request)
     {
         $data = json_decode($request->data);
-        if($user = $this->repository->create($data)){
+
+        if($this->repository->checkIfAccountExists($data->phone)){
+            return $this->respondWithError(trans('messages.auth.account_exists'));
+        }
+
+        if($user = $this->repository->create($data,$request->user_image)){
 
             return $this->respond(
                 200,
@@ -180,7 +180,6 @@ class AuthController extends APIController
             return $this->respondWithError(trans('messages.auth.phone_not_exists'));
         }
         $sms_code = $this->repository->sendSMS($user->phone);
-        $sms_code['response'] = 1;
         if($sms_code['response']== '1'){
             $user->activate_code = $sms_code['code'];
             $user->user_status = 0;

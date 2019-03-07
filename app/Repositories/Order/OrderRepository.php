@@ -54,12 +54,13 @@ class OrderRepository extends BaseRepository
         if($hasPromo){
             $new_price = $this->getDiscount($input['order_id'],$hasPromo->promo_code);
         }
+
         $order = Order::whereId($input['order_id'])->first();
         $order->order_time = $input['order_time'];
         $order->order_date = $input['order_date'];
         $order->payment_method = $input['payment_method'];
         $order->delivery_address_id = $input['delivery_address_id'];
-        $order->subtotal_fees = $new_price['new_subtotal'];
+        $order->subtotal_fees = isset($new_price['new_subtotal']) ?? $this->getSubtotal($order->products);
         $order->order_status = 1;
         if($order->save()){
             return true;
@@ -152,17 +153,18 @@ class OrderRepository extends BaseRepository
             return $product_list;
     }
 
-    public function getProductStoreId($orders){
-        $shop = [];
+    public function getProductStoreId($products,$orders){
+        $orders_id = [];
         foreach($orders as $order){
             foreach ($order->products as $product){
-                $shop_id = Product::whereId($product['product_id'])->first()->shop_id;
-                $order_id = $order->id;
-                if(!in_array($order_id,$shop)){
-                    $shop[] = $order_id;
+                if(in_array($product['product_id'],$products)){
+                    $orders_id[] = $order->id;
                 }
+//                $order_id = $order->id;
+//                if(!in_array($order_id,$shop)){
+//                }
             }
         }
-        return $shop;
+        return $orders_id;
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\Request;
 use App\Repositories\Shop\ShopRepository;
 use App\Repositories\ShopBranch\ShopBranchRepository;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ShopBranchController extends Controller
 {
@@ -24,7 +25,11 @@ class ShopBranchController extends Controller
 
     public function index()
     {
-        $shopBranches = $this->repository->getAll();
+        if(Auth::user()->hasRole('Super Admin')){
+            $shopBranches = $this->repository->getAll();
+        }elseif(Auth()->user()->hasRole('Store Admin')){
+            $shopBranches = $this->repository->getShopBranchesAll();
+        }
         return view('backend.pages.shop_branch.index', compact('shopBranches'));
     }
 

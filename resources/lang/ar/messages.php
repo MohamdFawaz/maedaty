@@ -20,6 +20,7 @@ return [
         'wrong_phone_password'=>'فشل في تسجيل الدخول تأكد من صحة البيانات ',
         'wrong_activate_code'=>'كود تفعيل خاطئ،حاول مرة اخرى',
         'account_suspended'=>'تم ايقاف حسابك من قبل الادارة',
+        'account_exists'=>'الايميل او رقم الهاتف موجود من قبل',
         'activated_successfully'=>'تم تفعيل الحساب بنجاح',
         'message_sent'=>'تفقد كود التفعيل في الرسائل',
         'phone_not_exists'=>'لا يوجد حساب بهذا الرقم، تأكد من الرقم و حاول مره اخرى'
@@ -101,7 +102,8 @@ return [
     ],
     'shop' => [
         'list'=>'قائمة المتاجر',
-        'branches'=>'قائمة الفروع'
+        'branches'=>'قائمة الفروع',
+        'category'=>'قائمة الفروع'
     ],
     'something_went_wrong' => 'حدث خطأ ما، برجاء المحاولة فيما بعد',
     'order_updated' => 'تحديث على الطلب: ',

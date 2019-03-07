@@ -19,7 +19,7 @@
                             <select class="form-control" name="shop_id" id="shop_id">
                                 <option value="">{{trans('messages.choose_option')}}</option>
                                 @foreach($shops as $shop)
-                                    <option value="{{$shop->id}}" @if($shop->id == $shop_branch->id) selected @endif>{{$shop->name}}</option>
+                                    <option value="{{$shop->id}}" @if($shop->id == $shop_branch->shop_id) selected @if(Auth()->user()->hasRole('Store Admin')) disabled @endif @endif>{{$shop->name}}</option>
                                 @endforeach
                             </select>
                             <small class="text-danger">{{ $errors->first('shop_id') }}</small>

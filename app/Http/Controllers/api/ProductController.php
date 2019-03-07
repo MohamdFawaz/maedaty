@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Requests\User\SearchRequest;
 use App\Models\UserCart\UserCart;
+use App\Repositories\Shop\ShopRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Product\Product;
@@ -23,7 +24,6 @@ class ProductController extends APIController
         $this->lang = $this->setLang($request->header('lang'));
         $request->headers->set('Accept', 'application/json');
         $this->productRepository = $productRepository;
-
     }
 
 
@@ -46,8 +46,12 @@ class ProductController extends APIController
             );
     }
 
-    public function getShopProducts($shop_id,$user_id = null){
-        $products= Product::status()->with('hot_offer')->where('shop_id', $shop_id)->whereStatus(1)->get();
+    public function getShopProducts($shop_id,$category_id,$subcategory_id = null,$user_id = null){
+        $query = Product::status()->with('hot_offer')->whereShopId($shop_id)->whereCategoryId($category_id)->whereStatus(1);
+        if ($subcategory_id > 0){
+            $query->whereSubcategoryId($subcategory_id);
+        }
+        $products = $query->get();
         $data = $this->productRepository->getAllProductsDetailPaginate($products,$user_id);
         return $this->respond(
             200,
@@ -55,6 +59,8 @@ class ProductController extends APIController
             $data
             );
     }
+
+
 
     public function searchForProducts(SearchRequest $request){
         $products= Product::status()->with('hot_offer')->whereStatus(1)

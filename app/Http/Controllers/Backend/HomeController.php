@@ -25,7 +25,6 @@ class HomeController extends Controller
     }
 
     public function index(){
-//        $role = Role::where('name','Store Admin')->first();
 //        $permission = Permission::create(['name'=>'show orders on dashboard']);
 //        $role->givePermissionTo($permission);
         if(Auth::user()->hasRole('Super Admin')){
@@ -44,7 +43,8 @@ class HomeController extends Controller
             $products = $products->where('status',1)->count();
         }elseif(Auth::user()->hasRole('Store Admin')){
             $orders = new Order();
-            $store_orders = $this->repository->getProductStoreId($orders->get());
+            $products = Product::where('shop_id',Auth::user()->shop->id)->pluck('id')->toArray();
+            $store_orders = $this->repository->getProductStoreId($products,$orders->get());
             $total_orders = $orders->whereIn('id',$store_orders)->count();
             $unconfirmed_orders = $orders->whereIn('id',$store_orders)->where('order_status',0)->count();
             $new_orders = $orders->whereIn('id',$store_orders)->where('order_status',1)->count();
@@ -54,52 +54,96 @@ class HomeController extends Controller
             $products = new Product();
             $products = $products->where('status',1)->where('shop_id',Auth::user()->shop->id)->count();
         }
-
-
-
         return view('backend.pages.home.index',compact('total_orders','unconfirmed_orders','new_orders','onprogress_orders','delivered_orders','new_to_total_percentage','messages_count','activated_users','products'));
     }
 
     public function filterOrdersByDate(Request $request)
     {
-        $fromDate = new Carbon($request->fromDate);
-        $toDate = new Carbon($request->toDate);
-        $orders = new Order();
-        $total_orders = $orders->whereBetween('created_at',[$fromDate,$toDate])->count();
-        $unconfirmed_orders = $orders->whereBetween('created_at',[$fromDate,$toDate])->where('order_status', 0)->count();
-        $new_orders = $orders->whereBetween('created_at',[$fromDate,$toDate])->where('order_status', 1)->count();
-        $onprogress_orders = $orders->whereBetween('created_at',[$fromDate,$toDate])->where('order_status', 2)->count();
-        $delivered_orders = $orders->whereBetween('created_at',[$fromDate,$toDate])->where('order_status', 3)->count();
-        $new_to_total_percentage = floor($new_orders / ($total_orders == 0 ? 1 : $total_orders));
-        $arr = [
-            'total_orders' => $total_orders,
-            'unconfirmed_orders' => $unconfirmed_orders,
-            'new_orders' => $new_orders,
-            'onprogress_orders' => $onprogress_orders,
-            'delivered_orders' => $delivered_orders,
-            'new_to_total_percentage' => $new_to_total_percentage
-        ];
-        return response()->json($arr);
+        if(Auth::user()->hasRole('Super Admin')) {
+            $fromDate = new Carbon($request->fromDate);
+            $toDate = new Carbon($request->toDate);
+            $orders = new Order();
+            $total_orders = $orders->whereBetween('created_at', [$fromDate, $toDate])->count();
+            $unconfirmed_orders = $orders->whereBetween('created_at', [$fromDate, $toDate])->where('order_status', 0)->count();
+            $new_orders = $orders->whereBetween('created_at', [$fromDate, $toDate])->where('order_status', 1)->count();
+            $onprogress_orders = $orders->whereBetween('created_at', [$fromDate, $toDate])->where('order_status', 2)->count();
+            $delivered_orders = $orders->whereBetween('created_at', [$fromDate, $toDate])->where('order_status', 3)->count();
+            $new_to_total_percentage = floor($new_orders / ($total_orders == 0 ? 1 : $total_orders));
+            $arr = [
+                'total_orders' => $total_orders,
+                'unconfirmed_orders' => $unconfirmed_orders,
+                'new_orders' => $new_orders,
+                'onprogress_orders' => $onprogress_orders,
+                'delivered_orders' => $delivered_orders,
+                'new_to_total_percentage' => $new_to_total_percentage
+            ];
+            return response()->json($arr);
+        }elseif (Auth::user()->hasRole('Store Admin')){
+            $fromDate = new Carbon($request->fromDate);
+            $toDate = new Carbon($request->toDate);
+            $orders = new Order();
+            $products = Product::where('shop_id',Auth::user()->shop->id)->pluck('id')->toArray();
+            $store_orders = $this->repository->getProductStoreId($products,$orders->get());
+            $total_orders = $orders->whereIn('id', $store_orders)->whereBetween('created_at', [$fromDate, $toDate])->count();
+            $unconfirmed_orders = $orders->whereIn('id', $store_orders)->whereBetween('created_at', [$fromDate, $toDate])->where('order_status', 0)->count();
+            $new_orders = $orders->whereIn('id', $store_orders)->whereBetween('created_at', [$fromDate, $toDate])->where('order_status', 1)->count();
+            $onprogress_orders = $orders->whereIn('id', $store_orders)->whereBetween('created_at', [$fromDate, $toDate])->where('order_status', 2)->count();
+            $delivered_orders = $orders->whereIn('id', $store_orders)->whereBetween('created_at', [$fromDate, $toDate])->where('order_status', 3)->count();
+            $new_to_total_percentage = floor($new_orders / ($total_orders == 0 ? 1 : $total_orders));
+            $arr = [
+                'total_orders' => $total_orders,
+                'unconfirmed_orders' => $unconfirmed_orders,
+                'new_orders' => $new_orders,
+                'onprogress_orders' => $onprogress_orders,
+                'delivered_orders' => $delivered_orders,
+                'new_to_total_percentage' => $new_to_total_percentage
+            ];
+            return response()->json($arr);
+        }
+        return 1;
     }
 
     public function getSalesLineChart()
     {
-        $orders = new Order();
-        $new=$orders->select(DB::raw('DATE(created_at) as date_created,count(*) as order_count'))->groupBy('date_created')->get();
-        $orderAddresses = $orders->whereHas('address')->groupBy('delivery_address_id')->get();
-        $countries =[];
-        foreach ($orderAddresses as $orderAddress){
-            $country['name']= $this->getCountryName($orderAddress->address->lat,$orderAddress->address->lng);
-            $country['latLng']= [(string)round($orderAddress->address->lat,2),(string)round($orderAddress->address->lng,2)];
-            if($this->is_in_array($countries,'name',$country['name']) == 'no'){
-                array_push($countries,$country);
+        if(Auth::user()->hasRole('Super Admin')) {
+            $orders = new Order();
+            $new = $orders->select(DB::raw('DATE(created_at) as date_created,count(*) as order_count'))->groupBy('date_created')->get();
+            $orderAddresses = $orders->whereHas('address')->groupBy('delivery_address_id')->get();
+            $countries = [];
+            foreach ($orderAddresses as $orderAddress) {
+                $country['name'] = $this->getCountryName($orderAddress->address->lat, $orderAddress->address->lng);
+                $country['latLng'] = [(string)round($orderAddress->address->lat, 2), (string)round($orderAddress->address->lng, 2)];
+                if ($this->is_in_array($countries, 'name', $country['name']) == 'no') {
+                    array_push($countries, $country);
+                }
             }
+            $arr = [
+                'data' => $new,
+                'country' => $countries
+            ];
+            return response()->json($arr);
+
+        }elseif (Auth::user()->hasRole('Store Admin')){
+            $orders = new Order();
+            $products = Product::where('shop_id',Auth::user()->shop->id)->pluck('id')->toArray();
+            $store_orders = $this->repository->getProductStoreId($products,$orders->get());
+            $new = $orders->select(DB::raw('DATE(created_at) as date_created,count(*) as order_count'))->whereIn('id',$store_orders)->groupBy('date_created')->get();
+            $orderAddresses = $orders->whereIn('id',$store_orders)->whereHas('address')->groupBy('delivery_address_id')->get();
+            $countries = [];
+            foreach ($orderAddresses as $orderAddress) {
+                $country['name'] = $this->getCountryName($orderAddress->address->lat, $orderAddress->address->lng);
+                $country['latLng'] = [(string)round($orderAddress->address->lat, 2), (string)round($orderAddress->address->lng, 2)];
+                if ($this->is_in_array($countries, 'name', $country['name']) == 'no') {
+                    array_push($countries, $country);
+                }
+            }
+            $arr = [
+                'data' => $new,
+                'country' => $countries
+            ];
+            return response()->json($arr);
         }
-        $arr = [
-           'data' => $new,
-            'country' =>$countries
-        ];
-        return response()->json($arr);
+        return 0;
     }
 
     public function getMapCountries($lat,$lng)

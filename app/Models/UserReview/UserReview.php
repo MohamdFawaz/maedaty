@@ -5,6 +5,7 @@ namespace App\Models\UserReview;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserReview extends Model
 {
@@ -25,11 +26,17 @@ class UserReview extends Model
         return $this->belongsTo(Product::class , 'product_id');
     }
 
+     public function storeProduct()
+    {
+        return $this->belongsTo(Product::class , 'product_id')->where('shop_id',Auth::user()->shop->id);
+    }
+
     public function getActionAttribute()
     {
         $action = "";
-        $action .= '<a href="#" class="mb-control delete-review-btn" data-name="'.$this->user->full_name.'" data-id="'.$this->id.'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
-
+        if(Auth::user()->hasRole('Super Admin')){
+            $action .= '<a href="#" class="mb-control delete-review-btn" data-name="'.$this->user->full_name.'" data-id="'.$this->id.'"><button  class="btn btn-danger btn-condensed ">'.trans("backend.action.delete").'</button></a>';
+        }
         $action .= "";
         return $action;
     }

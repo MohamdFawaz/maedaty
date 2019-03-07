@@ -26,7 +26,7 @@ class ShopController extends APIController
     }
 
     public function index(){
-        $result = Shop::with('shop_branches')->get();
+        $result = Shop::with('shop_branches')->status()->notOwner()->get();
         $data = $this->repository->getShopDetails($result);
         return $this->respond(
             200,
@@ -44,6 +44,13 @@ class ShopController extends APIController
             $branches_list
         );
     }
+
+    public function getShopCategories($shop_id){
+        $data = $this->repository->getShopCategories($shop_id);
+        return $this->respond(200,trans('messages.shop.category'),$data);
+    }
+
+
     public function store(StoreReviewRequest $request){
         $review = $request->only(['user_id','product_id','rate_value','comment']);
         if($this->repository->create($review)){

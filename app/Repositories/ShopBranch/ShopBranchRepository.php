@@ -4,6 +4,7 @@ namespace App\Repositories\ShopBranch;
 
 use App\Models\Shop\ShopBranches;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 
 /**
 * Class NotificationRepository.
@@ -26,6 +27,11 @@ class ShopBranchRepository extends BaseRepository
 
     public function getAll(){
         $branches = ShopBranches::get();
+        return $branches;
+    }
+
+    public function getShopBranchesAll(){
+        $branches = ShopBranches::where('shop_id',Auth::user()->shop->id)->get();
         return $branches;
     }
 

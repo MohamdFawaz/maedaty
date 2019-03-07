@@ -2,10 +2,15 @@
 
 namespace App\Repositories\Shop;
 
+use App\Models\Category\Category;
+use App\Models\Product\Product;
 use App\Models\Shop\Shop;
 use App\Models\Shop\ShopTranslation;
+use App\Models\User\User;
 use App\Models\UserReview\UserReview;
 use App\Repositories\BaseRepository;
+use App\Repositories\Category\CategoryRepository;
+use Spatie\Permission\Models\Role;
 
 /**
 * Class NotificationRepository.
@@ -19,11 +24,13 @@ class ShopRepository extends BaseRepository
 * @var object
 */
     public $model;
+    public $categoryRepository;
 
 
-    public function __construct(Shop $model)
+    public function __construct(Shop $model,CategoryRepository $categoryRepository)
     {
         $this->model = $model;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function getShopDetails($shops){
@@ -85,6 +92,9 @@ class ShopRepository extends BaseRepository
             'ar' =>  ['name' => $input['name_ar'],'description' => $input['description_ar']],
             'en' =>  ['name' => $input['name_en'],'description' => $input['description_en']],
         ]);
+        $user = User::whereId($input['owner_id'])->first();
+        $role = Role::where('name','Store Admin')->first();
+        $user->assignRole($role);
         return true;
     }
 
@@ -96,4 +106,10 @@ class ShopRepository extends BaseRepository
         return false;
     }
 
+    public function getShopCategories($shop_id){
+        $product_categories = Product::where('shop_id',$shop_id)->groupBy('category_id')->pluck('category_id')->toArray();
+        $categories = Category::with('subcategory')->whereIn('id',$product_categories)->get();
+        return $this->categoryRepository->getAllCategoryDetailsWSub($categories);
+
+    }
 }

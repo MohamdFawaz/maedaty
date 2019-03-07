@@ -33,7 +33,7 @@
             </li>
             @role('Super Admin')
                 @include('backend.includes.superadmin')
-            @else
+            @elseif('Store Admin')
                 @include('backend.includes.storeadmin')
             @endrole
         </ul>
@@ -42,7 +42,7 @@
     <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
         <div class="mb-container">
             <div class="mb-middle">
-                <div class="mb-title"><span class="fa fa-sign-out"></span>  <strong>{{trans('backend.question.are_you_sure_logout')}}</strong> ?</div>
+                <div class="mb-title"><span class="fa fa-sign-out"></span>  <strong>{{trans('backend.question.are_you_sure_logout')}}</strong></div>
                 <div class="mb-content">
                     <p></p>
                 </div>

@@ -135,7 +135,7 @@ return [
     'lang'=>'The Language is Required',
     'old_password'=>'Old Password is Required',
     'new_password'=>'New Password is Required',
-    'order_already_completed'=>'Order Already Completed',
+    'order_already_completed'=>'Order Already Completed or Create a New Order',
     'promo_code' => 'Promotion Code is Required',
     'activation_code' => 'Activation Code is Required',
     'body' => 'Message Body is Required',

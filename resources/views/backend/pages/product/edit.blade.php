@@ -43,9 +43,10 @@
 
                         <div class="form-group">
                             <label for="shop_id">{{trans('backend.products.shop')}}</label>
-                            <select name="shop_id" class="form-control ">
+                            <select name="shop_id" class="form-control"  @if(Auth()->user()->hasRole('Store Admin')) readonly="" @endif>
+                                <option value="">{{trans('messages.choose_option')}}</option>
                                 @foreach($shops as $shop)
-                                <option value="{{$shop->id}}" @if($product->shop_id == $shop->id) selected @endif >{{$shop->translate(app()->getLocale())->name}}</option>
+                                <option value="{{$shop->id}}" @if($product->shop_id == $shop->id) selected  @elseif(auth()->user()->shop) disabled @endif>{{$shop->translate(app()->getLocale())->name}}</option>
                                 @endforeach
                             </select>
                         </div>

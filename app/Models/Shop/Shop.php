@@ -21,6 +21,10 @@ class Shop extends Model
         return $query->where('status', 1);
     }
 
+    public function scopeNotOwner($query){
+        return $query->where('is_owner','!=',1);
+    }
+
     public function getImageAttribute($value)
     {
         if ($value) {

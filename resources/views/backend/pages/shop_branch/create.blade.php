@@ -16,10 +16,10 @@
 
                             <div class="form-group">
                                 <label for="shop_id">{{trans('backend.shop_branch.shop')}}</label>
-                                <select class="form-control" name="shop_id" id="shop_id">
+                                <select class="form-control" name="shop_id" id="shop_id" @if(Auth()->user()->hasRole('Store Admin')) readonly=""  @endif>
                                     <option value="">{{trans('messages.choose_option')}}</option>
                                     @foreach($shops as $shop)
-                                        <option value="{{$shop->id}}">{{$shop->name}}</option>
+                                        <option value="{{$shop->id}}" @if(Auth()->user()->shop) @if(Auth()->user()->shop->id == $shop->id) selected @else disabled @endif @endif>{{$shop->name}}</option>
                                     @endforeach
                                 </select>
                                 <small class="text-danger">{{ $errors->first('shop_id') }}</small>
@@ -44,7 +44,7 @@
                             </div>
                             <small class="text-danger">{{ $errors->first('lat') }}</small>
 
-                            <input type="submit" class="btn btn-success" value="{{trans('backend.action.edit')}}">
+                            <input type="submit" class="btn btn-success" value="{{trans('backend.action.create')}}">
                         </form>
                     </div>
                 </div>

@@ -5,7 +5,7 @@
     <div class="page-content-wrap">
 
 
-    <div class="row">
+    <div class="row" style="padding: 10px">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -16,11 +16,11 @@
 
                         <div class="form-group">
                             <label for="name_ar">{{trans('backend.products.name_ar')}}</label>
-                            <input type="text" name="name_ar" class="form-control">
+                            <input type="text" name="name_ar" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="name_en">{{trans('backend.products.name_en')}}</label>
-                            <input type="text" name="name_en" class="form-control">
+                            <input type="text" name="name_en" class="form-control" required>
                         </div>
                             <h2>{{trans('backend.products.image')}}</h2>
                             <div class="image-upload friend" >
@@ -40,20 +40,19 @@
                             <label for="description_en">{{trans('backend.products.description_en')}}</label>
                             <textarea name="description_en" class="form-control"></textarea>
                         </div>
-
                         <div class="form-group">
                             <label for="shop_id">{{trans('backend.products.shop')}}</label>
-                            <select name="shop_id" class="form-control ">
+                            <select name="shop_id" id="shop_id" class="form-control"  @if(Auth()->user()->hasRole('Store Admin')) readonly="" @endif required>
                                 <option>{{trans('backend.select.choose')}}</option>
                                 @foreach($shops as $shop)
-                                <option value="{{$shop->id}}" >{{$shop->translate(app()->getLocale())->name}}</option>
+                                <option value="{{$shop->id}}" @if(Auth()->user()->shop != null) @if(Auth()->user()->shop->id == $shop->id) selected @else disabled @endif @endif>{{$shop->translate(app()->getLocale())->name}}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="category_id">{{trans('backend.products.category')}}</label>
-                            <select name="category_id" class="form-control ">
+                            <select name="category_id" class="form-control " required>
                                 <option>{{trans('backend.select.choose')}}</option>
                                 @foreach($categories as $category)
                                     <option value="{{$category->id}}">{{$category->translate(app()->getLocale())->name}}</option>
@@ -62,7 +61,7 @@
                         </div>
                         <div class="form-group">
                             <label for="subcategory_id">{{trans('backend.products.subcategory')}}</label>
-                            <select name="subcategory_id" class="form-control ">
+                            <select name="subcategory_id" class="form-control " required>
                                 <option>{{trans('backend.select.choose')}}</option>
                                 @foreach($subcategory as $category)
                                     <option value="{{$category->id}}" >{{$category->translate(app()->getLocale())->name}}</option>
@@ -72,7 +71,7 @@
                         <label for="price">{{trans('backend.products.price')}}</label>
 
                         <div class="form-group">
-                            <input type="number" name="price" class="form-control" min="1">
+                            <input type="number" name="price" class="form-control" min="1" required>
                             <div class="checkbox">
                                 <label><input type="checkbox" id="has_offer">{{trans('backend.products.has_discount')}}</label>
                             </div>
@@ -129,6 +128,7 @@
 @endsection
 @section('script')
     <script type="text/javascript">
+
         $(".status").change(function(){
             var product_id=$(this).attr('id');
             var status_val=$(this).attr('value');
