@@ -9,7 +9,9 @@
         <!-- START X-NAVIGATION -->
         <ul class="x-navigation">
             <li class="xn-logo">
-                <a href="{{route('backend.dashboard')}}">{{trans('backend.title')}}</a>
+                <a href="{{route('backend.dashboard')}}" class="center-block">
+                    <img src="{{asset('public/images/icon/grand-white-hori-logo.png')}}" alt="grand-logo" style="max-width: 200px;margin: -10px 0px;"/>
+                </a>
                 <a href="#" class="x-navigation-control"></a>
             </li>
             <li class="xn-profile">

@@ -20,7 +20,9 @@
 
     <div class="login-box animated fadeInDown">
 
-        <div class="login-title">{{trans('backend.title')}}</div>
+        <div class="login-title">
+            <img src="{{asset('public/images/icon/grand-white-hori-logo.png')}}" alt="grand-logo" style="max-width: 390px">
+        </div>
         <div class="login-body">
             <div class="login-title"><strong>Welcome</strong>, Please login</div>
             <form role="form" method="POST" action='{{url()->current()}}' class="form-horizontal">
@@ -70,9 +72,7 @@
                 &copy; 2018 Maedaty
             </div>
             <div class="pull-right">
-                <a href="#">About</a> |
-                <a href="#">Privacy</a> |
-                <a href="#">Contact Us</a>
+                <a href="{{trans('backend.footer.grand_website')}}">{{trans('backend.footer.developed_by_grand')}}</a>
             </div>
         </div>
     </div>

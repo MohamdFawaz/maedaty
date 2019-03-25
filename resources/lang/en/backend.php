@@ -331,4 +331,9 @@ return [
         'are_you_sure_logout' => 'Are you sure you want to logout?',
 
     ],
+    'footer' => [
+        'developed_by_grand' => 'Designed and Developed By GRAND',
+        'grand_website' => 'http://2grand.net/'
+
+    ]
 ];

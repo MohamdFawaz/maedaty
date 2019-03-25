@@ -8,16 +8,16 @@ use App\Repositories\BaseRepository;
 use App\Repositories\Setting\SettingRepository;
 
 /**
-* Class NotificationRepository.
-*/
+ * Class NotificationRepository.
+ */
 class NotificationRepository extends BaseRepository
 {
 
-/**
-* related model of this repositery.
-*
-* @var object
-*/
+    /**
+     * related model of this repositery.
+     *
+     * @var object
+     */
     public $model;
     public $settingRepository;
 
@@ -33,13 +33,42 @@ class NotificationRepository extends BaseRepository
         return $this->sendGCM($message,$type,$token);
     }
 
-    public function sendPushToAllUsers($users,$notification){
+    function sendGCM($message,$type, $token,$title = 'Maedaty') {
 
-        foreach ($users as $user){
-            $this->sendGCM($notification->translate($user->lang)->message,'notification',$user->token,$notification->translate($user->lang)->title);
-        }
+
+        $url = 'https://fcm.googleapis.com/fcm/send';
+
+        $fields = array (
+            'registration_ids' => array (
+                $token
+            ),
+            'data' => array (
+                "title" => $title,
+                "message" => $message,
+                "type" => $type
+            ),
+            'notification' => array (
+                "title" => $title,
+                "body" => $message,
+                "message" => $message,
+                "type" => $type
+            )
+        );
+        $fields = json_encode ( $fields );
+        $headers = array (
+            'Authorization: key=' . $this->settingRepository->getSettingByKey('FCM_Firebase_Token'),
+            'Content-Type: application/json'
+        );
+
+        $ch = curl_init ();
+        curl_setopt ( $ch, CURLOPT_URL, $url );
+        curl_setopt ( $ch, CURLOPT_POST, true );
+        curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+        curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
+
+        $result = curl_exec ( $ch );
+        curl_close ( $ch );
     }
-
-
 
 }

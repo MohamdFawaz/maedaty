@@ -36,7 +36,7 @@ class ProductController extends APIController
             if($subcategory_id > 0){
                 $query->where('subcategory_id',$subcategory_id);
             }
-            $products = $query->with('hot_offer')->whereStatus(1)->get();
+            $products = $query->with('hot_offer')->whereStatus(1)->whereShopId(1)->get();
             $data = $this->productRepository->getAllProductsDetailPaginate($products,$user_id);
         }
         return $this->respond(
@@ -96,7 +96,7 @@ class ProductController extends APIController
     }
 
     public function hotOffers($user_id = null){
-        $hot_offers = HotOffersProduct::where('from_date','<',Carbon::now()->toDateString())->where('to_date','>=',Carbon::now()->toDateString())->get();
+        $hot_offers = HotOffersProduct::whereHas('product')->where('from_date','<',Carbon::now()->toDateString())->where('to_date','>=',Carbon::now()->toDateString())->get();
         $data = $this->productRepository->getAllProductsDetailPaginateOffers($hot_offers,$user_id);
         return $this->respond(
             200,

@@ -36,21 +36,27 @@ class ProfileController extends APIController
     }
 
     public function edit(Request $request){
-        $data = json_decode($request->data);
-        $updated_profile = $this->repository->update($data,$request->user_image);
+        if ($request->from == 'ios'){
+            $updated_profile = $this->repository->updateIos($request->all());
+        }else{
+            $data = json_decode($request->data);
+            $updated_profile = $this->repository->update($data,$request->user_image);
+        }
         if($updated_profile){
-           return $this->respond(
-               200,
-               trans('messages.profile.updated'),
-               $updated_profile
-           );
+            return $this->respond(
+                200,
+                trans('messages.profile.updated'),
+                $updated_profile
+            );
         }else{
             return $this->respondWithError(trans('messages.something_went_wrong'));
         }
     }
+
+
     public function changePassword(ChangePasswordRequest $request)
     {
-        if ($request->form == 'profile') {
+        if ($request->from == 'profile') {
             if ($request->old_password == $request->new_password) {
                 return $this->respondWithError(trans('messages.profile.old_password_same_as_new'));
             }

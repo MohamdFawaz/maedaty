@@ -36,7 +36,7 @@ class UserPointRepository extends BaseRepository
 
     public function getPointsDiscount($subtotal, $pointsCount){
         $pointsRules = $this->settingRepository->getSettingByKey('points');
-        $pointsRules = json_decode($pointsRules->value);
+        $pointsRules = json_decode($pointsRules);
         $rules_list = [];
 
         foreach ($pointsRules as $pointsRule){

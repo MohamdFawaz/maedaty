@@ -52,7 +52,7 @@ class ProductRepository extends BaseRepository
             $product_item['discounted_price'] = $hot_offer;
             $product_item['product_image'] = $product->product_image;
             $product_item['share_link'] = '#';
-            $product_item['user_favorite'] = '0';
+            $product_item['user_favorite'] = 0;
             $product_item['rate'] = $this->getProductRate($product->id);
             if($user_id){
                 $product_item['user_favorite'] = $this->userFavorite
@@ -84,7 +84,7 @@ class ProductRepository extends BaseRepository
             if($user_id){
                 $product_item['user_favorite'] = $this->userFavorite
                     ->where('user_id',$user_id)
-                    ->where('product_id',$product->id)
+                    ->where('product_id',$product->product->id)
                     ->get()
                     ->count();
             }

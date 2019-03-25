@@ -29,7 +29,6 @@ abstract class Request extends FormRequest
             $this->error = trans('auth.general_error');
         }
         return $this->response($this->error);
-        //        return redirect()->back()->withErrors($this->error);
     }
 
     protected function failedAuthorization()

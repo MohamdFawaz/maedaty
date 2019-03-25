@@ -153,10 +153,8 @@ class HomeController extends Controller
     }
 
     public function getCountryName($lat,$lng){
-
         $geocode=file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?latlng='.$lat.','.$lng.'&sensor=false&key=AIzaSyDhnmMC23noePz6DA8iEvO9_yNDGGlEaeM');
         $output= json_decode($geocode);
-
         for($j=0;$j<count($output->results[0]->address_components);$j++){
 
             $cn=array($output->results[0]->address_components[$j]->types[0]);

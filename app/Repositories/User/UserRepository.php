@@ -77,6 +77,9 @@ class UserRepository extends BaseRepository
             if($user_image){
                 $user->user_image = $user_image;
             }
+            if ($input->from == 'ios'){
+                $user->user_image = $input->user_image;
+            }
             $sms_code = $this->sendSMS($input->phone);
             $user->activate_code = $sms_code['code'];
             $user->save();
@@ -87,6 +90,27 @@ class UserRepository extends BaseRepository
 
         return false;
     }
+
+     public function createIos(array $input)
+    {
+
+        $jwt_token = str_random(25);
+        $input['password'] = Hash::make($input['password']);
+        $input['jwt_token'] = $jwt_token;
+        //If user saved successfully, then return true
+        if ($user = User::create($input)) {
+            $sms_code = $this->sendSMS($input['phone']);
+            $user->activate_code = $sms_code['code'];
+            $user->save();
+            //add new address with user id
+            $this->addressRepository->createAddressFromSignup($input);
+            return ['user_id' => $user->id,'jwt_token' => $jwt_token];
+        }
+
+        return false;
+    }
+
+
     public function update($input, $user_image)
     {
 
@@ -101,6 +125,30 @@ class UserRepository extends BaseRepository
 
         if($user_image){
             $user->user_image = $user_image;
+        }
+        //If user saved successfully, then return true
+        if ($user->save()) {
+            $data = $this->getLoggedUserDetails($user);
+            return $data;
+        }
+
+        return false;
+    }
+
+    public function updateIos(array $input)
+    {
+
+        $user = User::whereId($input['user_id'])->first();
+        $user->email = $input['email'];
+        $user->first_name = $input['first_name'];
+        $user->last_name = $input['last_name'];
+        $user->lat = $input['lat'];
+        $user->lng = $input['lng'];
+        $user->location = $input['location'];
+        $user->phone = $input['phone'];
+
+        if(isset($input['user_image'])){
+            $user->user_image = $input['user_image'];
         }
         //If user saved successfully, then return true
         if ($user->save()) {
@@ -213,6 +261,7 @@ class UserRepository extends BaseRepository
         $message = $this->settingRepository->getSettingByKey('sms_message');
         $sender = $this->settingRepository->getSettingByKey('sms_sender');
         $rand_number = rand(1111,9999);
+        $rand_number = 1111;
         $client = new Client([
             // Base URI is used with relative requests
             'base_uri' => 'https://www.mobily.ws/api',

@@ -12,8 +12,8 @@
 */
 
 
-Route::get('/welcome', function () {
-    return view('welcome');
+Route::get('/home', function () {
+    return redirect('admin');
 });
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     Route::get('/terms_and_conditions','TermsAndConditionsController@index');

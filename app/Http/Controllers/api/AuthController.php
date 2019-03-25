@@ -76,13 +76,25 @@ class AuthController extends APIController
      */
     public function signup(Request $request)
     {
-        $data = json_decode($request->data);
-
-        if($this->repository->checkIfAccountExists($data->phone)){
-            return $this->respondWithError(trans('messages.auth.account_exists'));
+        if($request->from == 'ios')
+        {
+            $data = $request->all();
+            $phone = $request->phone;
+        }else{
+            $data = json_decode($request->data);
+            $phone = $data->phone;
         }
 
-        if($user = $this->repository->create($data,$request->user_image)){
+        if($this->repository->checkIfAccountExists($phone)){
+            return $this->respondWithError(trans('messages.auth.account_exists'));
+        }
+        if($request->from == 'ios')
+        {
+            $user = $this->repository->createIos($request->all());
+        } else {
+            $user = $this->repository->create($data,$request->user_image);
+        }
+        if($user){
 
             return $this->respond(
                 200,
@@ -180,6 +192,7 @@ class AuthController extends APIController
             return $this->respondWithError(trans('messages.auth.phone_not_exists'));
         }
         $sms_code = $this->repository->sendSMS($user->phone);
+        $sms_code['response'] = 1;
         if($sms_code['response']== '1'){
             $user->activate_code = $sms_code['code'];
             $user->user_status = 0;
